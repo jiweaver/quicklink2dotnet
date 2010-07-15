@@ -44,12 +44,12 @@
  * API in your project.  This is merely info about the internal workings of the
  * wrapper.
  * 
- * 1. When translating code, remember that C++ long is 4-bytes, but C# long is 
- *    8-bytes.  So, for example, 'unsigned long' in C++ maps to 'uint' in C#.
+ * 1.   A long in C++ is 4-bytes, but long in C# is 8-bytes.  So, long maps to
+ *      int.
  * 
- * 2. A bool in C++ is 4-bytes, but bool in C# is only 1-byte.  So, we must
- *     manually specify the marshaling when using boolean values.  
- *    Additionally, bool is 2-bytes when passed as a parameter. 
+ * 2.   A bool in C++ is 4-bytes, but bool in C# is 1-byte.  Additionally, when
+ *      a bool is passed as a parameter, it is passed in 2-byte variant bool 
+ *      format.  So, marshalling of bool must be manually specified.
  * 
  * ----------------------------------------------------------
  * This is from the original "QuickLinkAPI.h" C++ header file:
