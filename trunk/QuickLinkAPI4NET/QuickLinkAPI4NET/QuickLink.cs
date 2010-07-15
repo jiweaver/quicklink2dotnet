@@ -23,6 +23,7 @@
 
 /* File: QuickLink.cs
  * Author: Justin Weaver (Jul 2010)
+ * Revision: $Rev$
  * Description: A .NET wrapper for EyeTech's QuickLink API. The extensive
  * inline documentation (i.e. comments) has been cut & pasted from the 
  * QuickLinkAPI.h C++ header file for convenient reference.
