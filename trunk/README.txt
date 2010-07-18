@@ -7,16 +7,16 @@ Author: Justin Weaver
 -------------------
 Directory Structure
 
-GetDLLs.bat			: Convenience script to automatically copy QuickLink 
-					required libraries from the QuickGlance installation into
-					the QuickLinkAPI4NET source directory.  See step 2 of the
-					"Getting Started" section of this document.
+GetDLLs.bat		: Convenience script to automatically copy QuickLink 
+			required libraries from the QuickGlance installation into
+			the QuickLinkAPI4NET source directory.  See step 2 of the
+			"Getting Started" section of this document.
 
 QuickLinkAPI4NET\	: The API Wrapper.
 
 QuickLinkExample\	: Example program.
 
-README.txt			: This file.
+README.txt		: This file.
 
 
 -----------
