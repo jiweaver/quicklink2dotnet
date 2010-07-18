@@ -43,12 +43,19 @@
     <Compile Include="QuickLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="GetDLLs.bat" />
+    <EmbeddedResource Include="PGRFlyCapture.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickLinkAPI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>call "$(ProjectDir)\GetDLLs.bat" "$(SolutionDir)$(SolutionName)\$(OutDir)"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -57,4 +64,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <!-- Copy the core QuickLink DLLs to the output directory. -->
+  <PropertyGroup>
+    <BuildDependsOn>
+			$(BuildDependsOn);
+			CopyDLLs
+		</BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="CopyDLLs">
+    <Message Text="Running CopyDLLs..." />
+  </Target>
 </Project>

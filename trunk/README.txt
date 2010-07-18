@@ -7,11 +7,16 @@ Author: Justin Weaver
 -------------------
 Directory Structure
 
-QuickLinkAPI4NET\  	: The API Wrapper.
+GetDLLs.bat			: Convenience script to automatically copy QuickLink 
+					required libraries from the QuickGlance installation into
+					the QuickLinkAPI4NET source directory.  See step 2 of the
+					"Getting Started" section of this document.
+
+QuickLinkAPI4NET\	: The API Wrapper.
 
 QuickLinkExample\	: Example program.
 
-README.txt		: This file.
+README.txt			: This file.
 
 
 -----------
@@ -30,5 +35,13 @@ Getting Started
 
 1. Install EyeTech's QuickGlance software.
 
-2. See QuickLinkExample\Form1.cs for an example of how to use the API wrapper 
-in your code.  The actual wrapper methods are in QuickLinkAPI4NET\QuickLink.cs
+2. Run the GetDLLs.bat script.  Alternatively, you can locate your QuickGlance
+installation folder and manually copy the 2 required DLL files from the 
+QuickGlance installation directory into the QuickLinkAPI4NET\QuickLinkAPI4NET\
+directory.  The two required files are bin\QuickLinkAPI.dll and 
+bin\PGRFlyCapture.dll
+
+3. Open the QuickLinkExample project in Visual Studio and have a look at
+QuickLinkExample\QuickLinkExample\Form1.cs for an example of how to use the API
+wrapper in your code.  The actual wrapper methods are in 
+QuickLinkAPI4NET\QuickLinkAPI4NET\QuickLink.cs
