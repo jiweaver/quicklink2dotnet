@@ -28,7 +28,7 @@ IF ERRORLEVEL 1 GOTO COPY_FAILED
 XCOPY /Y /D "%QuickGlancePath%\bin\PGRFlyCapture.dll" "%destdir%"
 IF ERRORLEVEL 1 GOTO COPY_FAILED
 
-ECHO Your DLLs are now up to date.
+ECHO Your 32-bit DLLs are now up to date.
 PAUSE
 EXIT /B 0
 

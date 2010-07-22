@@ -34,8 +34,7 @@
  * - Most QuickLink API functions require EyeTech's QuickGlance 
  * software to be running.
  * 
- * - EyeTech's drivers work in Windows Vista and Windows XP, but NOT in 
- * Windows 7.  For the latest QuickGlance, browse to 
+ * For the latest QuickGlance, browse to 
  * http://eyetechds.com/support/downloads/index.html
  * 
  * -------------------------------------------------------------------------
