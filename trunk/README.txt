@@ -12,6 +12,9 @@ GetDLLs.bat		: Convenience script to automatically copy QuickLink
 			the QuickLinkAPI4NET source directory.  See step 2 of the
 			"Getting Started" section of this document.
 
+GetDLLs64.bat		: As above, but copies the 64-bit versions of those
+			required DLLs.
+
 QuickLinkAPI4NET\	: The API Wrapper.
 
 QuickLinkExample\	: Example program.
@@ -27,7 +30,11 @@ QuickLink API can be used by developers to control EyeTech's line of eye
 trackers.  The QuickLink API is provided by EyeTech's QuickGlance software, 
 which can be obtained from their website at http://eyetechds.com
 
-The wrapper uses .NET's Interop Services to call QuickLink's unmanaged DLLs.
+The wrapper uses .NET's Interop Services to call QuickLink's unmanaged DLLs. 
+It was written for the 32-bit version of QuickLink, but I have also added 
+experimental (untested) support for 64Bit QuickLink.  To compile with 64-bit
+support enabled, uncomment "#define SYSTEM_X64" in 
+QuickLinkAPI4NET/QuickLinkAPI4NET/QuickLink.cs
 
 
 ---------------

@@ -59,6 +59,9 @@
  *      // Original Author: Caleb Hinton
  *      // All rights reserved.
  */
+
+//#define SYSTEM_64BIT
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -176,8 +179,13 @@ namespace QuickLinkAPI4NET
     [StructLayout(LayoutKind.Sequential)]
     public struct LPoint
     {
+#if SYSTEM_64BIT
+        public long x;
+        public long y;
+#else
         public int x;
         public int y;
+#endif
     }
 
     /*-----------------------------------------------------------------------------
@@ -502,6 +510,12 @@ namespace QuickLinkAPI4NET
 
     public abstract class QuickLink
     {
+#if SYSTEM_X64
+        private const string QuickLinkDllName = "QuickLinkAPI64.dll";
+#else
+        private const string QuickLinkDllName = "QuickLinkAPI.dll";
+#endif
+
         /*-----------------------------------------------------------------------------
         //
         //  Name: GetQGOnFlag()
@@ -516,7 +530,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      ExitQuickGlance()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetQGOnFlag")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetQGOnFlag")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetQGOnFlag();
@@ -531,7 +545,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetQGOnFlag()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "ExitQuickGlance")]
+        [DllImport(QuickLinkDllName, EntryPoint = "ExitQuickGlance")]
         public static extern
             void ExitQuickGlance();
 
@@ -552,7 +566,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetEyeControl()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetEyeControl")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetEyeControl")]
         public static extern
             void SetEyeControl(
                 [MarshalAs(UnmanagedType.VariantBool)] bool Enable);
@@ -572,7 +586,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      SetEyeControl()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetEyeControl")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetEyeControl")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetEyeControl();
@@ -592,7 +606,7 @@ namespace QuickLinkAPI4NET
         //      MoveUpDown()
         //      ToggleLargeImage()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetMWState")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetMWState")]
         public static extern
             void SetMWState(
                 QGWindowState MWState);
@@ -611,7 +625,7 @@ namespace QuickLinkAPI4NET
         //      ShowLargeImage()
         //
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "ToggleLargeImage")]
+        [DllImport(QuickLinkDllName, EntryPoint = "ToggleLargeImage")]
         public static extern
             void ToggleLargeImage();
 
@@ -628,7 +642,7 @@ namespace QuickLinkAPI4NET
         //      HideLargeImage()
         //
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "ShowLargeImage")]
+        [DllImport(QuickLinkDllName, EntryPoint = "ShowLargeImage")]
         public static extern
             void ShowLargeImage();
 
@@ -645,7 +659,7 @@ namespace QuickLinkAPI4NET
         //      ShowLargeImage()
         //
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "HideLargeImage")]
+        [DllImport(QuickLinkDllName, EntryPoint = "HideLargeImage")]
         public static extern
             void HideLargeImage();
 
@@ -663,7 +677,7 @@ namespace QuickLinkAPI4NET
         //      MoveUpDown()
         //      SetMWState()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "MoveLeftRight")]
+        [DllImport(QuickLinkDllName, EntryPoint = "MoveLeftRight")]
         public static extern
             void MoveLeftRight();
 
@@ -681,7 +695,7 @@ namespace QuickLinkAPI4NET
         //      MoveLeftRight()
         //      SetMWState()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "MoveUpDown")]
+        [DllImport(QuickLinkDllName, EntryPoint = "MoveUpDown")]
         public static extern
             void MoveUpDown();
 
@@ -695,7 +709,7 @@ namespace QuickLinkAPI4NET
         //  Return Value:
         //      The API version number is returned.
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetSDKVersion")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetSDKVersion")]
         public static extern
             double GetSDKVersion();
 
@@ -719,7 +733,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetImageData()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetCopyImageFlag")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetCopyImageFlag")]
         public static extern
             void SetCopyImageFlag(
                 [MarshalAs(UnmanagedType.VariantBool)] bool CopyImage);
@@ -749,12 +763,19 @@ namespace QuickLinkAPI4NET
         //      SetCopyImageFlag()
         //      GetImageDataAndLatency()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetImageData")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetImageData")]
         [return: MarshalAs(UnmanagedType.U1)]
+#if SYSTEM_64BIT
         public static extern
             bool GetImageData(
-                uint MaxTimeout,
-                ref ImageData Data);
+            ulong MaxTimeout,
+            ref ImageData Data);
+#else
+        public static extern
+            bool GetImageData(
+            uint MaxTimeout,
+            ref ImageData Data);
+#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -785,13 +806,21 @@ namespace QuickLinkAPI4NET
         //      SetCopyImageFlag()
         //      GetImageData()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetImageDataAndLatency")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetImageDataAndLatency")]
         [return: MarshalAs(UnmanagedType.U1)]
+#if SYSTEM_64BIT
+        public static extern
+            bool GetImageDataAndLatency(
+                ulong MaxTimeout,
+                ref ImageData Data,
+                out double Latency);
+#else
         public static extern
             bool GetImageDataAndLatency(
                 uint MaxTimeout,
                 ref ImageData Data,
                 out double Latency);
+#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -819,7 +848,7 @@ namespace QuickLinkAPI4NET
         //      SetCopyImageFlag()
         //      GetImageData()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "StartBulkCapture")]
+        [DllImport(QuickLinkDllName, EntryPoint = "StartBulkCapture")]
         public static extern
             void StartBulkCapture(
                 uint NumPoints);
@@ -843,7 +872,7 @@ namespace QuickLinkAPI4NET
         //      QueryBulkCapture()
         //      ReadBulkCapture()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "StopBulkCapture")]
+        [DllImport(QuickLinkDllName, EntryPoint = "StopBulkCapture")]
         public static extern
             void StopBulkCapture();
 
@@ -880,7 +909,7 @@ namespace QuickLinkAPI4NET
         //      StopBulkCapture()
         //      ReadBulkCapture()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "QueryBulkCapture")]
+        [DllImport(QuickLinkDllName, EntryPoint = "QueryBulkCapture")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool QueryBulkCapture(
@@ -915,12 +944,19 @@ namespace QuickLinkAPI4NET
         //      StopBulkCapture()
         //      QueryBulkCapture()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "ReadBulkCapture")]
+        [DllImport(QuickLinkDllName, EntryPoint = "ReadBulkCapture")]
         [return: MarshalAs(UnmanagedType.U1)]
+#if SYSTEM_64BIT
+        public static extern
+            bool ReadBulkCapture(
+                ulong MaxTimeout,
+                ref ImageData Data);
+#else
         public static extern
             bool ReadBulkCapture(
                 uint MaxTimeout,
                 ref ImageData Data);
+#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -933,7 +969,7 @@ namespace QuickLinkAPI4NET
         //      user intervention, stopping only if there is an error and when the 
         //      calibration completes to display the calibration score.
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "InternalCalibration1")]
+        [DllImport(QuickLinkDllName, EntryPoint = "InternalCalibration1")]
         public static extern
             void InternalCalibration1();
 
@@ -976,7 +1012,7 @@ namespace QuickLinkAPI4NET
         //      ApplyCalibrationEx()
         //      OpenCalibrationEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "InitializeCalibrationEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "InitializeCalibrationEx")]
         public static extern
             CalibrationErrorEx InitializeCalibrationEx(
                 uint CalibrationIndex);
@@ -1010,7 +1046,7 @@ namespace QuickLinkAPI4NET
         //      InitializeCalibrationEx()
         //      CalibrateEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetNewTargetPositionEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetNewTargetPositionEx")]
         public static extern
             CalibrationErrorEx GetNewTargetPositionEx(
                 out int X,
@@ -1050,7 +1086,7 @@ namespace QuickLinkAPI4NET
         //      GetNewTargetPositionEx()
         //      CalibrateEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "CalibrationErrorEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "CalibrationErrorEx")]
         public static extern CalibrationErrorEx
             GetWorstTargetPositionEx(
                 out int X,
@@ -1090,7 +1126,7 @@ namespace QuickLinkAPI4NET
         //      GetNewTargetPositionEx()
         //      GetWorstTargetPositionEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "CalibrateEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "CalibrateEx")]
         public static extern
             CalibrationErrorEx CalibrateEx(
                 int TargetHandle);
@@ -1124,7 +1160,7 @@ namespace QuickLinkAPI4NET
         //      InitializeCalibrationEx()
         //      CalibrateEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetScoreEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetScoreEx")]
         public static extern
             CalibrationErrorEx GetScoreEx(
                 out double left,
@@ -1156,7 +1192,7 @@ namespace QuickLinkAPI4NET
         //      InitializeCalibrationEx()
         //      CalibrateEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "ApplyCalibrationEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "ApplyCalibrationEx")]
         public static extern
             CalibrationErrorEx ApplyCalibrationEx();
 
@@ -1187,7 +1223,7 @@ namespace QuickLinkAPI4NET
         //                    looking)
         //               DeltaY = Y1 - Y2;
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "CalibrationBiasEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "CalibrationBiasEx")]
         public static extern
             void CalibrationBiasEx(
                 int DeltaX,
@@ -1223,7 +1259,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      InitializeCalibrationEx()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "OpenCalibrationEx")]
+        [DllImport(QuickLinkDllName, EntryPoint = "OpenCalibrationEx")]
         public static extern
             CalibrationErrorEx OpenCalibrationEx(
                 uint CalibrationIndex);
@@ -1246,7 +1282,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      SetClickingOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetClickingOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetClickingOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetClickingOptions(
@@ -1270,7 +1306,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      SetCalibrationOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetCalibrationOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetCalibrationOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetCalibrationOptions(
@@ -1294,7 +1330,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      SetProcessingOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetProcessingOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetProcessingOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetProcessingOptions(
@@ -1318,7 +1354,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      SetCameraOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetCameraOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetCameraOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetCameraOptions(
@@ -1342,7 +1378,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      SetToolbarOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetToolbarOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetToolbarOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetToolbarOptions(
@@ -1366,7 +1402,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetClickingOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetClickingOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetClickingOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool SetClickingOptions(
@@ -1390,7 +1426,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetCalibrationOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetCalibrationOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetCalibrationOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool SetCalibrationOptions(
@@ -1414,7 +1450,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetProcessingOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetProcessingOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetProcessingOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool SetProcessingOptions(
@@ -1438,7 +1474,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetCameraOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetCameraOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetCameraOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool SetCameraOptions(
@@ -1462,7 +1498,7 @@ namespace QuickLinkAPI4NET
         //  See Also:
         //      GetToolbarOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetToolbarOptions")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetToolbarOptions")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool SetToolbarOptions(
@@ -1495,12 +1531,20 @@ namespace QuickLinkAPI4NET
         //      SecondaryMessage - The user-defined message to be posted when a 
         //                         secondary click has been initiated by the eye tracker.
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "RegisterClickEvent")]
+        [DllImport(QuickLinkDllName, EntryPoint = "RegisterClickEvent")]
+#if SYSTEM_64BIT
+        public static extern
+            void RegisterClickEvent(
+                ref IntPtr WindowHandle,  // was void *
+                ulong PrimaryMessage,
+                ulong SecondaryMessage);
+#else
         public static extern
             void RegisterClickEvent(
                 ref IntPtr WindowHandle,  // was void *
                 uint PrimaryMessage,
                 uint SecondaryMessage);
+#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -1520,11 +1564,17 @@ namespace QuickLinkAPI4NET
         //      that there is no camera connected to the system or that the drivers 
         //      have not been installed correctly.
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "GetSerialNumber")]
+        [DllImport(QuickLinkDllName, EntryPoint = "GetSerialNumber")]
         [return: MarshalAs(UnmanagedType.U1)]
+#if SYSTEM_64BIT
+        public static extern
+            bool GetSerialNumber(
+                out long SerialNumber);
+#else
         public static extern
             bool GetSerialNumber(
                 out int SerialNumber);
+#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -1554,7 +1604,7 @@ namespace QuickLinkAPI4NET
         //      SetCameraOptions()
         //      GetCameraOptions()
         */
-        [DllImport("QuickLinkAPI.dll", EntryPoint = "SetCustomGPIO")]
+        [DllImport(QuickLinkDllName, EntryPoint = "SetCustomGPIO")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool SetCustomGPIO(
