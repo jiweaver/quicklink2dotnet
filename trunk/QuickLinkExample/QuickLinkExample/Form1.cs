@@ -12,21 +12,25 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using QuickLinkAPI4NET;
+using System.Runtime.InteropServices;
 
 namespace QuickLinkExample
 {
     public partial class Form1 : Form
     {
+        private QuickLink QL;
+
         public Form1()
         {
             InitializeComponent();
 
+            // Open the 32-bit QuickLink.
+            this.QL = new QuickLink();
+
             timer1.Start();
         }
 
-        /* Periodically read raw data from the eye tracker and update the 
-         * display.
-         */
+        // Periodically read from the eye tracker and update our display.
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (!QuickLink.GetQGOnFlag())

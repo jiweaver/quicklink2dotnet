@@ -67,6 +67,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
+using System.IO;
+using System.ComponentModel;
 
 namespace QuickLinkAPI4NET
 {
@@ -508,13 +511,73 @@ namespace QuickLinkAPI4NET
         public ToolBarImageDisplay Toolbar_ImageDisplayType;
     }
 
-    public abstract class QuickLink
+    public class QuickLink : IDisposable
     {
-#if SYSTEM_X64
-        private const string QuickLinkDllName = "QuickLinkAPI64.dll";
-#else
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LoadLibrary(string dllToLoad);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool FreeLibrary(IntPtr hModule);
+
         private const string QuickLinkDllName = "QuickLinkAPI.dll";
+        private const string PGRFlyCaptureDLLName = "PGRFlyCapture.dll";
+
+        private static string[] PossibleRegistryKeyLocations = { @"SOFTWARE\EyeTech Digital Systems", @"SOFTWARE\Wow6432Node\EyeTech Digital Systems" };
+
+#if SYSTEM_64BIT
+        string QuickLinkAPIKey = "QuickLinkAPI64";
+#else
+        string QuickLinkAPIKey = "QuickLinkAPI";
 #endif
+
+        private IntPtr dfHandle, qlHandle;
+
+        public QuickLink()
+        {
+            RegistryKey r = Registry.LocalMachine;
+
+            RegistryKey mr = null;
+            foreach (string s in PossibleRegistryKeyLocations)
+            {
+                // Try each possible key location.
+                mr = r.OpenSubKey(Path.Combine(s, QuickLinkAPIKey));
+                if (mr != null)
+                    // Found the key.
+                    break;
+            }
+            if (mr == null)
+                // Key not found!
+                throw new Exception("The QuickLinkDLL registry key could not be found.");
+
+            string qlPath = mr.GetValue("Path").ToString();
+            if (qlPath == null)
+                // Value not found!
+                throw new Exception("The QuickLinkDLL path could not be retrieved from the registry.");
+
+            string dfPath = Path.Combine(Path.GetDirectoryName(qlPath), PGRFlyCaptureDLLName);
+
+            this.dfHandle = LoadLibrary(dfPath);
+            if ((int)this.dfHandle == 0)
+                // Unable to load the library!
+                throw new Exception("LoadLibrary(\"" + dfPath + "\") failed.");
+
+            this.qlHandle = LoadLibrary(qlPath);
+            if ((int)this.qlHandle == 0)
+                // Unable to load the library!
+                throw new Exception("LoadLibrary(\"" + qlPath + "\") failed.");
+
+        }
+        ~QuickLink()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            FreeLibrary(this.qlHandle);
+            FreeLibrary(this.dfHandle);
+            GC.SuppressFinalize(this);
+        }
 
         /*-----------------------------------------------------------------------------
         //
