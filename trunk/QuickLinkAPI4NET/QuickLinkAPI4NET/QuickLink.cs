@@ -513,7 +513,7 @@ namespace QuickLinkAPI4NET
 
     public class QuickLink : IDisposable
     {
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LoadLibrary(string dllToLoad);
 
         [DllImport("kernel32.dll")]
@@ -559,12 +559,12 @@ namespace QuickLinkAPI4NET
             this.dfHandle = LoadLibrary(dfPath);
             if ((int)this.dfHandle == 0)
                 // Unable to load the library!
-                throw new Exception("LoadLibrary(\"" + dfPath + "\") failed.");
+                throw new Win32Exception(Marshal.GetLastWin32Error()); 
 
             this.qlHandle = LoadLibrary(qlPath);
             if ((int)this.qlHandle == 0)
                 // Unable to load the library!
-                throw new Exception("LoadLibrary(\"" + qlPath + "\") failed.");
+                throw new Win32Exception(Marshal.GetLastWin32Error()); 
 
         }
         ~QuickLink()
