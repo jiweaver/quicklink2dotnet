@@ -514,10 +514,10 @@ namespace QuickLinkAPI4NET
     public class QuickLink : IDisposable
     {
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr LoadLibrary(string dllToLoad);
+        private static extern IntPtr LoadLibrary(string dllToLoad);
 
         [DllImport("kernel32.dll")]
-        public static extern bool FreeLibrary(IntPtr hModule);
+        private static extern bool FreeLibrary(IntPtr hModule);
 
         private const string QuickLinkDllName = "QuickLinkAPI.dll";
         private const string PGRFlyCaptureDLLName = "PGRFlyCapture.dll";
@@ -525,58 +525,78 @@ namespace QuickLinkAPI4NET
         private static string[] PossibleRegistryKeyLocations = { @"SOFTWARE\EyeTech Digital Systems", @"SOFTWARE\Wow6432Node\EyeTech Digital Systems" };
 
 #if SYSTEM_64BIT
-        string QuickLinkAPIKey = "QuickLinkAPI64";
+        private string QuickLinkAPIKey = "QuickLinkAPI64";
 #else
-        string QuickLinkAPIKey = "QuickLinkAPI";
+        private string QuickLinkAPIKey = "QuickLinkAPI";
 #endif
 
         private IntPtr dfHandle, qlHandle;
 
+        private bool disposed = false;
+
         public QuickLink()
         {
-            RegistryKey r = Registry.LocalMachine;
+            RegistryKey reg = Registry.LocalMachine;
 
-            RegistryKey mr = null;
+            RegistryKey qlRegKeyLoc = null;
             foreach (string s in PossibleRegistryKeyLocations)
             {
                 // Try each possible key location.
-                mr = r.OpenSubKey(Path.Combine(s, QuickLinkAPIKey));
-                if (mr != null)
+                qlRegKeyLoc = reg.OpenSubKey(Path.Combine(s, QuickLinkAPIKey));
+                if (qlRegKeyLoc != null)
                     // Found the key.
                     break;
             }
-            if (mr == null)
+            if (qlRegKeyLoc == null)
                 // Key not found!
                 throw new Exception("The QuickLinkDLL registry key could not be found.");
 
-            string qlPath = mr.GetValue("Path").ToString();
+            // Path to the QuickLink DLL.
+            string qlPath = qlRegKeyLoc.GetValue("Path").ToString();
             if (qlPath == null)
                 // Value not found!
                 throw new Exception("The QuickLinkDLL path could not be retrieved from the registry.");
 
+            // The path to the Dragonfly capture DLL.
             string dfPath = Path.Combine(Path.GetDirectoryName(qlPath), PGRFlyCaptureDLLName);
+
+            /* Now we load the DLLs into our address space.  This allows us to 
+             * use DLLImport without knowing the full path to the DLLs until 
+             * load time.  However, the imported methods must still be marked 
+             * static, so they can be called without constructing an instance
+             * of the QuickLink() class, but doing so will cause your program 
+             * to barf; so don't do it!
+             */
 
             this.dfHandle = LoadLibrary(dfPath);
             if ((int)this.dfHandle == 0)
                 // Unable to load the library!
-                throw new Win32Exception(Marshal.GetLastWin32Error()); 
+                throw new Win32Exception(Marshal.GetLastWin32Error());
 
             this.qlHandle = LoadLibrary(qlPath);
             if ((int)this.qlHandle == 0)
                 // Unable to load the library!
-                throw new Win32Exception(Marshal.GetLastWin32Error()); 
-
+                throw new Win32Exception(Marshal.GetLastWin32Error());
         }
         ~QuickLink()
         {
-            Dispose();
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            FreeLibrary(this.qlHandle);
-            FreeLibrary(this.dfHandle);
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if (this.disposed == false)
+            {
+                FreeLibrary(this.qlHandle);
+                FreeLibrary(this.dfHandle);
+            }
+            this.disposed = true;
         }
 
         /*-----------------------------------------------------------------------------
