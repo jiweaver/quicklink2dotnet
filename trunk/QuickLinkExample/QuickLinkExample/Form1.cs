@@ -24,7 +24,7 @@ namespace QuickLinkExample
         {
             InitializeComponent();
 
-            // Open the 32-bit QuickLink.
+            // Load QuickLink DLLs by creating an instance of the QuickLink class.
             this.QL = new QuickLink();
 
             timer1.Start();
