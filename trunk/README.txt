@@ -17,6 +17,8 @@ methods.
 See "QuickLinkExample\QuickLinkExample\Form1.cs" for an example of how to use 
 the API wrapper in your code.
 
+This version has been tested with "EyeTech Beta Installer" version 10.05.20
+
 Note: 64bit QuickLink support is untested!  You can enable it by uncommenting 
 this line (which you will find toward the top of QuickLink.cs):
 //#define SYSTEM_64BIT
