@@ -563,9 +563,9 @@ namespace QuickLinkAPI4NET
             /* Now we load the DLLs into our address space.  This allows us to 
              * use DLLImport without knowing the full path to the DLLs until 
              * load time.  However, the imported methods must still be marked 
-             * static, so they can be called without constructing an instance
-             * of the QuickLink() class, but doing so will cause your program 
-             * to barf; so don't do it!
+             * static.  As a result, they can be called without constructing an 
+             * instance of the QuickLink() class, but doing so will cause your 
+             * program to barf; so don't do it!
              */
 
             this.dfHandle = LoadLibrary(dfPath);
@@ -589,7 +589,7 @@ namespace QuickLinkAPI4NET
             GC.SuppressFinalize(this);
         }
 
-        public void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (this.disposed == false)
             {
