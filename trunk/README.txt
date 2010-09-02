@@ -14,8 +14,8 @@ obtained from their website (http://eyetechds.com).  The API wrapper uses .NET's
 See "QuickLinkAPI4NET\QuickLinkAPI4NET\QuickLink.cs" for the API wrapper 
 methods.
 
-See "QuickLinkExample\QuickLinkExample\Form1.cs" for an example of how to use 
-the API wrapper in your code.
+See "QuickLinkAPI4NET_Example\QuickLinkAPI4NET_Example\Program.cs" for an example
+of how to use the API wrapper in your code.
 
 This version has been tested with "EyeTech Beta Installer" version 10.05.20
 
