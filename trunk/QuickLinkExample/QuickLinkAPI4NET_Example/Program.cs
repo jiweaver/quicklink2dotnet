@@ -1,4 +1,32 @@
-﻿using System;
+﻿/* QuickLinkAPI4NET_Example : An example of how to call QuickLink's API.
+ *
+ * Copyright (c) 2010 Justin Weaver
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/* File: QuickLinkAPI4NET_Example.cs
+ * Author: Justin Weaver (Sep 2010)
+ * Revision: $Rev$
+ * Description: A example of calling QuickLink's API.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +39,12 @@ namespace QuickLinkAPI4NET_Example
     {
         static void Main(string[] args)
         {
-            long outCount = 0;
-
             while (true)
             {
+                // Load the QuickLink DLLs into our address space.
                 QuickLink QL = new QuickLink();
 
+                // Now we can call QuickLink's methods.
                 if (!QuickLink.GetQGOnFlag())
                 {
                     Console.WriteLine("Quick Glance is not running.");
@@ -61,8 +89,7 @@ namespace QuickLinkAPI4NET_Example
                     }
                 }
 
-                outCount++;
-
+                // Sleep a while.
                 Thread.Sleep(1000);
             }
         }
