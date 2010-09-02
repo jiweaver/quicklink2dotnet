@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLinkExample", "QuickLinkExample\QuickLinkExample.csproj", "{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLinkAPI4NET", "..\QuickLinkAPI4NET\QuickLinkAPI4NET\QuickLinkAPI4NET.csproj", "{95D15B06-7319-4839-850B-C35F63B4FCCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLinkAPI4NET_Example", "QuickLinkAPI4NET_Example\QuickLinkAPI4NET_Example.csproj", "{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,16 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Debug|x86.ActiveCfg = Debug|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Debug|x86.Build.0 = Debug|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Release|Any CPU.ActiveCfg = Release|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Release|Mixed Platforms.Build.0 = Release|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Release|x86.ActiveCfg = Release|x86
-		{E8F1CE94-D93A-4C4C-8FF4-1028CFB15E8F}.Release|x86.Build.0 = Release|x86
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -35,6 +25,16 @@ Global
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|x86.ActiveCfg = Release|Any CPU
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Debug|x86.ActiveCfg = Debug|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Debug|x86.Build.0 = Debug|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Release|Any CPU.ActiveCfg = Release|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Release|x86.ActiveCfg = Release|x86
+		{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
