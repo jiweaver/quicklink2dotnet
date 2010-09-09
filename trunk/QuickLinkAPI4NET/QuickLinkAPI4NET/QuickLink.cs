@@ -62,6 +62,14 @@
 
 //#define SYSTEM_64BIT
 
+#if SYSTEM_64BIT
+using cpp_long = System.Int64;
+using cpp_ulong = System.UInt64;
+#else
+using cpp_long = System.Int32;
+using cpp_ulong = System.UInt32;
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -182,13 +190,8 @@ namespace QuickLinkAPI4NET
     [StructLayout(LayoutKind.Sequential)]
     public struct LPoint
     {
-#if SYSTEM_64BIT
-        public long x;
-        public long y;
-#else
-        public int x;
-        public int y;
-#endif
+        public cpp_long x;
+        public cpp_long y;
     }
 
     /*-----------------------------------------------------------------------------
@@ -848,17 +851,10 @@ namespace QuickLinkAPI4NET
         */
         [DllImport(QuickLinkDllName, EntryPoint = "GetImageData")]
         [return: MarshalAs(UnmanagedType.U1)]
-#if SYSTEM_64BIT
         public static extern
             bool GetImageData(
-            ulong MaxTimeout,
+            cpp_ulong MaxTimeout,
             ref ImageData Data);
-#else
-        public static extern
-            bool GetImageData(
-            uint MaxTimeout,
-            ref ImageData Data);
-#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -891,19 +887,11 @@ namespace QuickLinkAPI4NET
         */
         [DllImport(QuickLinkDllName, EntryPoint = "GetImageDataAndLatency")]
         [return: MarshalAs(UnmanagedType.U1)]
-#if SYSTEM_64BIT
         public static extern
             bool GetImageDataAndLatency(
-                ulong MaxTimeout,
+                cpp_ulong MaxTimeout,
                 ref ImageData Data,
                 out double Latency);
-#else
-        public static extern
-            bool GetImageDataAndLatency(
-                uint MaxTimeout,
-                ref ImageData Data,
-                out double Latency);
-#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -1029,17 +1017,10 @@ namespace QuickLinkAPI4NET
         */
         [DllImport(QuickLinkDllName, EntryPoint = "ReadBulkCapture")]
         [return: MarshalAs(UnmanagedType.U1)]
-#if SYSTEM_64BIT
         public static extern
             bool ReadBulkCapture(
-                ulong MaxTimeout,
+                cpp_ulong MaxTimeout,
                 ref ImageData Data);
-#else
-        public static extern
-            bool ReadBulkCapture(
-                uint MaxTimeout,
-                ref ImageData Data);
-#endif
 
 
         /*-----------------------------------------------------------------------------
@@ -1615,19 +1596,11 @@ namespace QuickLinkAPI4NET
         //                         secondary click has been initiated by the eye tracker.
         */
         [DllImport(QuickLinkDllName, EntryPoint = "RegisterClickEvent")]
-#if SYSTEM_64BIT
         public static extern
             void RegisterClickEvent(
                 ref IntPtr WindowHandle,  // was void *
-                ulong PrimaryMessage,
-                ulong SecondaryMessage);
-#else
-        public static extern
-            void RegisterClickEvent(
-                ref IntPtr WindowHandle,  // was void *
-                uint PrimaryMessage,
-                uint SecondaryMessage);
-#endif
+                cpp_ulong PrimaryMessage,
+                cpp_ulong SecondaryMessage);
 
 
         /*-----------------------------------------------------------------------------
@@ -1649,15 +1622,9 @@ namespace QuickLinkAPI4NET
         */
         [DllImport(QuickLinkDllName, EntryPoint = "GetSerialNumber")]
         [return: MarshalAs(UnmanagedType.U1)]
-#if SYSTEM_64BIT
         public static extern
             bool GetSerialNumber(
-                out long SerialNumber);
-#else
-        public static extern
-            bool GetSerialNumber(
-                out int SerialNumber);
-#endif
+                out cpp_long SerialNumber);
 
 
         /*-----------------------------------------------------------------------------
