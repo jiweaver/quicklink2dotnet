@@ -514,6 +514,13 @@ namespace QuickLinkAPI4NET
         public ToolBarImageDisplay Toolbar_ImageDisplayType;
     }
 
+    /* If you create an instance of the QuickLink class, the constructor will 
+     * look through the system registry, and find and load the QuickLink DLLs 
+     * from inside QuickGlance's installation folder.  The alternative is to 
+     * place copies of QuickGlance.DLL and PGRFlycapture.dll into the directory
+     * with your executable; which will allow you to forgo instantiating 
+     * this QuickLink class before calling any of the API methods.
+     */
     public class QuickLink : IDisposable
     {
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -527,12 +534,16 @@ namespace QuickLinkAPI4NET
 
         private static string[] PossibleRegistryKeyLocations = { @"SOFTWARE\EyeTech Digital Systems", @"SOFTWARE\Wow6432Node\EyeTech Digital Systems" };
 
+        // Registry key is slightly different if 64bit support is enabled.
 #if SYSTEM_64BIT
         private string QuickLinkAPIKey = "QuickLinkAPI64";
 #else
         private string QuickLinkAPIKey = "QuickLinkAPI";
 #endif
 
+        /* These handles are the return values from calls to LoadLibrary.  We 
+         * use them to free the libraries when we dispose. 
+         */
         private IntPtr dfHandle, qlHandle;
 
         private bool disposed = false;
@@ -565,10 +576,7 @@ namespace QuickLinkAPI4NET
 
             /* Now we load the DLLs into our address space.  This allows us to 
              * use DLLImport without knowing the full path to the DLLs until 
-             * load time.  However, the imported methods must still be marked 
-             * static.  As a result, they can be called without constructing an 
-             * instance of the QuickLink() class, but doing so will cause your 
-             * program to barf; so don't do it!
+             * load time.
              */
 
             this.dfHandle = LoadLibrary(dfPath);
