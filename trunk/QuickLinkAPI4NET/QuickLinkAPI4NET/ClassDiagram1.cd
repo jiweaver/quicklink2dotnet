@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="QuickLinkAPI4NET.QuickLink" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="3.25" />
+    <Members>
+      <Method Name="~QuickLink" Hidden="true" />
+      <Field Name="dfHandle" Hidden="true" />
+      <Field Name="disposed" Hidden="true" />
+      <Method Name="FreeLibrary" Hidden="true" />
+      <Method Name="LoadLibrary" Hidden="true" />
+      <Field Name="PGRFlyCaptureDLLName" Hidden="true" />
+      <Field Name="PossibleRegistryKeyLocations" Hidden="true" />
+      <Field Name="qlHandle" Hidden="true" />
+      <Field Name="QuickLinkAPIKey" Hidden="true" />
+      <Field Name="QuickLinkDllName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BQJAESAx+SQAAQAEQBABA44CAIIOCEAgBBAIYACAQBA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Struct Name="QuickLinkAPI4NET.DPoint">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.LPoint">
+    <Position X="6.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.EyeData">
+    <Position X="6.5" Y="0.5" Width="2" />
+    <AssociationLine Name="Glint1" Type="QuickLinkAPI4NET.DPoint" FixedToPoint="true">
+      <Path>
+        <Point X="8.5" Y="1.625" />
+        <Point X="9.5" Y="1.625" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Glint2" Type="QuickLinkAPI4NET.DPoint" FixedToPoint="true">
+      <Path>
+        <Point X="8.5" Y="1.25" />
+        <Point X="9.5" Y="1.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABAAABAAAAAAAAACAAEAAAAAAAgAAACAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="GazePoint" />
+      <Field Name="Glint1" />
+      <Field Name="Pupil" />
+      <Field Name="Glint2" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.ImageData">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAABAAAAAAAAAIAAEAAAAAAACAAAAAAAAAAAQA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="LeftEye" />
+      <Field Name="RightEye" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.ClickingOptions">
+    <Position X="18.25" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAAAABFAkAAAIAAIAAAAQAAAACAAAEAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Click_Method" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.CalibrationOptions">
+    <Position X="16.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Calibration_Style" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.ProcessingOptions">
+    <Position X="5.5" Y="5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAgAAQAAAAACQABAAAAAAAkAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Processing_ProcessPriority" />
+      <Field Name="Processing_EyesToProcess" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.CameraOptions">
+    <Position X="12.5" Y="4.25" Width="4.5" />
+    <AssociationLine Name="Camera_GPIO_1" Type="QuickLinkAPI4NET.CameraGPIOOutput" FixedToPoint="true">
+      <Path>
+        <Point X="12.562" Y="5.738" />
+        <Point X="12.562" Y="6.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Camera_GPIO_2" Type="QuickLinkAPI4NET.CameraGPIOOutput" FixedToPoint="true">
+      <Path>
+        <Point X="14" Y="5.738" />
+        <Point X="14" Y="6.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Camera_GPIO_3" Type="QuickLinkAPI4NET.CameraGPIOOutput" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="5.084" />
+        <Point X="11.188" Y="5.084" />
+        <Point X="11.188" Y="6.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Camera_GainMethod" Type="QuickLinkAPI4NET.CameraGainMethod" FixedFromPoint="true">
+      <Path>
+        <Point X="16.349" Y="5.738" />
+        <Point X="16.349" Y="6.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAIBYAAAAAAAAAAAAAQAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Camera_GPIO_1" />
+      <Field Name="Camera_GPIO_2" />
+      <Field Name="Camera_GPIO_3" />
+      <Field Name="Camera_GainMethod" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="QuickLinkAPI4NET.ToolbarOptions">
+    <Position X="12.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Toolbar_ImageDisplayType" />
+    </ShowAsAssociation>
+  </Struct>
+  <Enum Name="QuickLinkAPI4NET.CalibrationErrorEx">
+    <Position X="18.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAIAIAEAAAAAAgAAAAAAABAgAAAAAICIAAQA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.CalibrationStyle">
+    <Position X="16.25" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.ClickMethod">
+    <Position X="18.75" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAABAAAAQAAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.EyesToProcess">
+    <Position X="4.25" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAEEAAAAAgAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.ProcessPriority">
+    <Position X="8.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.CameraGainMethod">
+    <Position X="14.75" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.CameraGPIOOutput">
+    <Position X="10.5" Y="6.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.CameraCustomGPIOOutputValue">
+    <Position X="11.75" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.ToolBarImageDisplay">
+    <Position X="12.5" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLinkAPI4NET.QGWindowState">
+    <Position X="9.25" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAABAAAAAAIAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
