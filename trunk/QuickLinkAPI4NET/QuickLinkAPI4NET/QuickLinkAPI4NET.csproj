@@ -44,7 +44,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="CameraOptions.cd" />
+    <None Include="Calibration.cd" />
+    <None Include="ClickingOptions.cd" />
+    <None Include="EyeData.cd" />
+    <None Include="ToolbarOptions.cd" />
+    <None Include="Main.cd" />
+    <None Include="ProcessingOptions.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

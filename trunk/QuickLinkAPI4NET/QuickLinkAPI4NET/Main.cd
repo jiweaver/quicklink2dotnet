@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="QuickLinkAPI4NET.QuickLink" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="6.25" />
+    <Members>
+      <Method Name="~QuickLink" Hidden="true" />
+      <Method Name="ApplyCalibrationEx" Hidden="true" />
+      <Method Name="CalibrateEx" Hidden="true" />
+      <Method Name="CalibrationBiasEx" Hidden="true" />
+      <Field Name="dfHandle" Hidden="true" />
+      <Field Name="disposed" Hidden="true" />
+      <Method Name="FreeLibrary" Hidden="true" />
+      <Method Name="GetCalibrationOptions" Hidden="true" />
+      <Method Name="GetCameraOptions" Hidden="true" />
+      <Method Name="GetClickingOptions" Hidden="true" />
+      <Method Name="GetImageData" Hidden="true" />
+      <Method Name="GetImageDataAndLatency" Hidden="true" />
+      <Method Name="GetNewTargetPositionEx" Hidden="true" />
+      <Method Name="GetProcessingOptions" Hidden="true" />
+      <Method Name="GetScoreEx" Hidden="true" />
+      <Method Name="GetToolbarOptions" Hidden="true" />
+      <Method Name="GetWorstTargetPositionEx" Hidden="true" />
+      <Method Name="InitializeCalibrationEx" Hidden="true" />
+      <Method Name="InternalCalibration1" Hidden="true" />
+      <Method Name="LoadLibrary" Hidden="true" />
+      <Method Name="OpenCalibrationEx" Hidden="true" />
+      <Field Name="PGRFlyCaptureDLLName" Hidden="true" />
+      <Field Name="PossibleRegistryKeyLocations" Hidden="true" />
+      <Field Name="qlHandle" Hidden="true" />
+      <Method Name="QueryBulkCapture" Hidden="true" />
+      <Field Name="QuickLinkAPIKey" Hidden="true" />
+      <Field Name="QuickLinkDllName" Hidden="true" />
+      <Method Name="ReadBulkCapture" Hidden="true" />
+      <Method Name="SetCalibrationOptions" Hidden="true" />
+      <Method Name="SetCameraOptions" Hidden="true" />
+      <Method Name="SetClickingOptions" Hidden="true" />
+      <Method Name="SetCopyImageFlag" Hidden="true" />
+      <Method Name="SetCustomGPIO" Hidden="true" />
+      <Method Name="SetProcessingOptions" Hidden="true" />
+      <Method Name="SetToolbarOptions" Hidden="true" />
+      <Method Name="StartBulkCapture" Hidden="true" />
+      <Method Name="StopBulkCapture" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BQJAESAx+SQAAQAEQBABA44CAIIOCEAgBBAIYACAQBA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="QuickLinkAPI4NET.QGWindowState">
+    <Position X="0.5" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAABAAAAAAIAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>QuickLink.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
