@@ -1,0 +1,7 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+I decided to rename QuickLinkAPI4NET to QuickLinkDotNet, because I like it better!
+
+= Details =
+The homepage is still <http://quicklinkapi4net.googlecode.com>, but the name of the wrapper is actually QuickLinkDotNet
