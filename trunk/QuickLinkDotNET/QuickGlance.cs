@@ -27,7 +27,7 @@
 
 #region Header Comments
 
-/* $Id: QuickGlance.cs 1012 2011-02-12 18:49:45Z weaver $
+/* $Id$
  *
  * Description: If Quick Glance is not currently running, this class will start
  * it, and wait for it to become ready. Additionally, it will create an
