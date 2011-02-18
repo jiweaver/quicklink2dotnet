@@ -1,44 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="QuickLinkAPI4NET.QuickLink" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="0.5" Width="5.5" />
+  <Class Name="QuickLinkDotNet.QuickLinkAPI">
+    <Position X="0.5" Y="0.5" Width="4" />
     <Members>
-      <Method Name="~QuickLink" Hidden="true" />
-      <Field Name="dfHandle" Hidden="true" />
-      <Method Name="Dispose" Hidden="true" />
-      <Field Name="disposed" Hidden="true" />
+      <Method Name="ApplyCalibrationEx" Hidden="true" />
+      <Method Name="CalibrateEx" Hidden="true" />
+      <Method Name="CalibrationBiasEx" Hidden="true" />
       <Method Name="ExitQuickGlance" Hidden="true" />
-      <Method Name="FreeLibrary" Hidden="true" />
+      <Method Name="GetCalibrationOptions" Hidden="true" />
       <Method Name="GetCameraOptions" Hidden="true" />
       <Method Name="GetClickingOptions" Hidden="true" />
       <Method Name="GetEyeControl" Hidden="true" />
       <Method Name="GetImageData" Hidden="true" />
       <Method Name="GetImageDataAndLatency" Hidden="true" />
-      <Method Name="GetProcessingOptions" Hidden="true" />
+      <Method Name="GetNewTargetPositionEx" Hidden="true" />
       <Method Name="GetQGOnFlag" Hidden="true" />
+      <Method Name="GetScoreEx" Hidden="true" />
       <Method Name="GetSDKVersion" Hidden="true" />
       <Method Name="GetSerialNumber" Hidden="true" />
       <Method Name="GetToolbarOptions" Hidden="true" />
+      <Method Name="GetWorstTargetPositionEx" Hidden="true" />
       <Method Name="HideLargeImage" Hidden="true" />
-      <Method Name="LoadLibrary" Hidden="true" />
+      <Method Name="InitializeCalibrationEx" Hidden="true" />
+      <Method Name="InternalCalibration1" Hidden="true" />
       <Method Name="MoveLeftRight" Hidden="true" />
       <Method Name="MoveUpDown" Hidden="true" />
-      <Field Name="PGRFlyCaptureDLLName" Hidden="true" />
-      <Field Name="PossibleRegistryKeyLocations" Hidden="true" />
-      <Field Name="qlHandle" Hidden="true" />
+      <Method Name="OpenCalibrationEx" Hidden="true" />
       <Method Name="QueryBulkCapture" Hidden="true" />
-      <Method Name="QuickLink" Hidden="true" />
-      <Field Name="QuickLinkAPIKey" Hidden="true" />
-      <Field Name="QuickLinkDllName" Hidden="true" />
       <Method Name="ReadBulkCapture" Hidden="true" />
       <Method Name="RegisterClickEvent" Hidden="true" />
+      <Method Name="SetCalibrationOptions" Hidden="true" />
       <Method Name="SetCameraOptions" Hidden="true" />
       <Method Name="SetClickingOptions" Hidden="true" />
       <Method Name="SetCopyImageFlag" Hidden="true" />
       <Method Name="SetCustomGPIO" Hidden="true" />
       <Method Name="SetEyeControl" Hidden="true" />
       <Method Name="SetMWState" Hidden="true" />
-      <Method Name="SetProcessingOptions" Hidden="true" />
       <Method Name="SetToolbarOptions" Hidden="true" />
       <Method Name="ShowLargeImage" Hidden="true" />
       <Method Name="StartBulkCapture" Hidden="true" />
@@ -46,33 +43,33 @@
       <Method Name="ToggleLargeImage" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>BQJAESAx+SQAAQAEQBABA44CAIIOCEAgBBAIYACAQBA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>BQBAESAx+QQAAQAEAAABA4YCAIIOCEAgBAAIIAAAQBA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Struct Name="QuickLinkAPI4NET.CalibrationOptions">
-    <Position X="6.5" Y="0.5" Width="2.25" />
+  <Struct Name="QuickLinkDotNet.ProcessingOptions">
+    <Position X="0.5" Y="2.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>AAgAAQAAAAACQABAAAAAAAkAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="Calibration_Style" />
+      <Field Name="Processing_ProcessPriority" />
+      <Field Name="Processing_EyesToProcess" />
     </ShowAsAssociation>
   </Struct>
-  <Enum Name="QuickLinkAPI4NET.CalibrationErrorEx">
-    <Position X="0.5" Y="3.5" Width="3.75" />
+  <Enum Name="QuickLinkDotNet.EyesToProcess">
+    <Position X="1" Y="5.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAIAIAEAAAAAAgAAAAAAABAgAAAAAICIAAQA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAEEAAAAAgAAAAAAAA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="QuickLinkAPI4NET.CalibrationStyle">
-    <Position X="6.75" Y="2" Width="2" />
+  <Enum Name="QuickLinkDotNet.ProcessPriority">
+    <Position X="5.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

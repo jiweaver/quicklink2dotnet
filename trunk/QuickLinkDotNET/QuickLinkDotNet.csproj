@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{57A5B693-FFB6-4DC2-9E32-9D852FFF0CA6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{95D15B06-7319-4839-850B-C35F63B4FCCF}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QuickLinkAPI4NET_Example</RootNamespace>
-    <AssemblyName>QuickLinkAPI4NET_Example</AssemblyName>
+    <RootNamespace>QuickLinkDotNet</RootNamespace>
+    <AssemblyName>QuickLinkDotNet</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,16 +40,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="QuickConstants.cs" />
+    <Compile Include="Win32LibraryControl.cs" />
+    <Compile Include="QuickGlance.cs" />
+    <Compile Include="QuickLinkAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickLink.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\QuickLinkAPI4NET\QuickLinkAPI4NET\QuickLinkAPI4NET.csproj">
-      <Project>{95D15B06-7319-4839-850B-C35F63B4FCCF}</Project>
-      <Name>QuickLinkAPI4NET</Name>
-    </ProjectReference>
+    <None Include="QuickLinkAPI Class Diagrams\ToolBarOptions.cd" />
+    <None Include="QuickLinkAPI Class Diagrams\Miscellaneous.cd" />
+    <None Include="QuickLinkAPI Class Diagrams\CameraOptions.cd" />
+    <None Include="QuickLinkAPI Class Diagrams\ImageData.cd" />
+    <None Include="QuickLinkAPI Class Diagrams\ClickingOptions.cd" />
+    <None Include="QuickLinkAPI Class Diagrams\Processing.cd" />
+    <None Include="QuickLinkAPI Class Diagrams\Calibration.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+    <Content Include="QuickLinkAPI Class Diagrams\README.txt" />
+    <Content Include="README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -60,4 +73,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <!-- Copy the core QuickLink DLLs to the output directory. -->
+  <PropertyGroup>
+    <BuildDependsOn>
+			$(BuildDependsOn);
+			CopyDLLs
+		</BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="CopyDLLs">
+    <Message Text="Running CopyDLLs..." />
+  </Target>
 </Project>

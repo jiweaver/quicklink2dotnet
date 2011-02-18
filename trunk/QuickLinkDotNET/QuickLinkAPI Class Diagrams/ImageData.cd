@@ -1,22 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="QuickLinkAPI4NET.QuickLink" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="0.5" Width="3.75" />
+  <Class Name="QuickLinkDotNet.QuickLinkAPI">
+    <Position X="0.5" Y="0.5" Width="8.5" />
     <Members>
-      <Method Name="~QuickLink" Hidden="true" />
       <Method Name="ApplyCalibrationEx" Hidden="true" />
       <Method Name="CalibrateEx" Hidden="true" />
       <Method Name="CalibrationBiasEx" Hidden="true" />
-      <Field Name="dfHandle" Hidden="true" />
-      <Method Name="Dispose" Hidden="true" />
-      <Field Name="disposed" Hidden="true" />
       <Method Name="ExitQuickGlance" Hidden="true" />
-      <Method Name="FreeLibrary" Hidden="true" />
       <Method Name="GetCalibrationOptions" Hidden="true" />
       <Method Name="GetCameraOptions" Hidden="true" />
+      <Method Name="GetClickingOptions" Hidden="true" />
       <Method Name="GetEyeControl" Hidden="true" />
-      <Method Name="GetImageData" Hidden="true" />
-      <Method Name="GetImageDataAndLatency" Hidden="true" />
       <Method Name="GetNewTargetPositionEx" Hidden="true" />
       <Method Name="GetProcessingOptions" Hidden="true" />
       <Method Name="GetQGOnFlag" Hidden="true" />
@@ -28,54 +22,63 @@
       <Method Name="HideLargeImage" Hidden="true" />
       <Method Name="InitializeCalibrationEx" Hidden="true" />
       <Method Name="InternalCalibration1" Hidden="true" />
-      <Method Name="LoadLibrary" Hidden="true" />
       <Method Name="MoveLeftRight" Hidden="true" />
       <Method Name="MoveUpDown" Hidden="true" />
       <Method Name="OpenCalibrationEx" Hidden="true" />
-      <Field Name="PGRFlyCaptureDLLName" Hidden="true" />
-      <Field Name="PossibleRegistryKeyLocations" Hidden="true" />
-      <Field Name="qlHandle" Hidden="true" />
-      <Method Name="QueryBulkCapture" Hidden="true" />
-      <Method Name="QuickLink" Hidden="true" />
-      <Field Name="QuickLinkAPIKey" Hidden="true" />
-      <Field Name="QuickLinkDllName" Hidden="true" />
-      <Method Name="ReadBulkCapture" Hidden="true" />
       <Method Name="RegisterClickEvent" Hidden="true" />
       <Method Name="SetCalibrationOptions" Hidden="true" />
       <Method Name="SetCameraOptions" Hidden="true" />
-      <Method Name="SetCopyImageFlag" Hidden="true" />
+      <Method Name="SetClickingOptions" Hidden="true" />
       <Method Name="SetCustomGPIO" Hidden="true" />
       <Method Name="SetEyeControl" Hidden="true" />
       <Method Name="SetMWState" Hidden="true" />
       <Method Name="SetProcessingOptions" Hidden="true" />
       <Method Name="SetToolbarOptions" Hidden="true" />
       <Method Name="ShowLargeImage" Hidden="true" />
-      <Method Name="StartBulkCapture" Hidden="true" />
-      <Method Name="StopBulkCapture" Hidden="true" />
       <Method Name="ToggleLargeImage" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>BQJAESAx+SQAAQAEQBABA44CAIIOCEAgBBAIYACAQBA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>BQBAESAx+QQAAQAEAAABA4YCAIIOCEAgBAAIIAAAQBA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Struct Name="QuickLinkAPI4NET.ClickingOptions">
-    <Position X="0.5" Y="2" Width="2.5" />
+  <Struct Name="QuickLinkDotNet.DPoint">
+    <Position X="3.5" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACCAAAAAABFAkAAAIAAIAAAAQAAAACAAAEAAAAAAAA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="QuickLinkDotNet.LPoint">
+    <Position X="6" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="QuickLinkDotNet.EyeData">
+    <Position X="3.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAABAAAAAAAAACAAEAAAAAAAgAAACAAAAAAAAAA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="Click_Method" />
+      <Field Name="GazePoint" />
+      <Field Name="Glint2" />
+      <Field Name="Glint1" />
+      <Field Name="Pupil" />
     </ShowAsAssociation>
   </Struct>
-  <Enum Name="QuickLinkAPI4NET.ClickMethod">
-    <Position X="4.25" Y="2" Width="2" />
+  <Struct Name="QuickLinkDotNet.ImageData">
+    <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAABAAAAQAAAAAAAAA=</HashCode>
-      <FileName>QuickLink.cs</FileName>
+      <HashCode>AIAAAAAABAAAAAAAAAIAAEAAAAAAACAAAAAAAAAAAQA=</HashCode>
+      <FileName>QuickLinkAPI.cs</FileName>
     </TypeIdentifier>
-  </Enum>
+    <ShowAsAssociation>
+      <Field Name="LeftEye" />
+      <Field Name="RightEye" />
+    </ShowAsAssociation>
+  </Struct>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

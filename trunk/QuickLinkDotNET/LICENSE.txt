@@ -1,4 +1,4 @@
-/* QuickLinkAPI4NET : A .NET wrapper (in C#) for EyeTech's QuickLink API.
+/* QuickLinkDotNET : A .NET wrapper (in C#) for EyeTech's QuickLink API.
  *
  * Copyright (c) 2010 Justin Weaver
  *
