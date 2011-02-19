@@ -55,7 +55,7 @@ namespace QuickLinkDotNet
 
         #region Fields
 
-        private Process myProcess = null;
+        private Process process = null;
 
         private QuickLink quickLink = null;
 
@@ -63,11 +63,19 @@ namespace QuickLinkDotNet
 
         #region Properties
 
-        public bool Started
+        public bool QuickGlanceWasAlreadyRunning
         {
             get
             {
-                return (this.myProcess != null);
+                return (this.process == null);
+            }
+        }
+
+        public Process Process
+        {
+            get
+            {
+                return this.process;
             }
         }
 
@@ -87,9 +95,9 @@ namespace QuickLinkDotNet
         {
             if (!ProcessIsRunning(QuickConstants.ProcessName))
                 /* Quick Glance is not running, so start it up. */
-                this.myProcess = StartQuickGlance();
+                this.process = StartQuickGlance();
             else
-                this.myProcess = null;
+                this.process = null;
 
             /* Make an instance of the QuickLink class. */
             this.quickLink = new QuickLink();
@@ -185,7 +193,7 @@ namespace QuickLinkDotNet
         {
             if (this.disposed == false)
             {
-                if (this.Started)
+                if (this.process != null)
                 {
                     /* We started Quick Glance, so we should shut it down.
                      */
@@ -195,7 +203,7 @@ namespace QuickLinkDotNet
                     {
                         //this.myProcess.CloseMainWindow();
 
-                        this.myProcess.WaitForExit(WaitForQuickGlanceToExit_Timeout);
+                        this.process.WaitForExit(WaitForQuickGlanceToExit_Timeout);
                     }
                     catch (InvalidOperationException)
                     {
