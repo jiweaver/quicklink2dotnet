@@ -201,7 +201,7 @@ namespace QuickLinkDotNet
 
                     try
                     {
-                        //this.myProcess.CloseMainWindow();
+                        this.myProcess.CloseMainWindow();
 
                         this.process.WaitForExit(WaitForQuickGlanceToExit_Timeout);
                     }
