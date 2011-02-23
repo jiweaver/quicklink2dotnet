@@ -195,22 +195,19 @@ namespace QuickLinkDotNet
             {
                 if (this.process != null)
                 {
-                    /* We started Quick Glance, so we should shut it down.
+                    /* We started Quick Glance, so we should attempt to shut it
+                     * down.
                      */
                     this.quickLink.ExitQuickGlance();
 
                     try
                     {
-                        this.process.CloseMainWindow();
-
                         this.process.WaitForExit(WaitForQuickGlanceToExit_Timeout);
                     }
-                    catch (InvalidOperationException)
+                    catch
                     {
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Error closing main Quick Glance window.  (MSG): " + ex.Message);
+                        // We can at least try to make sure it's not hidden.
+                        this.quickLink.SetMWState(QGWindowState.QGWS_HOME);
                     }
                 }
 
