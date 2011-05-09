@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\QuickLinkDotNET\QuickLinkDotNet.csproj">
+    <ProjectReference Include="..\..\..\QuickLinkDotNET\QuickLinkDotNet\QuickLinkDotNet.csproj">
       <Project>{95D15B06-7319-4839-850B-C35F63B4FCCF}</Project>
       <Name>QuickLinkDotNet</Name>
     </ProjectReference>

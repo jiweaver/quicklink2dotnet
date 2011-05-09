@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeLogger", "EyeLogger\EyeLogger.csproj", "{9A583109-BAB9-41C1-8464-69BBB12795C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLinkDotNet", "..\..\QuickLinkDotNET\QuickLinkDotNet.csproj", "{95D15B06-7319-4839-850B-C35F63B4FCCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLinkDotNet", "..\..\QuickLinkDotNET\QuickLinkDotNet\QuickLinkDotNet.csproj", "{95D15B06-7319-4839-850B-C35F63B4FCCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
