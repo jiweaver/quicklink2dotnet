@@ -35,6 +35,19 @@
 
 #endregion Header Comments
 
+#region 64Bit Support
+
+#if ISX64
+using cpp_long = System.Int64;
+
+#else
+using cpp_long = System.Int32;
+using cpp_ulong = System.UInt32;
+
+#endif
+
+#endregion 64Bit Support
+
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -68,18 +81,39 @@ namespace QuickLinkDotNet
 
         private void FindAndLoadQuickLinkDLLs()
         {
-            RegistryKey reg = Registry.LocalMachine;
+            RegistryKey reg = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
 
             RegistryKey qlRegKeyLoc = null;
-            string apiKeyString = QuickConstants.QuickLinkAPIKeys[0];
-            foreach (string s in QuickConstants.PossibleRegistryKeyLocations)
+            foreach (string s in QuickConstants.QuickLinkRegistryKeyLocations)
             {
                 // Try each possible key location.
-                string thePath = Path.Combine(s, apiKeyString);
-                qlRegKeyLoc = reg.OpenSubKey(thePath);
+                qlRegKeyLoc = reg.OpenSubKey(s);
                 if (qlRegKeyLoc != null)
                     // Found the key.
                     break;
+
+                if (qlRegKeyLoc == null)
+                    // Key not found.
+                    continue;
+            }
+
+            if (qlRegKeyLoc == null)
+            {
+                reg = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry32);
+
+                qlRegKeyLoc = null;
+                foreach (string s in QuickConstants.QuickLinkRegistryKeyLocations)
+                {
+                    // Try each possible key location.
+                    qlRegKeyLoc = reg.OpenSubKey(s);
+                    if (qlRegKeyLoc != null)
+                        // Found the key.
+                        break;
+
+                    if (qlRegKeyLoc == null)
+                        // Key not found.
+                        continue;
+                }
             }
 
             if (qlRegKeyLoc == null)
@@ -101,12 +135,12 @@ namespace QuickLinkDotNet
              */
 
             this.dfHandle = Win32LibraryControl.Load(dfPath);
-            if ((int)this.dfHandle == 0)
+            if ((long)this.dfHandle == 0)
                 // Unable to load the library!
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             this.qlHandle = Win32LibraryControl.Load(qlPath);
-            if ((int)this.qlHandle == 0)
+            if ((long)this.qlHandle == 0)
                 // Unable to load the library!
                 throw new Win32Exception(Marshal.GetLastWin32Error());
         }
@@ -319,7 +353,7 @@ namespace QuickLinkDotNet
             QuickLinkDotNet.QuickLinkAPI.RegisterClickEvent(ref WindowHandle, PrimaryMessage, SecondaryMessage);
         }
 
-        public bool GetSerialNumber(out int SerialNumber)
+        public bool GetSerialNumber(out cpp_long SerialNumber)
         {
             return QuickLinkDotNet.QuickLinkAPI.GetSerialNumber(out SerialNumber);
         }

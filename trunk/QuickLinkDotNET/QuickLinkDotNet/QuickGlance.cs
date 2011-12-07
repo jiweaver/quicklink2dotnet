@@ -2,7 +2,7 @@
 
 /* QuickLinkDotNet : A .NET wrapper (in C#) for EyeTech's QuickLink API.
  *
- * Copyright (c) 2010 Justin Weaver
+ * Copyright (c) 2010-2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,6 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using Microsoft.Win32;
 
 namespace QuickLinkDotNet
@@ -152,29 +151,52 @@ namespace QuickLinkDotNet
 
         private static string FindQuickGlancePath()
         {
-            RegistryKey reg = Registry.LocalMachine;
+            RegistryKey reg = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
 
-            string result = null;
-
-            foreach (string possibleLocation in QuickConstants.PossibleRegistryKeyLocations)
+            RegistryKey qgRegKeyLoc = null;
+            foreach (string s in QuickConstants.QuickGlanceRegistryKeyLocations)
             {
-                // Try each possible key locatregOpenSubKeyion.
-                RegistryKey key = reg.OpenSubKey(Path.Combine(possibleLocation, QuickConstants.QuickGlanceSubKeyName));
-                if (key == null)
+                // Try each possible key location.
+                qgRegKeyLoc = reg.OpenSubKey(s);
+                if (qgRegKeyLoc != null)
+                    // Found the key.
+                    break;
+
+                if (qgRegKeyLoc == null)
+                    // Key not found.
                     continue;
-
-                object oresult = key.GetValue("Path");
-                // Path to the Quick Glance executable.
-                if (oresult == null)
-                    // Value not found!
-                    continue;
-
-                result = oresult.ToString();
-
-                break;
             }
 
-            return result;
+            if (qgRegKeyLoc == null)
+            {
+                reg = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry32);
+
+                qgRegKeyLoc = null;
+                foreach (string s in QuickConstants.QuickGlanceRegistryKeyLocations)
+                {
+                    // Try each possible key location.
+                    qgRegKeyLoc = reg.OpenSubKey(s);
+                    if (qgRegKeyLoc != null)
+                        // Found the key.
+                        break;
+
+                    if (qgRegKeyLoc == null)
+                        // Key not found.
+                        continue;
+                }
+            }
+
+            if (qgRegKeyLoc == null)
+                // Key not found.
+                return null;
+
+            object oresult = qgRegKeyLoc.GetValue("Path");
+            // Path to the Quick Glance executable.
+            if (oresult == null)
+                // Value not found!
+                return null;
+
+            return oresult.ToString();
         }
 
         #endregion Constructor

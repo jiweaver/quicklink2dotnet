@@ -24,7 +24,7 @@ within managed code.
 
 
 --------------
-Usage:
+Usage Options:
 
 First, download and install the Quick Glance software from EyeTech’s website.
   
@@ -48,29 +48,42 @@ this wrapper in their code has three usage choices:
 
 To use QuickLinkDotNet in your project:
 
-1.	Open your project in Visual Studio 2010 Professional
+1.	Download and install the Quick Glance software from EyeTech’s website.
 
-2.	In the "Solution Explorer" right-click on your solution and select "Add -> 
+2.	Open your project in Visual Studio 2010
+
+3.	In the "Solution Explorer" right-click on your solution and select "Add -> 
 	Existing Project" from the context menu.
 
-3.	Browse to, and select the "QuickLinkDotNet.csproj" file.  You should see 
+4.	Browse to, and select the "QuickLinkDotNet.csproj" file.  You should see 
 	the project appear in the "Solution Explorer" along with yours.
 
-4.	Then, in the "Solution Explorer," right click on the "References" item in 
+5.	Then, in the "Solution Explorer," right click on the "References" item in 
 	_your_ project, and select "Add Reference" from the context menu.  An "Add 
 	Reference" window should appear.
 
-5.	In the "Add Reference" window, select the "Projects" tab and highlight 
+6.	In the "Add Reference" window, select the "Projects" tab and highlight 
 	"QuickLinkDotNet," then press the "Ok" button.
+	
+7.  Towards the top of each source file from which you want to call the 
+	QuickLink API (with the already present "using" statements) add the line
+	"using QuickLinkDotNet;"
 
+8.  Instantiate the QuickLink class, and us the methods available in that 
+	class.  Also, after instantiating the QuickLink class, feel free to use any
+	of the methods, classes, structs, or enums declared in QuickLinkAPI.cs
+	
+9.	For a 32-bit program:
+		In the "Solution Explorer", right-click on your project's name (not the
+		entire solution) and select "Properties."  Under the "Build" tab, 
+		choose "x86" for the "Platform Target".  This is commonly the default.
+	For a 64-bit program:
+		In the "Solution Explorer", right-click on your project's name (not the
+		entire solution) and select "Properties."  Under the "Build" tab, 
+		choose "x64" for the "Platform Target".  Additionally, right-click on 
+		the QuickLinkDotNet project, and select "Properties".  Under the 
+		"Build" tab, tpye "ISX64" in the "Conditional compilation symbols" box.
 
---------------	
-32/64-Bit Support:
-
-This is for the 32-bit version of Quick Glance & QuickLink API only.
-
-There are some provisions made within the code for 64-bit support, but I have 
-been unable to test anything, because the 64-bit version of Quick Glance always 
-crashes on my 64-bit Windows 7 system.
-
-If anyone else has info on this, please let me know.
+10.	From Visual Studio's drop down menus, select "Build -> Build Solution".
+	
+11.	Run your program.

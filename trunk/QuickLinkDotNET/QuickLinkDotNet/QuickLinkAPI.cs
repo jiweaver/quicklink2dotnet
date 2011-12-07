@@ -47,13 +47,7 @@
 
 #region 64Bit Support
 
-/* Uncomment the line below to enable experimental 64-bit QuickGlance support.
- * Experts only!
- */
-
-//#define SYSTEM_64BIT
-
-#if SYSTEM_64BIT
+#if ISX64
 using cpp_long = System.Int64;
 using cpp_ulong = System.UInt64;
 #else

@@ -2,7 +2,7 @@
 
 /* QuickLinkDotNet : A .NET wrapper (in C#) for EyeTech's QuickLink API.
  *
- * Copyright (c) 2010 Justin Weaver
+ * Copyright (c) 2010-2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
 
 /* $Id$
  *
- * Description: TODO.
+ * Description: Some constants for internal use.
  */
 
 #endregion Header Comments
@@ -38,24 +38,36 @@ namespace QuickLinkDotNet
 {
     public static class QuickConstants
     {
-        public static string[] PossibleRegistryKeyLocations =
+#if ISX64
+        public static string[] QuickLinkRegistryKeyLocations =
         {
-            @"SOFTWARE\EyeTech Digital Systems",  // 32-bit.
-            //@"SOFTWARE\Wow6432Node\EyeTech Digital Systems" // 64-bit
+            @"SOFTWARE\EyeTech Digital Systems\QuickLinkAPI64",
+            @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\QuickLinkAPI64",
         };
 
-        public static string[] QuickLinkAPIKeys = new string[]
+        public static string[] QuickGlanceRegistryKeyLocations =
         {
-            "QuickLinkAPI",  // 32-bit.
-            //"QuickLinkAPI64", // 64-bit
+            @"SOFTWARE\EyeTech Digital Systems\Quick Glance64",
+            @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\Quick Glance64",
         };
+#else
+        public static string[] QuickLinkRegistryKeyLocations =
+        {
+            @"SOFTWARE\EyeTech Digital Systems\QuickLinkAPI",
+            @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\QuickLinkAPI",
+        };
+
+        public static string[] QuickGlanceRegistryKeyLocations =
+        {
+            @"SOFTWARE\EyeTech Digital Systems\Quick Glance",
+            @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\Quick Glance",
+        };
+#endif
 
         public const string PGRFlyCaptureDLLName = "PGRFlyCapture.dll";
         public const string QuickLinkDllName = "QuickLinkAPI.dll";
 
         // Quick Glance process name.  Used to check for running Quick Glance.
         public static string ProcessName = "Quick Glance";
-
-        public static string QuickGlanceSubKeyName = "Quick Glance";
     }
 }
