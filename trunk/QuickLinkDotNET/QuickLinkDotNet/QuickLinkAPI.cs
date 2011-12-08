@@ -178,8 +178,8 @@ namespace QuickLinkDotNet
     [StructLayout(LayoutKind.Sequential)]
     public struct LPoint
     {
-        public cpp_long x;
-        public cpp_long y;
+        public int x;
+        public int y;
     }
 
     /*-----------------------------------------------------------------------------

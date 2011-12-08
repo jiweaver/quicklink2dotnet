@@ -135,12 +135,12 @@ namespace QuickLinkDotNet
              */
 
             this.dfHandle = Win32LibraryControl.Load(dfPath);
-            if ((long)this.dfHandle == 0)
+            if ((cpp_long)this.dfHandle == 0)
                 // Unable to load the library!
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             this.qlHandle = Win32LibraryControl.Load(qlPath);
-            if ((long)this.qlHandle == 0)
+            if ((cpp_long)this.qlHandle == 0)
                 // Unable to load the library!
                 throw new Win32Exception(Marshal.GetLastWin32Error());
         }
