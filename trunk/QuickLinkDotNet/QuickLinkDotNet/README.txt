@@ -82,7 +82,7 @@ To use QuickLinkDotNet in your project:
 		entire solution) and select "Properties."  Under the "Build" tab, 
 		choose "x64" for the "Platform Target".  Additionally, right-click on 
 		the QuickLinkDotNet project, and select "Properties".  Under the 
-		"Build" tab, tpye "ISX64" in the "Conditional compilation symbols" box.
+		"Build" tab, type "ISX64" in the "Conditional compilation symbols" box.
 
 10.	From Visual Studio's drop down menus, select "Build -> Build Solution".
 	
