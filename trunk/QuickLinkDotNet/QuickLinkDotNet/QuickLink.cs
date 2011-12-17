@@ -5,7 +5,7 @@
  * Copyright (c) 2010-2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -133,7 +133,6 @@ namespace QuickLinkDotNet
              * use DLLImport without knowing the full path to the DLLs until
              * load time.
              */
-
             this.dfHandle = Win32LibraryControl.Load(dfPath);
             if ((cpp_long)this.dfHandle == 0)
                 // Unable to load the library!
@@ -353,7 +352,7 @@ namespace QuickLinkDotNet
             QuickLinkDotNet.QuickLinkAPI.RegisterClickEvent(ref WindowHandle, PrimaryMessage, SecondaryMessage);
         }
 
-        public bool GetSerialNumber(out cpp_long SerialNumber)
+        public bool GetSerialNumber(out int SerialNumber)
         {
             return QuickLinkDotNet.QuickLinkAPI.GetSerialNumber(out SerialNumber);
         }

@@ -11,3 +11,5 @@ EyeLogger		Displays a stream of info from the eye tracker device.
 GazeInfo		Displays a stream of info (on a Windows form) from the eye
 				tracker device.
 ------------------------------------------------------------------------------
+
+NOTE: Each of these example programs require Quick Glance to be running.

@@ -45,19 +45,6 @@
 
 #endregion
 
-#region 64Bit Support
-
-#if ISX64
-using cpp_long = System.Int64;
-using cpp_ulong = System.UInt64;
-#else
-using cpp_long = System.Int32;
-using cpp_ulong = System.UInt32;
-
-#endif
-
-#endregion
-
 using System;
 using System.Runtime.InteropServices;
 
@@ -747,7 +734,7 @@ namespace QuickLinkDotNet
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetImageData(
-            cpp_ulong MaxTimeout,
+            System.UInt32 MaxTimeout,
             ref ImageData Data);
 
         /*-----------------------------------------------------------------------------
@@ -782,7 +769,7 @@ namespace QuickLinkDotNet
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetImageDataAndLatency(
-                cpp_ulong MaxTimeout,
+                System.UInt32 MaxTimeout,
                 ref ImageData Data,
                 out double Latency);
 
@@ -908,7 +895,7 @@ namespace QuickLinkDotNet
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool ReadBulkCapture(
-                cpp_ulong MaxTimeout,
+                System.UInt32 MaxTimeout,
                 ref ImageData Data);
 
         /*-----------------------------------------------------------------------------
@@ -1469,8 +1456,8 @@ namespace QuickLinkDotNet
         public static extern
             void RegisterClickEvent(
                 ref IntPtr WindowHandle,  // was void *
-                cpp_ulong PrimaryMessage,
-                cpp_ulong SecondaryMessage);
+                System.UInt32 PrimaryMessage,
+                System.UInt32 SecondaryMessage);
 
         /*-----------------------------------------------------------------------------
         //  Name: GetSerialNumber()
@@ -1493,7 +1480,7 @@ namespace QuickLinkDotNet
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern
             bool GetSerialNumber(
-                out cpp_long SerialNumber);
+                out int SerialNumber);
 
         /*-----------------------------------------------------------------------------
         //  Name: SetCustomGPIO()
