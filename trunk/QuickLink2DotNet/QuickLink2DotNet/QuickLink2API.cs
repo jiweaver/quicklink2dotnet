@@ -36,16 +36,11 @@
  * http://www.eyetechds.com/support/downloads
  *
  * The extensive inline documentation has been cut & pasted from the
- * QLTypes.h and QuickLink2.h C++ header files for convenient reference. The
- * original files are Copyright (C) EyeTech Digital Systems; all rights
- * reserved.
+ * QLTypes.h and QuickLink2.h C++ header files for convenient reference. Those
+ * original files are Copyright (C) EyeTech Digital Systems.
  */
 
 #endregion Header Comments
-
-/* Uncomment the following line to enable 64-bit support at compile time.
- */
-//#define ISX64
 
 using System;
 using System.Runtime.InteropServices;
@@ -547,7 +542,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  Data that identifies a calibration target.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLCalibrationTarget
     {
         /// An identifying value used to reference the target. This is unique for each target in a given calibration container.
@@ -565,7 +560,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  Values that identify the quality of a calibration at a target.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLCalibrationScore
     {
         /// The x offset from the target position for the calibrated gaze point. This is in percentage of the horizontal area to be calibrated(0.-100.)
@@ -583,7 +578,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  Device specific information
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLDeviceInfo
     {
         /// The actual sensor width in pixels.
@@ -606,7 +601,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  An x-y pair of type double.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLXYPairDouble
     {
         public System.Double x;
@@ -618,7 +613,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  An x-y pair of type float.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLXYPairFloat
     {
         public System.Single x;
@@ -630,7 +625,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  Information/data about an image
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLImageData
     {
         /// The pixel data of the image. The data is single channel grey-scale with 8-bits per pixel.
@@ -669,7 +664,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief  Eye specific data.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLEyeData
     {
         /// Indicates whether the eye is found in the image. If this is false
@@ -719,37 +714,30 @@ namespace QuickLink2DotNet
     /// left and right eye based on which eyes were found and previous data
     /// depending on filtering settings.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLWeightedGazePoint
     {
         /// Indicates whether the weighted gaze point is available this frame. If
         /// this is false then the rest of the data is invalid.
-        [FieldOffset(0)]
         [MarshalAs(UnmanagedType.U1)]
         public System.Boolean Valid;
 
         /// The x position of the gaze point in percentage of the calibrated area.
-        [FieldOffset(4)]
         public System.Single x;
 
         /// The y position of the gaze point in percentage of the calibrated area.
-        [FieldOffset(8)]
         public System.Single y;
 
         /// The amount the left eye affected the weighted gaze point.
-        [FieldOffset(12)]
         public System.Single LeftWeight;
 
         /// The amount the right eye affected the weighted gaze point.
-        [FieldOffset(16)]
         public System.Single RightWeight;
 
         // This was any array of 16 void pointers. -Justin
 #if (ISX64)
-        [FieldOffset(24)]
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 132)]
 #else
-        [FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 #endif
         public System.String Reserved;
@@ -760,7 +748,7 @@ namespace QuickLink2DotNet
     ///
     /// @brief The complete data available in each frame.
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct QLFrameData
     {
         /// The image specific data.

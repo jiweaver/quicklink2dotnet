@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -79,8 +79,6 @@ namespace VideoViewer
 
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
 
-            this.AutoSize = true;
-
             // Get the first device's ID.
             try
             {
@@ -140,7 +138,7 @@ namespace VideoViewer
 
         #region Update Main Form's Video Data and Log Displays
 
-        /* We need to update the form, but we need to do it from the reader 
+        /* We need to update the form, but we need to do it from the reader
          * thread.  Basically the idea here is that this method checks if
          * invoke is required (i.e. it is being called from the reader thread)
          * and then passes a pointer back to itself, so that it can be
@@ -166,7 +164,7 @@ namespace VideoViewer
                 this.logBox.SelectionStart = this.logBox.TextLength;
 
                 /* This stuff is necessary to make sure the text window will
-                 * scroll down as we would expect it to. 
+                 * scroll down as we would expect it to.
                  */
                 this.logBox.ScrollToCaret();
             }
@@ -219,7 +217,7 @@ namespace VideoViewer
 
         #region Device Control
 
-        /* Find the first eye tracker on the system.  Returns the device 
+        /* Find the first eye tracker on the system.  Returns the device
          * number.  Throws exception on error.
          */
         private static int GetFirstDeviceID()
@@ -267,7 +265,7 @@ namespace VideoViewer
         }
 
         /* Loads the device password from a file.  Returns the password string.
-         * Throws exception on error. 
+         * Throws exception on error.
          */
         private static string LoadDevicePassword(int deviceID, string loadFilename)
         {

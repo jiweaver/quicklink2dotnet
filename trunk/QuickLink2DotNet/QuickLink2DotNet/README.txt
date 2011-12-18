@@ -83,6 +83,13 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	12. Run your program.
 
 NOTES:
-	I could not make the API call "QLAPI_GetVersion()" work.  I finally decided
-	it was not important enough to make myself insane over.  If anyone else
-	happens to know how to get it working, please let me know.
+	1. I could not make the API call "QLAPI_GetVersion()" work.  I finally
+	decided it was not important enough to make myself insane over.  If anyone
+	else happens to know how to get it working, please let me know.
+	
+	2. There is a known problem with QuickLink2 software.  Sometimes when the
+	QuickLink2 API is initially started, the eye tracker continuously looses
+	and then relocates the use eyes every few seconds.  When this happens, just
+	restart your program until it works properly.  Note that the problem only
+	occurs when QuickLink2 is started, so it won't suddenly start happening
+	while you are using a program.  If it happens, you will know right away.
