@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="QuickLink2DotNet.QuickLink2API">
+    <Position X="0.5" Y="0.5" Width="6.5" />
+    <Members>
+      <Method Name="QLAPI_ExportSettings" Hidden="true" />
+      <Method Name="QLAPI_GetVersion" Hidden="true" />
+      <Method Name="QLAPI_ImportSettings" Hidden="true" />
+      <Method Name="QLDevice_Enumerate" Hidden="true" />
+      <Method Name="QLDevice_ExportSettings" Hidden="true" />
+      <Method Name="QLDevice_GetFrame" Hidden="true" />
+      <Method Name="QLDevice_GetIndicator" Hidden="true" />
+      <Method Name="QLDevice_GetInfo" Hidden="true" />
+      <Method Name="QLDevice_GetStatus" Hidden="true" />
+      <Method Name="QLDevice_ImportSettings" Hidden="true" />
+      <Method Name="QLDevice_IsSettingSupported" Hidden="true" />
+      <Method Name="QLDevice_SetIndicator" Hidden="true" />
+      <Method Name="QLDevice_SetPassword" Hidden="true" />
+      <Method Name="QLDevice_Start" Hidden="true" />
+      <Method Name="QLDevice_Stop" Hidden="true" />
+      <Method Name="QLSettings_AddSetting" Hidden="true" />
+      <Method Name="QLSettings_Create" Hidden="true" />
+      <Method Name="QLSettings_GetValue" Hidden="true" />
+      <Method Name="QLSettings_GetValueBool" Hidden="true" />
+      <Method Name="QLSettings_GetValueDouble" Hidden="true" />
+      <Method Name="QLSettings_GetValueFloat" Hidden="true" />
+      <Method Name="QLSettings_GetValueInt" Hidden="true" />
+      <Method Name="QLSettings_GetValueInt16" Hidden="true" />
+      <Method Name="QLSettings_GetValueInt32" Hidden="true" />
+      <Method Name="QLSettings_GetValueInt64" Hidden="true" />
+      <Method Name="QLSettings_GetValueInt8" Hidden="true" />
+      <Method Name="QLSettings_GetValueString" Hidden="true" />
+      <Method Name="QLSettings_GetValueStringSize" Hidden="true" />
+      <Method Name="QLSettings_GetValueUInt" Hidden="true" />
+      <Method Name="QLSettings_GetValueUInt16" Hidden="true" />
+      <Method Name="QLSettings_GetValueUInt32" Hidden="true" />
+      <Method Name="QLSettings_GetValueUInt64" Hidden="true" />
+      <Method Name="QLSettings_GetValueUInt8" Hidden="true" />
+      <Method Name="QLSettings_Load" Hidden="true" />
+      <Method Name="QLSettings_RemoveSetting" Hidden="true" />
+      <Method Name="QLSettings_Save" Hidden="true" />
+      <Method Name="QLSettings_SetValue" Hidden="true" />
+      <Method Name="QLSettings_SetValueBool" Hidden="true" />
+      <Method Name="QLSettings_SetValueDouble" Hidden="true" />
+      <Method Name="QLSettings_SetValueFloat" Hidden="true" />
+      <Method Name="QLSettings_SetValueInt" Hidden="true" />
+      <Method Name="QLSettings_SetValueInt16" Hidden="true" />
+      <Method Name="QLSettings_SetValueInt32" Hidden="true" />
+      <Method Name="QLSettings_SetValueInt64" Hidden="true" />
+      <Method Name="QLSettings_SetValueInt8" Hidden="true" />
+      <Method Name="QLSettings_SetValueString" Hidden="true" />
+      <Method Name="QLSettings_SetValueUInt" Hidden="true" />
+      <Method Name="QLSettings_SetValueUInt16" Hidden="true" />
+      <Method Name="QLSettings_SetValueUInt32" Hidden="true" />
+      <Method Name="QLSettings_SetValueUInt64" Hidden="true" />
+      <Method Name="QLSettings_SetValueUInt8" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>SAQgCAAAoBAQABdA4gAQEEASAAgUQICAAAgIAEgHMCM=</HashCode>
+      <FileName>QuickLink2API.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="QuickLink2DotNet.QLCalibrationTarget">
+    <Position X="0.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>QuickLink2API.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="QuickLink2DotNet.QLCalibrationScore">
+    <Position X="2.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>QuickLink2API.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="QuickLink2DotNet.QLCalibrationType">
+    <Position X="7.25" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink2API.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLink2DotNet.QLCalibrationStatus">
+    <Position X="4.5" Y="3.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAICAAAAAAAAEAgAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink2API.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickLink2DotNet.QLEyeType">
+    <Position X="7.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>QuickLink2API.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
