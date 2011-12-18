@@ -224,27 +224,39 @@ namespace GazeInfo
             this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", delay));
 
             // Load QuickLink DLL files.
-            using (QuickLink QL = new QuickLink())
+            QuickLink QL = null;
+            try
             {
-                // Read frames from the device.
-                while (!this.isClosing)
+                QL = new QuickLink();
+                this.Display("QuickLink loaded");
+            }
+            catch (Exception e)
+            {
+                this.Display(string.Format("Failed to load QuickLink.  MSG: {0}.\n", e.Message));
+            }
+
+            if (QL == null)
+                // Can't continue without QuickLink.
+                return;
+
+            // Read frames from the device.
+            while (!this.isClosing)
+            {
+                // Read a new data sample.
+                ImageData iDat = new ImageData();
+                bool success = QL.GetImageData(0, ref iDat);
+                if (success)
                 {
-                    // Read a new data sample.
-                    ImageData iDat = new ImageData();
-                    bool success = QL.GetImageData(0, ref iDat);
-                    if (success)
-                    {
-                        // Update the form's display.
-                        UpdateReadout(iDat);
+                    // Update the form's display.
+                    UpdateReadout(iDat);
 
-                        if (delay > 0)
-                            Thread.Sleep(delay);
-                    }
+                    if (delay > 0)
+                        Thread.Sleep(delay);
+                }
 
-                    else
-                    {
-                        // Probably timeout.  Just try again.
-                    }
+                else
+                {
+                    // Probably timeout.  Just try again.
                 }
             }
         }

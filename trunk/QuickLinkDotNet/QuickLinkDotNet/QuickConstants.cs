@@ -5,7 +5,7 @@
  * Copyright (c) 2010-2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -41,26 +41,26 @@ namespace QuickLinkDotNet
 #if ISX64
         public static string[] QuickLinkRegistryKeyLocations =
         {
-            @"SOFTWARE\EyeTech Digital Systems\QuickLinkAPI64",
             @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\QuickLinkAPI64",
+            @"SOFTWARE\EyeTech Digital Systems\QuickLinkAPI64",
         };
 
         public static string[] QuickGlanceRegistryKeyLocations =
         {
-            @"SOFTWARE\EyeTech Digital Systems\Quick Glance64",
             @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\Quick Glance64",
+            @"SOFTWARE\EyeTech Digital Systems\Quick Glance64",
         };
 #else
         public static string[] QuickLinkRegistryKeyLocations =
         {
-            @"SOFTWARE\EyeTech Digital Systems\QuickLinkAPI",
             @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\QuickLinkAPI",
+            @"SOFTWARE\EyeTech Digital Systems\QuickLinkAPI",
         };
 
         public static string[] QuickGlanceRegistryKeyLocations =
         {
-            @"SOFTWARE\EyeTech Digital Systems\Quick Glance",
             @"SOFTWARE\EyeTech Digital Systems\Assistive\11.11.04.12\Quick Glance",
+            @"SOFTWARE\EyeTech Digital Systems\Quick Glance",
         };
 #endif
 
