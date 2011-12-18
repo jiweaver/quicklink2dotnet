@@ -25,19 +25,23 @@ HOW THE WRAPPER WORKS:
 	functions from within managed code.
 
 USAGE OPTIONS:
-	Then start Quick Glance to do the initial setup.  A developer who wants to
-	use this wrapper in their code has two usage choices:
+	Be sure to start Quick Glance once and do the initial eye tracker setup
+	(enter the password, etc).  A developer who wants to use this wrapper in
+	their code has two usage choices:
 
-	1. Instantiate the QuickGlance() class.  It will find and start Quick
-	Glance, if it is not already running.  Then it will find and load the
-	necessary QuickLink DLLs into local program space.  Finally, QuickLink API
-	operations can be accessed via the QuickLink property of the QuickGlance
-	class instance.  Be sure to Dispose() of the QuickGlance class instance
-	later.
+	1. Instantiate the QuickLink class.  This will automatically find and load
+	the necessary QuickLink DLLs into local program space. Then QuickLink API
+	operations can be accessed through your QuickLink class instance.
 	
-	2. Copy the required DLLs into the local program directory.  The public
-	methods in the static QuickLinkAPI class can be called without first
-	instantiating anything.  The first call loads the DLLs.
+	2. Instantiate the QuickGlance class.  It will find and start the Quick
+	Glance program, if it is not already running.  After that, it acts just like
+	usage option #1.  A QuickLink class instance is automatically created by the 
+	QuickGlance class, and it can be accessed via the QuickLink property.
+	
+	3. Simply include the required QuickLink DLLs in the local program 
+	directory.  The QuickLink class need not be instantiated at all.  Instead, 
+	the static methods in the QuickLinkAPI class can be called directly.
+	instantiating anything.  The first call you make loads the DLLs.
 
 HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	1. Download and install the Quick Glance software from EyeTech’s website.
@@ -50,9 +54,9 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	4. Browse to, and select the "QuickLinkDotNet.csproj" file.  You should see 
 	the project appear in the "Solution Explorer" along with yours.
 
-	5. Then, in the "Solution Explorer," right click on the "References" item in 
-	_your_ project, and select "Add Reference" from the context menu.  An "Add 
-	Reference" window should appear.
+	5. Then, in the "Solution Explorer," right click on the "References" item
+	in _your_ project (not the entire solution), and select "Add Reference"
+	from the context menu.  An "Add Reference" window should appear.
 
 	6. In the "Add Reference" window, select the "Projects" tab and highlight 
 	"QuickLinkDotNet," then press the "Ok" button.
@@ -62,8 +66,8 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	"using QuickLinkDotNet;"
 
 	8. Instantiate the QuickLink class, and us the methods available in that 
-	class.  Also, after instantiating the QuickLink class, feel free to use any
-	of the methods, classes, structs, or enums declared in QuickLinkAPI.cs
+	class.  Or, use any of the 3 methods listed in the Program Usage section of
+	this document to load the QuickLink DLL files.
 	
 	9. 
 	For a 32-bit program:
