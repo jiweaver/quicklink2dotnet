@@ -7,16 +7,16 @@ Homepage: http://quicklinkapi4net.googlecode.com
 DESCRIPTION:
 	This is a .NET wrapper (in C#) for EyeTech's QuickLink API.  The QuickLink
 	API can be used by developers to control EyeTech's line of eye trackers.
-	The QuickLink API is bundled with EyeTech's Quick Glance software, which can
-	be obtained from their website <http://eyetechds.com>.
+	The QuickLink API is bundled with EyeTech's Quick Glance software, which 
+	can be obtained from their website <http://eyetechds.com>.
 
 NOTICE:
 	This wrapper is for QuickLink.  The wrapper for the new QuickLink2 is
 	also available from <http://quicklinkapi4net.googlecode.com>.
 
 SPECIAL THANKS:
-	To the University of Alaska Department of Mathematical Sciences for allowing
-	me to use an EyeTech TM3 eye tracker for this project.
+	To the University of Alaska Department of Mathematical Sciences for 
+	allowing me to use an EyeTech TM3 eye tracker for this project.
 
 HOW THE WRAPPER WORKS:
 	The API wrapper loads QuickLink's unmanaged libraries into local memory
@@ -34,9 +34,10 @@ USAGE OPTIONS:
 	operations can be accessed through your QuickLink class instance.
 	
 	2. Instantiate the QuickGlance class.  It will find and start the Quick
-	Glance program, if it is not already running.  After that, it acts just like
-	usage option #1.  A QuickLink class instance is automatically created by the 
-	QuickGlance class, and it can be accessed via the QuickLink property.
+	Glance program, if it is not already running.  After that, it acts just 
+	like usage option #1.  A QuickLink class instance is automatically created
+	by the QuickGlance class, and it can be accessed via the QuickLink
+	property.
 	
 	3. Simply include the required QuickLink DLLs in the local program 
 	directory.  The QuickLink class need not be instantiated at all.  Instead, 
@@ -51,8 +52,8 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	3. In the "Solution Explorer" right-click on your solution and select
 	"Add -> Existing Project" from the context menu.
 
-	4. Browse to, and select the "QuickLinkDotNet.csproj" file.  You should see 
-	the project appear in the "Solution Explorer" along with yours.
+	4. Browse to, and select the "QuickLinkDotNet.csproj" file.  You should
+	see the project appear in the "Solution Explorer" along with yours.
 
 	5. Then, in the "Solution Explorer," right click on the "References" item
 	in _your_ project (not the entire solution), and select "Add Reference"
