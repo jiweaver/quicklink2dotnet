@@ -5,7 +5,7 @@
  * Copyright (c) 2010-2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -46,7 +46,17 @@ namespace EyeLogger
             /* Load Quick Glance; and load the QuickLink DLLs into our
              * address space.
              */
-            QuickGlance QG = new QuickGlance();
+            QuickLink QL;
+            try
+            {
+                QL = new QuickLink();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Failed to load QuickLink.  MSG: {0}.", e.Message));
+                // Can't continue without QuickLink.
+                return;
+            }
 
             Console.WriteLine("Time, Width, Height" +
                 ", Left Eye Found, Left Eye Calibrated, Left Eye Pupil X, Left Eye Pupil Y, Left Eye Pupil Diameter, Left Eye Glint1 X, Left Eye Glint1 Y, Left Eye Glint2 X, Left Eye Glint2 Y, Left Eye GazePoint X, Left Eye GazePoint Y" +
@@ -56,7 +66,7 @@ namespace EyeLogger
             {
                 // Read a new data sample.
                 ImageData iDat = new ImageData();
-                if (QG.QuickLink.GetImageData(100, ref iDat))
+                if (QL.GetImageData(100, ref iDat))
                 {
                     string headerString = string.Format("{0},{1},{2}", iDat.Time, iDat.Width, iDat.Height);
                     string leftEyeString = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", iDat.LeftEye.Found, iDat.LeftEye.Calibrated, iDat.LeftEye.Pupil.x, iDat.LeftEye.Pupil.y, iDat.LeftEye.PupilDiameter, iDat.LeftEye.Glint1.x, iDat.LeftEye.Glint1.y, iDat.LeftEye.Glint2.x, iDat.LeftEye.Glint2.y, iDat.LeftEye.GazePoint.x, iDat.LeftEye.GazePoint.y);

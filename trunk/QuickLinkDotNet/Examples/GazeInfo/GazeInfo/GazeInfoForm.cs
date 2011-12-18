@@ -224,7 +224,7 @@ namespace GazeInfo
             this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", delay));
 
             // Load QuickLink DLL files.
-            QuickLink QL = null;
+            QuickLink QL;
             try
             {
                 QL = new QuickLink();
@@ -233,11 +233,9 @@ namespace GazeInfo
             catch (Exception e)
             {
                 this.Display(string.Format("Failed to load QuickLink.  MSG: {0}.\n", e.Message));
-            }
-
-            if (QL == null)
                 // Can't continue without QuickLink.
                 return;
+            }
 
             // Read frames from the device.
             while (!this.isClosing)
