@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Calibrate.Properties
+namespace VideoViewer2.Properties
 {
 
 

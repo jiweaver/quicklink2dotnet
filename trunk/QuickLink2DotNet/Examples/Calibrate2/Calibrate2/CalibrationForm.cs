@@ -5,7 +5,7 @@
  * Copyright (c) 2011 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -41,7 +41,7 @@ using System.Threading;
 using System.Windows.Forms;
 using QuickLink2DotNet;
 
-namespace Calibrate
+namespace Calibrate2
 {
     public partial class CalibrationForm : Form
     {
@@ -72,9 +72,6 @@ namespace Calibrate
             // Maximize the window.
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 
-            // Make sure this form is on top of everything else.
-            //this.SetTopLevel(true);
-
             // Set the form size so that it covers the full screen.
             this.Width = Screen.PrimaryScreen.WorkingArea.Width;
             this.Height = Screen.PrimaryScreen.WorkingArea.Height;
@@ -104,11 +101,13 @@ namespace Calibrate
             DrawCircle(g, x, y, 10, Color.Yellow);
         }
 
-        // Repaint the picturebox when it is invalidated.
+        // Repaint the picturebox.
         private void calibrationPictureBox_Paint(object sender, PaintEventArgs e)
         {
             if (this.drawTarget)
             {
+                // We have been commanded to draw the current target.
+
                 Graphics g = e.Graphics;
 
                 g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -158,9 +157,6 @@ namespace Calibrate
             // Paint the background.
             this.calibrationPictureBox.Refresh();
 
-            // Wait a while before starting to let the user get ready.
-            Thread.Sleep(1000);
-
             float leftScore = 0;
             float rightScore = 0;
             // For each target, draw it and then perform calibration.
@@ -181,7 +177,7 @@ namespace Calibrate
                     /* Display the target for a while before beginning
                      * calibration to let the user get ready.
                      */
-                    Thread.Sleep(150);
+                    Thread.Sleep(500);
 
                 // Calibrate for the target.
                 qlerror = QuickLink2API.QLCalibration_Calibrate(calibrationID, targets[i].targetId, targetTime, true);

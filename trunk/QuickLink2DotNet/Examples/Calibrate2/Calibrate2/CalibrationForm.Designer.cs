@@ -1,4 +1,4 @@
-﻿namespace Calibrate
+﻿namespace Calibrate2
 {
     partial class CalibrationForm 
     {

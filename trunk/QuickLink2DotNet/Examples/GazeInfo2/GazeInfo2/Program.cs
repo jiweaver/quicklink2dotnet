@@ -15,7 +15,7 @@ namespace GazeInfo2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GazeInfo2Form());
+            Application.Run(new MainForm());
         }
     }
 }

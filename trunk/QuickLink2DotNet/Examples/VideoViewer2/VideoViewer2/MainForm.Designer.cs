@@ -1,4 +1,4 @@
-﻿namespace VideoViewer
+﻿namespace VideoViewer2
 {
     partial class MainForm
     {

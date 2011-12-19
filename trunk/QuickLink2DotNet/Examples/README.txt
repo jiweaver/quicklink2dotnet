@@ -6,7 +6,7 @@ Homepage: http://quicklinkapi4net.googlecode.com
 
 Directory		Program Description
 -------------------------------------------------------------------------------
-Calibrate		A program that performs device calibration.  It also saves the 
+Calibrate2		A program that performs device calibration.  It also saves the 
 				calibration it performs to the file "c:\qlcalibration.qlc", and
 				it saves the device password to the file "c:\qlsettings.txt".
 				The password file is necessary for the other two programs 
@@ -17,7 +17,7 @@ Calibrate		A program that performs device calibration.  It also saves the
 GazeInfo2		Displays a stream of info from the first eye tracker device on
 				the system.
 
-VideoViewer		Displays video from the first eye tracker device on the system.
+VideoViewer2	Displays video from the first eye tracker device on the system.
 ------------------------------------------------------------------------------
 
 

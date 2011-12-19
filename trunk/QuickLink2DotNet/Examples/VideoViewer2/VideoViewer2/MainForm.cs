@@ -1,6 +1,7 @@
 ﻿#region License
 
-/* Calibrator: This program provides 5, 9, or 16 point full screen calibration.
+/* VideoViewer2: This program displays the video image from the first eye
+ * tracker on the system.
  *
  * Copyright (c) 2011 Justin Weaver
  *
@@ -29,32 +30,40 @@
 
 /* $Id: MainForm.cs 38 2011-05-09 01:07:39Z piranther $
  *
- * Description: This program provides 5, 9, or 16 point full screen calibration.
+ * Description: This program displays the video image from the first eye
+ * tracker on the system.
  */
 
 #endregion Header Comments
 
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Threading;
 using System.Windows.Forms;
 using QuickLink2DotNet;
 
-namespace Calibrate
+namespace VideoViewer2
 {
     public partial class MainForm : Form
     {
         #region Fields
 
-        /* The files used to store the password and the calibration
-         * information.
+        /* The files used to store the password.
          */
-        private string filename_Password = @"C:\qlsettings.txt";
-        private string filename_Calibration = @"C:\qlcalibration.qlc";
+        private string filename_PasswordFilename = @"C:\qlsettings.txt";
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
 
         // True when the form is in the process of closing down.
         private volatile bool isClosing = false;
+
+        // Thread that reads from the device.
+        private Thread readerThread;
+        private Queue<QLFrameData> frameQ;
+        private object l;
 
         #endregion Fields
 
@@ -64,11 +73,11 @@ namespace Calibrate
         {
             InitializeComponent();
 
+            this.frameQ = new Queue<QLFrameData>();
+
+            this.l = new object();
+
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
-
-            this.comboBox_CalibrationType.DataSource = Enum.GetValues(typeof(QLCalibrationType));
-
-            this.numericUpDown_TargetDuration.Value = 1500;
 
             // Get the first device's ID.
             try
@@ -93,20 +102,15 @@ namespace Calibrate
             catch (Exception e)
             {
                 this.Display(e.Message + "\n");
-                // Can't continue without device serial number.
+                // Can't continue without device info.
                 return;
             }
 
-            // Load the device password from a file.
-            try
-            {
-                this.textBox_Password.Text = LoadDevicePassword(this.devID, this.filename_Password);
-                this.Display(string.Format("Loaded password {0} from settings file.\n", this.textBox_Password.Text));
-            }
-            catch (Exception)
-            {
-                this.Display("WARNING: No password file found.  Create one by enter the device's password above and performing a calibration.");
-            }
+            // Create the capture thread, start it, and wait till it's alive.
+            this.readerThread = new Thread(new ThreadStart(this.ReaderThreadTask));
+            this.readerThread.Start();
+            while (!this.readerThread.IsAlive)
+                ;
         }
 
         // Called when "Exit" is clicked from the menu.
@@ -132,14 +136,15 @@ namespace Calibrate
 
         #endregion Init / Cleanup
 
-        #region Update Main Form's Log
+        #region Update Main Form's Video Data and Log Displays
 
-        // Basically the idea here is that this function passes a pointer back
-        // to itself, so that it can be called again from the proper context,
-        // in due time.  This delegate is used to encapsulate the callback
-        // pointer.
+        /* We need to update the form, but we need to do it from the reader
+         * thread.  Basically the idea here is that this method checks if
+         * invoke is required (i.e. it is being called from the reader thread)
+         * and then passes a pointer back to itself, so that it can be
+         * triggered later from the proper context.
+         */
         private delegate void DisplayCallback(string s);
-
         private void Display(string s)
         {
             if (this.logBox.InvokeRequired)
@@ -158,59 +163,57 @@ namespace Calibrate
                 this.logBox.AppendText(s);
                 this.logBox.SelectionStart = this.logBox.TextLength;
 
-                // This stuff is necessary to make sure the text window will
-                // scroll down as we would expect it to.
+                /* This stuff is necessary to make sure the text window will
+                 * scroll down as we would expect it to.
+                 */
                 this.logBox.ScrollToCaret();
             }
         }
 
-        #endregion Update Main Form's Log
-
-        #region Form Controls
-
-        private void button_BeginCalibration_Click(object sender, EventArgs e)
+        /* Update the pictureBox.
+         * */
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            /* Attempt to set the device's password to the value currently in
-             * the form's password textbox, and then save it to a file.
-             */
-            try
-            {
-                SetandSavePassword(this.devID, this.textBox_Password.Text, this.filename_Password);
-                this.Display("Password set.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-            }
-
-            // Start the device.
-            try
-            {
-                StartDevice(this.devID);
-                this.Display("Device has been started.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-                // Can't continue if device is not started.
+            if (this.isClosing)
                 return;
-            }
 
-            // Perform calibration.
-            QLCalibrationType calType = (QLCalibrationType)this.comboBox_CalibrationType.SelectedValue;
-            int duration = Convert.ToInt32(this.numericUpDown_TargetDuration.Value);
-            try
-            {
-                PerformCalibration(this.devID, calType, duration, this.filename_Calibration);
-                this.Display("Calibration complete.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-            }
+            // Get a frame off the queue.
+            QLFrameData frame;
+            lock (this.l)
+                if (this.frameQ.Count > 0)
+                    frame = this.frameQ.Dequeue();
+                else
+                    // No frames available.
+                    return;
+
+            Bitmap b = GetBitmapFromImageData(frame.ImageData);
+
+            int newFormWidth = frame.ImageData.Width;
+            int newFormHeight = this.splitContainer1.Panel1.PreferredSize.Height + this.menuStrip1.Height + frame.ImageData.Height + this.splitContainer1.SplitterWidth + this.splitContainer1.Panel1.ClientSize.Height;
+            this.Size = this.SizeFromClientSize(new Size(newFormWidth, newFormHeight));
+
+            Graphics g = e.Graphics;
+            g.DrawImage(b, 0, 0);
         }
 
-        #endregion Form Controls
+        /* Given a QLImageData object, this function returns a Bitmap
+         * of the image data pointed to by the PixelData field.
+         */
+        private Bitmap GetBitmapFromImageData(QLImageData iDat)
+        {
+            // Create a new Bitmap from the PixelData (8bpp Indexed).
+            Bitmap b = new Bitmap(iDat.Width, iDat.Height, iDat.Width, PixelFormat.Format8bppIndexed, iDat.PixelData);
+
+            // Set the palette of the image to 256 incremental shades of grey.
+            ColorPalette greyScalePalette = b.Palette;
+            for (int i = 0; i < 256; i++)
+                greyScalePalette.Entries[i] = Color.FromArgb(255, i, i, i);
+            b.Palette = greyScalePalette;
+
+            return b;
+        }
+
+        #endregion Update Main Form's Video Data and Log Displays
 
         #region Device Control
 
@@ -301,96 +304,71 @@ namespace Calibrate
             return password.ToString();
         }
 
-        /* Loads calibration from a file.  Throws exception on error.
+        #endregion Device Control
+
+        #region Device Reader Thread
+
+        /* This thread code periodically reads a new frame from the device and
+         * triggers an update to the form's display.
          */
-        private static void LoadDeviceCalibration(int deviceID, string loadFilename)
+        private void ReaderThreadTask()
         {
-            QLError qlerror;
-
-            // Create a new calibration container.
-            int calibrationID;
-            qlerror = QuickLink2API.QLCalibration_Create(0, out calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLCalibration_Create() returned {0}", qlerror.ToString()));
-
-            // Load the calibration out of a file.
-            qlerror = QuickLink2API.QLCalibration_Load(loadFilename, ref calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLCalibration_Load() returned {0}", qlerror.ToString()));
-
-            // Apply the calibration.
-            qlerror = QuickLink2API.QLDevice_ApplyCalibration(deviceID, calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_ApplyCalibration() returned {0}", qlerror.ToString()));
-        }
-
-        /* Sets the eye tracker's password and saves it to a file.  Throws
-         * exception on error.
-         */
-        private static void SetandSavePassword(int deviceID, string password, string saveFilename)
-        {
-            QLError qlerror;
-
-            // Set the password.
-            qlerror = QuickLink2API.QLDevice_SetPassword(deviceID, password);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_SetPassword() returned {0}", qlerror.ToString()));
-
-            // Get the device info so we have its serial number.
-            QLDeviceInfo devInfo;
-            qlerror = QuickLink2API.QLDevice_GetInfo(deviceID, out devInfo);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_GetInfo() returned {0}", qlerror.ToString()));
-
-            // Create a new settings container.
-            int settingsID;
-            qlerror = QuickLink2API.QLSettings_Create(0, out settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Create() returned {0}", qlerror.ToString()));
-
-            // Add the password field to the settings in our new container.
-            qlerror = QuickLink2API.QLSettings_AddSetting(settingsID, "SN_" + devInfo.serialNumber);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_AddSetting() returned {0}", qlerror.ToString()));
-
-            // Set the password field in our container.
-            qlerror = QuickLink2API.QLSettings_SetValueString(settingsID, "SN_" + devInfo.serialNumber, password.ToString());
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_SetValueString() returned {0}", qlerror.ToString()));
-
-            // Save the settings in our container to a settings file.
-            qlerror = QuickLink2API.QLSettings_Save(saveFilename, settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Save() returned {0}", qlerror.ToString()));
-        }
-
-        /* Performs a new calibration, saves it to a file, and loads it into
-         * the eye tracker.  Throws exception on error.
-         */
-        private static void PerformCalibration(int deviceID, QLCalibrationType calType, int duration, string saveFilename)
-        {
-            QLError qlerror;
-
-            using (CalibrationForm calibrationForm = new CalibrationForm())
+            // Attempt to load the device password from a file.
+            try
             {
-                int calibrationID;
+                LoadDevicePassword(this.devID, this.filename_PasswordFilename);
+                this.Display("Loaded password from settings file.\n");
+            }
+            catch (Exception)
+            {
+                this.Display(string.Format("Unable to load password from file '{0}'.  Try running the Calibrate example first to generate the file.\n", this.filename_PasswordFilename));
+                // Can't continue without password.
+                return;
+            }
 
-                try
-                {
-                    calibrationID = calibrationForm.PerformCalibration(deviceID, calType, duration);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("CalibrationForm.PerformCalibration() failed with message: " + ex.Message);
-                }
+            // Start the device.
+            try
+            {
+                StartDevice(this.devID);
+                this.Display("Device has been started.\n");
+            }
+            catch (Exception ex)
+            {
+                this.Display(ex.Message + "\n");
+                // Can't continue if device is not started.
+                return;
+            }
 
-                // Calibration succeeded.  Save it to a file.
-                qlerror = QuickLink2API.QLCalibration_Save(saveFilename, calibrationID);
-                if (qlerror != QLError.QL_ERROR_OK)
-                    throw new Exception(string.Format("QLCalibration_Save() returned {0}", qlerror.ToString()));
+            this.Display(string.Format("Reading from device {0}.", this.devID));
+
+            while (!this.isClosing)
+            {
+                // Read a new data sample.
+                QLFrameData frame = new QLFrameData();
+                QLError qlerror = QuickLink2API.QLDevice_GetFrame(this.devID, 0, ref frame); // 0 = no waiting.
+                if (qlerror == QLError.QL_ERROR_OK)
+                {
+                    /* Put the frame on the queue for painting, then invalidate
+                     * the pictureBox so it will get refreshed.
+                     */
+                    lock (this.l)
+                    {
+                        this.frameQ.Enqueue(frame);
+                        this.pictureBox1.Invalidate();
+                    }
+                }
+                else if (qlerror == QLError.QL_ERROR_TIMEOUT_ELAPSED)
+                {
+                    // Timeout without a frame.  Just try again.
+                }
+                else
+                {
+                    // Attempting to get a frame resulted in an error!
+                    this.Display(string.Format("QLDevice_GetFrame() returned {0}\n", qlerror.ToString()));
+                }
             }
         }
 
-        #endregion Device Control
+        #endregion Device Reader Thread
     }
 }

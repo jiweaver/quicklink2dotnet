@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VideoViewer")]
+[assembly: AssemblyTitle("Calibrate2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("VideoViewer")]
+[assembly: AssemblyProduct("Calibrate2")]
 [assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e20e4096-f898-4d22-bdaf-6e5a7e2379ae")]
+[assembly: Guid("4dde71d6-8344-4ba1-87f8-31262f10adca")]
 
 // Version information for an assembly consists of the following four values:
 //

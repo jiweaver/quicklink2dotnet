@@ -1,6 +1,6 @@
 ﻿namespace GazeInfo2
 {
-    partial class GazeInfo2Form
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.

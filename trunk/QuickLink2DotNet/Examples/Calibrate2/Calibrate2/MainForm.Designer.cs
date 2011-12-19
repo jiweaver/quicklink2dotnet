@@ -1,4 +1,4 @@
-﻿namespace Calibrate
+﻿namespace Calibrate2
 {
     partial class MainForm
     {
@@ -185,7 +185,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Calibrate";
+            this.Text = "Calibrate2";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

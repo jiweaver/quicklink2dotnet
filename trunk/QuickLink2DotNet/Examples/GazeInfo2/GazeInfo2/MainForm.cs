@@ -43,7 +43,7 @@ using QuickLink2DotNet;
 
 namespace GazeInfo2
 {
-    public partial class GazeInfo2Form : Form
+    public partial class MainForm : Form
     {
         #region Fields
 
@@ -66,7 +66,7 @@ namespace GazeInfo2
 
         #region Init / Cleanup
 
-        public GazeInfo2Form()
+        public MainForm()
         {
             InitializeComponent();
 
