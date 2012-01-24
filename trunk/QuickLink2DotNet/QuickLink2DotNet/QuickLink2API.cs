@@ -37,7 +37,7 @@
  *
  * The extensive inline documentation has been cut & pasted from the
  * QLTypes.h and QuickLink2.h C++ header files for convenient reference. Those
- * original files are Copyright (C) EyeTech Digital Systems.
+ * original files are Copyright (C) 1996 - 2012 EyeTech Digital Systems.
  */
 
 #endregion Header Comments
@@ -247,6 +247,34 @@ namespace QuickLink2DotNet
         /// collection will be disabled and new calibrations can not be performed.
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public static string QL_SETTING_DEVICE_CALIBRATE_ENABLED = "DeviceCalibrateEnabled";
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// @def    QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_LEFT
+        ///
+        /// @brief  The radius of the cornea of the left eye in centimeters. This
+        /// radius can be calculated by calling the function
+        /// QLDevice_CalibrateEyeRadius(). This radius will affect the calculated
+        /// distance value that is outputted for each frame.
+        ///
+        /// @see QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_RIGHT.
+        /// @see QLFrameData.
+        /// @see QLDevice_CalibrateEyeRadius().
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        public static string QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_LEFT = "DeviceImageProcessingEyeRadiusLeft";
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// @def    QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_RIGHT
+        ///
+        /// @brief  The radius of the cornea of the right eye in centimeters. This
+        /// radius can be calculated by calling the function
+        /// QLDevice_CalibrateEyeRadius(). This radius will affect the calculated
+        /// distance value that is outputted for each frame.
+        ///
+        /// @see QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_LEFT.
+        /// @see QLFrameData.
+        /// @see QLDevice_CalibrateEyeRadius().
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        public static string QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_RIGHT = "DeviceImageProcessingEyeRadiusRight";
     }
 
     #endregion QuickLink2 Setting Strings
@@ -306,7 +334,10 @@ namespace QuickLink2DotNet
         QL_ERROR_NOT_SUPPORTED = 14,
 
         /// The setting is not in the settings container.
-        QL_ERROR_NOT_FOUND = 15
+        QL_ERROR_NOT_FOUND = 15,
+
+        /// The API has been loaded by an unauthorized application. This is only used for specialty builds of the API
+        QL_ERROR_APPLICATION_NOT_AUTHORIZED = 16
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -353,7 +384,7 @@ namespace QuickLink2DotNet
         /// The indicator will be off constantly.
         QL_INDICATOR_MODE_OFF = 0,
 
-        /// The indicator will be on constantlly.
+        /// The indicator will be on constantly.
         QL_INDICATOR_MODE_ON = 1,
 
         /// The indicator will show the current tracking status of the left eye.
@@ -518,19 +549,51 @@ namespace QuickLink2DotNet
         QL_DEVICE_GAZE_POINT_FILTER_NONE = 0,
 
         /// The median gaze point value over the last X number of frames, where X
-        /// equals the value of the settings
-        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE. This will produce a gaze
-        /// point latency time of (X / fps / 2) seconds.
+        /// equals the value represented by the setting
+        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE.
+        /// This will produce a gaze
+        /// point latency time of about (X / fps / 2) seconds.
         QL_DEVICE_GAZE_POINT_FILTER_MEDIAN_FRAMES = 1,
 
         /// The median gaze point value over the last X number of frames, where X
         /// is the number of frames gathered over twice the amount of milliseconds
         /// represented by the setting
-        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE.
-        /// This will produce a latency of
-        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE
-        /// milliseconds.
+        /// latency of about
+        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE milliseconds.
         QL_DEVICE_GAZE_POINT_FILTER_MEDIAN_TIME = 2,
+
+        /// The heuristic filter uses different filtering strengths when the eye is
+        /// moving and when it is fixating. When the eye is moving, very little
+        /// filtering is done which results in very low latency. When the eye is
+        /// fixating, large amounts of filtering are being done which greatly reduce
+        /// the amount of jitter. Durring fixation, filtering is done over the last
+        /// X number of frames where X equals the value represented by the setting
+        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE.
+        QL_DEVICE_GAZE_POINT_FILTER_HEURISTIC_FRAMES = 3,
+
+        /// The heuristic filter uses different filtering strengths when the eye is
+        /// moving and when it is fixating. When the eye is moving, very little
+        /// filtering is done which results in very low latency. When the eye is
+        /// fixating, large amounts of filtering are being done which greatly reduce
+        /// the amount of jitter. Durring fixation, filtering is done over the last
+        /// X number of frames where X equals the number of frames gathered over
+        /// twice the amount of milliseconds represented by the setting
+        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE. This produces aproximatly
+        /// the same amount of latency durring fixation for all frame rates
+        QL_DEVICE_GAZE_POINT_FILTER_HEURISTIC_TIME = 4,
+
+        /// The weighted previous frame mode filters the gaze point by summing the
+        /// weighted current gaze point location and the weighted previous gazepoint
+        /// location. The weights are based on the distance the current gaze point is
+        /// away from the previous gaze point. The larger the distance, the greater the
+        /// weight on the current gaze point. The smaller the distance, the greater the
+        /// weight on the previous gaze point. This results in very low latency when
+        /// the eye is moving and very low jitter when the eye is fixating. The value
+        /// represented by the setting
+        /// @ref QL_SETTING_DEVICE_GAZE_POINT_FILTER_VALUE affects the rate at which
+        /// the weighting changes from the previous gaze point to the current gaze point.
+        /// Possible values range between 0 and 100.
+        QL_DEVICE_GAZE_POINT_FILTER_WEIGHTED_PREVIOUS_FRAME = 5
     }
 
     #endregion QuickLink2 API Constants
@@ -1257,6 +1320,46 @@ namespace QuickLink2DotNet
            QLDevice_ApplyCalibration(
                System.Int32 deviceID,
                System.Int32 calibrationID);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLDevice_CalibrateEyeRadius( QLDeviceId device,
+        /// float distance, float* leftRadius, float* rightRadius);
+        ///
+        /// @ingroup Device
+        /// @brief  Calibrate the radius for each eye.
+        ///
+        /// This function uses the measured distance to the user in order to
+        /// calculate the radius of the cornea for each eye. Using the radii returned
+        /// by this function as the values for the settings
+        /// QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_LEFT and
+        /// QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_RIGHT will result in
+        /// greater accuracy of the distance outputted for each frame.
+        ///
+        /// @param  [in] device      The ID of the device from which to calibrate
+        ///                          the eye radius.
+        /// @param  [in] distance    The actual measured distance in centimeters
+        ///                          at the time this function is called that the
+        ///                          user is away from the device.
+        /// @param [out] leftRadius  A pointer to a float that will receive the
+        ///                          radius in centimeters of the cornea of the
+        ///                          left eye.
+        /// @param [out] rightRadius A pointer to a float that will receive the
+        ///                          radius in centimeters of the cornea of the
+        ///                          right eye.
+        ///
+        /// @see QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_LEFT.
+        /// @see QL_SETTING_DEVICE_IMAGE_PROCESSING_EYE_RADIUS_LEFT.
+        ///
+        /// @return The success of the function. If the return value is QL_ERROR_OK
+        /// then the radius of the left and right eyes were successful.
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_CalibrateEyeRadius", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        public static extern
+        QLError QLDevice_CalibrateEyeRadius(
+            System.Int32 device,
+            System.Single distance,
+            out System.Single leftRadius,
+            out System.Single rightRadius);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLSettings_Load( const char* path,
