@@ -1,7 +1,0 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-EyeTech Digital Systems makes eye trackers.
-
-= Details =
-Visit EyeTech's website at http://eyetechds.com for more information.
