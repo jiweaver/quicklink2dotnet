@@ -87,10 +87,10 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	11. Run your program.
 
 NOTES:
-	1. There is a known problem with Quick Glance software.  Sometimes when the
-	Quick Glance program is initially started, the eye tracker continuously
-	looses and then relocates the use eyes every few seconds.  When this
-	happens, just restart your program until it works properly.  Note that the
-	problem only occurs when Quick Glance is started, so it won't suddenly
-	start happening while you are using a program.  If it happens, you will
-	know right away.
+	1. There is a known problem with QuickLink software.  Sometimes when the
+	QuickLink API is initially started, the eye tracker continuously loses
+	and then relocates the user's eyes every few seconds.  When this happens,
+	just restart your program until it works properly.  Note that the problem
+	only occurs when QuickLink is started, so it won't suddenly start
+	happening while you are using a program.  If it happens, you will know
+	right away.

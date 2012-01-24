@@ -88,8 +88,9 @@ NOTES:
 	else happens to know how to get it working, please let me know.
 	
 	2. There is a known problem with QuickLink2 software.  Sometimes when the
-	QuickLink2 API is initially started, the eye tracker continuously looses
-	and then relocates the use eyes every few seconds.  When this happens, just
-	restart your program until it works properly.  Note that the problem only
-	occurs when QuickLink2 is started, so it won't suddenly start happening
-	while you are using a program.  If it happens, you will know right away.
+	QuickLink2 API is initially started, the eye tracker continuously loses
+	and then relocates the user's eyes every few seconds.  When this happens,
+	just restart your program until it works properly.  Note that the problem
+	only occurs when QuickLink2 is started, so it won't suddenly start
+	happening while you are using a program.  If it happens, you will know
+	right away.
