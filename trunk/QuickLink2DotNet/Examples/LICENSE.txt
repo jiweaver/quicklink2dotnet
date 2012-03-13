@@ -1,6 +1,6 @@
 /* QuickLink2DotNet Examples : Examples for the QuickLink2DotNet API wrapper.
  *
- * Copyright (c) 2011 Justin Weaver
+ * Copyright (c) 2011-2012 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to 

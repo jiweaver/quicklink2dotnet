@@ -2,10 +2,10 @@
 
 /* QuickLinkDotNet : A .NET wrapper (in C#) for EyeTech's QuickLink API.
  *
- * Copyright (c) 2010-2011 Justin Weaver
+ * Copyright (c) 2010-2012 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -23,7 +23,7 @@
  * IN THE SOFTWARE.
  */
 
-#endregion
+#endregion License
 
 #region Header Comments
 
@@ -43,7 +43,7 @@
  *      // All rights reserved.
  */
 
-#endregion
+#endregion Header Comments
 
 using System;
 using System.Runtime.InteropServices;
@@ -131,7 +131,7 @@ namespace QuickLinkDotNet
         QGWS_HIDEN = 3,
     }
 
-    #endregion
+    #endregion QuickLink API Constants
 
     #region QuickLink API Data Structures
 
@@ -489,7 +489,7 @@ namespace QuickLinkDotNet
         public ToolBarImageDisplay Toolbar_ImageDisplayType;
     }
 
-    #endregion
+    #endregion QuickLink API Data Structures
 
     #region QuickLink API Operations
 
@@ -1518,5 +1518,5 @@ namespace QuickLinkDotNet
                 CameraCustomGPIOOutputValue GPIO_3);
     }
 
-    #endregion
+    #endregion QuickLink API Operations
 }

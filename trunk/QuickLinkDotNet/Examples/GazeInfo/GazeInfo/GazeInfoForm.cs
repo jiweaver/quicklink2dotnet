@@ -2,7 +2,7 @@
 
 /* GazeInfo: Uses QuickLinkDotNet to display info from the eye tracker.
  *
- * Copyright (c) 2011 Justin Weaver
+ * Copyright (c) 2011-2012 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -45,6 +45,22 @@ namespace GazeInfo
 {
     public partial class GazeInfoForm : Form
     {
+        #region Configuration
+
+        /// <summary>
+        /// Minimum delay between successful frame reads (ms).
+        /// </summary>
+        private const int MinDelayBetweenReads = 1000;
+
+        /// <summary>
+        /// Maximum time for the reader thread to block and wait for a new
+        /// frame from the eye tracker before reporting error to the log and
+        /// trying again.
+        /// </summary>
+        private const int MaxFrameWaitTime = 240;
+
+        #endregion Configuration
+
         #region Fields
 
         // True when the form is in the process of closing down.
@@ -53,9 +69,15 @@ namespace GazeInfo
         // Thread that reads from the device.
         private Thread readerThread;
 
+        // Lock used for thread synchronization (wait/pulse).
+        private object l = new object();
+
+        // Frame struct is in use.
+        private bool frameInUse;
+
         #endregion Fields
 
-        #region Init / Cleanup
+        #region Constructors
 
         public GazeInfoForm()
         {
@@ -70,37 +92,46 @@ namespace GazeInfo
                 ;
         }
 
-        // Called when "Exit" is clicked from the menu.
+        #endregion Constructors
+
+        #region User Exit Click
+
+        /// <summary>
+        /// The user selected "Exit" from the Form's menu.
+        /// </summary>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // Called when form is being closed.
+        #endregion User Exit Click
+
+        #region FormClosing Event
+
+        /// <summary>
+        /// The Form is closing.
+        /// </summary>
         private void FormIsClosing(object sender, FormClosingEventArgs e)
         {
             this.isClosing = true;
-            try
-            {
-                this.Display("Stopped Device.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-            }
+
+            // Wake the reader thread.
+            lock (this.l)
+                Monitor.Pulse(this.l);
         }
 
-        #endregion Init / Cleanup
+        #endregion FormClosing Event
 
-        #region Update Main Form's Log and Frame Data Display
+        #region Log Display
 
-        /* We need to update the form, but we need to do it from the reader
-         * thread.  Basically the idea here is that this method checks if
-         * invoke is required (i.e. it is being called from the reader thread)
-         * and then passes a pointer back to itself, so that it can be
-         * triggered later from the proper context.
-         */
         private delegate void DisplayCallback(string s);
+
+        /// <summary>
+        /// We need to update the form, but sometimes we need to do it from
+        /// another context.  If invoke is required, then this method wraps
+        /// itself in a delegate and passes it to Invoke so it can be called
+        /// properly.
+        /// </summary>
         private void Display(string s)
         {
             if (this.logBox.InvokeRequired)
@@ -119,21 +150,24 @@ namespace GazeInfo
                 this.logBox.AppendText(s);
                 this.logBox.SelectionStart = this.logBox.TextLength;
 
-                /* This stuff is necessary to make sure the text window will
-                 * scroll down as we would expect it to.
-                 */
+                // Make sure the window scrolls down with new text as expected.
                 this.logBox.ScrollToCaret();
             }
         }
 
-        /* This gets called by the reader thread to update the info display on
-         * the form.  The trick is that the form's controls need to be called
-         * from the context of the thread that instantiated the form instance.
-         * So, we do the same trick as we do for Display() above: We
-         * check for invoke required before we do anything.
-         */
-        private delegate void UpdateReadoutCallback(ImageData iDat);
-        private void UpdateReadout(ImageData iDat)
+        #endregion Log Display
+
+        #region Form Readout Display
+
+        private delegate void UpdateReadoutCallback(ref ImageData iDat);
+
+        /// <summary>
+        /// We need to update the form, but sometimes we need to do it from
+        /// another context.  If invoke is required, then this method wraps
+        /// itself in a delegate and passes it to Invoke so it can be called
+        /// properly.
+        /// </summary>
+        private void UpdateReadout(ref ImageData iDat)
         {
             if (this.textBox_Timestamp.InvokeRequired)
             {
@@ -206,29 +240,34 @@ namespace GazeInfo
                     this.textBox_RightEyeGlint2.Text = "--";
                     this.textBox_RightEyeGazePoint.Text = "--";
                 }
+
+                // Request another frame.
+                this.frameInUse = false;
+                lock (this.l)
+                    Monitor.Pulse(this.l);
             }
         }
 
-        #endregion Update Main Form's Log and Frame Data Display
+        #endregion Form Readout Display
 
-        #region Device Reader Thread
+        #region Frame Reader Thread
 
-        /* This thread code periodically reads a new frame from the device and
-         * triggers an update to the form's display.
-         */
+        /// <summary>
+        /// This thread code starts the device, reads and frame, and then
+        /// sleeps.  When the PictureBox paint event wakes it up, then it reads
+        /// another frame.  When the form is closing, it stops the device and
+        /// exits.
+        /// </summary>
         private void ReaderThreadTask()
         {
-            // Delay between updates (ms).
-            int delay = 1000;
-
-            this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", delay));
+            this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", MinDelayBetweenReads));
 
             // Load QuickLink DLL files.
             QuickLink QL;
             try
             {
                 QL = new QuickLink();
-                this.Display("QuickLink loaded");
+                this.Display("QuickLink loaded.  Be sure to start QuickGlance, if you have not already.\n");
             }
             catch (Exception e)
             {
@@ -237,28 +276,40 @@ namespace GazeInfo
                 return;
             }
 
-            // Read frames from the device.
-            while (!this.isClosing)
+            // Create an empty frame structure to hold the data we read.
+            ImageData iDat = new ImageData();
+
+            while (true)
             {
+                // Sleep while the last frame is in use and we aren't shutting down.
+                lock (this.l)
+                    while (this.frameInUse && !this.isClosing)
+                        Monitor.Wait(this.l);
+
+                // Break if the program is closing.
+                if (this.isClosing)
+                    break;
+
                 // Read a new data sample.
-                ImageData iDat = new ImageData();
-                bool success = QL.GetImageData(0, ref iDat);
+                bool success = QL.GetImageData(MaxFrameWaitTime, ref iDat);
                 if (success)
                 {
+                    // Tell the paint event handler to display the frame.
+                    this.frameInUse = true;
+
                     // Update the form's display.
-                    UpdateReadout(iDat);
+                    UpdateReadout(ref iDat);
 
-                    if (delay > 0)
-                        Thread.Sleep(delay);
+                    if (MinDelayBetweenReads > 0)
+                        Thread.Sleep(MinDelayBetweenReads);
                 }
-
                 else
                 {
-                    // Probably timeout.  Just try again.
+                    // Failed.
                 }
             }
         }
 
-        #endregion Device Reader Thread
+        #endregion Frame Reader Thread
     }
 }

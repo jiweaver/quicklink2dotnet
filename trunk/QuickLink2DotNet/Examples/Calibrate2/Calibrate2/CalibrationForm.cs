@@ -2,7 +2,7 @@
 
 /* Calibrator: This program provides 5, 9, or 16 point full screen calibration.
  *
- * Copyright (c) 2011 Justin Weaver
+ * Copyright (c) 2011-2012 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -47,15 +47,15 @@ namespace Calibrate2
     {
         #region Fields
 
-        // Tells the picturebox paint event handler to draw the next target.
+        // Tells the PictureBox paint event handler to draw the next target.
         private volatile bool drawTarget;
 
-        /* A lock object used for sleep/wake notification between the
-         * calibration method and the paint event handler.
-         */
+        // A lock object used for sleep/wake notification between the
+        // calibration method and the paint event handler.
         private object l = new object();
 
-        // Tells the picturebox paint event handler where to draw the next target.
+        // Tells the PictureBox paint event handler where to draw the next
+        // target.
         private int x, y;
 
         #endregion Fields
@@ -125,11 +125,12 @@ namespace Calibrate2
 
         #endregion Update the Display
 
-        #region Public Methods
+        #region Perform Calibration
 
-        /* Perform the calibration.  Returns the calibrationID if calibration
-         * was successful.  Throws exception if it fails.
-         */
+        /// <summary>
+        /// Perform the calibration.  Returns the calibrationID if calibration
+        /// was successful.  Throws exception if it fails.
+        /// </summary>
         public int PerformCalibration(int deviceID, QLCalibrationType calibrationType, int targetTime)
         {
             QLError qlerror;
@@ -162,9 +163,8 @@ namespace Calibrate2
             // For each target, draw it and then perform calibration.
             for (int i = 0; i < numTargets; )
             {
-                /* Tell the picturebox to draw the new target, and wait for it
-                 * to wake us.
-                 */
+                // Tell the picturebox to draw the new target, and wait for it
+                // to wake us.
                 this.x = Convert.ToInt32(Math.Truncate(targets[i].x / 100 * this.Size.Width));
                 this.y = Convert.ToInt32(Math.Truncate(targets[i].y) / 100 * this.Size.Height);
                 this.drawTarget = true;
@@ -174,9 +174,8 @@ namespace Calibrate2
                         Monitor.Wait(this.l);
 
                 if (i == 0)
-                    /* Display the target for a while before beginning
-                     * calibration to let the user get ready.
-                     */
+                    // Display the target for a while before beginning
+                    // calibration to let the user get ready.
                     Thread.Sleep(500);
 
                 // Calibrate for the target.
@@ -254,6 +253,6 @@ namespace Calibrate2
             return calibrationID;
         }
 
-        #endregion Public Methods
+        #endregion Perform Calibration
     }
 }

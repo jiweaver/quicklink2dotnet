@@ -4,7 +4,6 @@
     <Position X="0.5" Y="0.5" Width="6.5" />
     <Members>
       <Method Name="QLAPI_ExportSettings" Hidden="true" />
-      <Method Name="QLAPI_GetVersion" Hidden="true" />
       <Method Name="QLAPI_ImportSettings" Hidden="true" />
       <Method Name="QLDevice_Enumerate" Hidden="true" />
       <Method Name="QLDevice_ExportSettings" Hidden="true" />
@@ -56,19 +55,19 @@
       <Method Name="QLSettings_SetValueUInt8" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>SAQgCAAAoBAQABdA4gAQEEASAAgUQICAAAgIAEgHMCM=</HashCode>
+      <HashCode>yAQgCAAAgBAQABdA4gAQEEASAAgUQICAAAgIAEgHMCM=</HashCode>
       <FileName>QuickLink2API.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="QuickLink2DotNet.QLCalibrationTarget">
-    <Position X="0.5" Y="3.5" Width="1.75" />
+    <Position X="0.5" Y="3.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>QuickLink2API.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="QuickLink2DotNet.QLCalibrationScore">
-    <Position X="2.5" Y="3.5" Width="1.75" />
+    <Position X="2.5" Y="3.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>QuickLink2API.cs</FileName>
@@ -82,7 +81,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="QuickLink2DotNet.QLCalibrationStatus">
-    <Position X="4.5" Y="3.5" Width="3" />
+    <Position X="4.5" Y="3.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAICAAAAAAAAEAgAAQAAAAAAAAAAAA=</HashCode>
       <FileName>QuickLink2API.cs</FileName>

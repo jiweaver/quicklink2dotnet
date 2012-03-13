@@ -2,7 +2,7 @@
 
 /* Calibrator: This program provides 5, 9, or 16 point full screen calibration.
  *
- * Copyright (c) 2011 Justin Weaver
+ * Copyright (c) 2011-2012 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -45,11 +45,11 @@ namespace Calibrate2
     {
         #region Fields
 
-        /* The files used to store the password and the calibration
-         * information.
-         */
+        // The file used to store the password.
         private string filename_Password = @"C:\qlsettings.txt";
-        private string filename_Calibration = @"C:\qlcalibration.qlc";
+
+        // The file used to store the calibration information.
+        private string filename_Calibration = @"c:\qlcalibration.qlc";
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
@@ -59,7 +59,7 @@ namespace Calibrate2
 
         #endregion Fields
 
-        #region Init / Cleanup
+        #region Constructors
 
         public MainForm()
         {
@@ -74,7 +74,7 @@ namespace Calibrate2
             // Get the first device's ID.
             try
             {
-                this.devID = GetFirstDeviceID();
+                this.devID = EyeTrackerControl.GetFirstDeviceID();
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
             catch (Exception e)
@@ -101,7 +101,7 @@ namespace Calibrate2
             // Load the device password from a file.
             try
             {
-                this.textBox_Password.Text = LoadDevicePassword(this.devID, this.filename_Password);
+                this.textBox_Password.Text = EyeTrackerControl.LoadDevicePassword(this.devID, this.filename_Password);
                 this.Display(string.Format("Loaded password {0} from settings file.\n", this.textBox_Password.Text));
             }
             catch (Exception)
@@ -110,19 +110,33 @@ namespace Calibrate2
             }
         }
 
-        // Called when "Exit" is clicked from the menu.
+        #endregion Constructors
+
+        #region User Exit Click
+
+        /// <summary>
+        /// The user selected "Exit" from the Form's menu.
+        /// </summary>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // Called when form is being closed.
+        #endregion User Exit Click
+
+        #region FormClosing Event
+
+        /// <summary>
+        /// The Form is closing.
+        /// </summary>
         private void FormIsClosing(object sender, FormClosingEventArgs e)
         {
             this.isClosing = true;
+
+            // Stop the device.
             try
             {
-                StopDevice(this.devID);
+                EyeTrackerControl.StopDevice(this.devID);
                 this.Display("Stopped Device.\n");
             }
             catch (Exception ex)
@@ -131,16 +145,18 @@ namespace Calibrate2
             }
         }
 
-        #endregion Init / Cleanup
+        #endregion FormClosing Event
 
-        #region Update Main Form's Log
+        #region Log Display
 
-        // Basically the idea here is that this function passes a pointer back
-        // to itself, so that it can be called again from the proper context,
-        // in due time.  This delegate is used to encapsulate the callback
-        // pointer.
         private delegate void DisplayCallback(string s);
 
+        /// <summary>
+        /// We need to update the form, but sometimes we need to do it from
+        /// another context.  If invoke is required, then this method wraps
+        /// itself in a delegate and passes it to Invoke so it can be called
+        /// properly.
+        /// </summary>
         private void Display(string s)
         {
             if (this.logBox.InvokeRequired)
@@ -159,25 +175,34 @@ namespace Calibrate2
                 this.logBox.AppendText(s);
                 this.logBox.SelectionStart = this.logBox.TextLength;
 
-                // This stuff is necessary to make sure the text window will
-                // scroll down as we would expect it to.
+                // Make sure the window scrolls down with new text as expected.
                 this.logBox.ScrollToCaret();
             }
         }
 
-        #endregion Update Main Form's Log
+        #endregion Log Display
 
-        #region Form Controls
+        #region Calibration
 
         private void button_BeginCalibration_Click(object sender, EventArgs e)
         {
-            /* Attempt to set the device's password to the value currently in
-             * the form's password textbox, and then save it to a file.
-             */
+            // Attempt to set the device's password to the value currently in
+            // the form's password textbox.
             try
             {
-                SetandSavePassword(this.devID, this.textBox_Password.Text, this.filename_Password);
+                EyeTrackerControl.SetDevicePassword(this.devID, this.textBox_Password.Text);
                 this.Display("Password set.\n");
+            }
+            catch (Exception ex)
+            {
+                this.Display(ex.Message + "\n");
+            }
+
+            // Save the password to a file for later use.
+            try
+            {
+                EyeTrackerControl.SaveDevicePassword(this.devID, this.textBox_Password.Text, this.filename_Password);
+                this.Display("Password saved.\n");
             }
             catch (Exception ex)
             {
@@ -187,7 +212,7 @@ namespace Calibrate2
             // Start the device.
             try
             {
-                StartDevice(this.devID);
+                EyeTrackerControl.StartDevice(this.devID);
                 this.Display("Device has been started.\n");
             }
             catch (Exception ex)
@@ -213,9 +238,10 @@ namespace Calibrate2
                 this.Display(ex.Message + "\n");
             }
 
+            // Stop the device.
             try
             {
-                StopDevice(this.devID);
+                EyeTrackerControl.StopDevice(this.devID);
                 this.Display("Stopped Device.\n");
             }
             catch (Exception ex)
@@ -224,163 +250,10 @@ namespace Calibrate2
             }
         }
 
-        #endregion Form Controls
-
-        #region Device Control
-
-        /* Find the first eye tracker on the system.  Returns the device
-         * number.  Throws exception on error.
-         */
-        private static int GetFirstDeviceID()
-        {
-            // Allocate a buffer for the device ID array.
-            int bufferSize = 100;
-            int[] deviceIds = new int[bufferSize];
-            int numDevices = bufferSize;
-
-            // Enumerate the eye tracker devices.
-            QLError qlerror = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIds);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QuickLink2API.QLDevice_Enumerate() returned {0}.", qlerror.ToString()));
-
-            if (numDevices == 0)
-                // No devices detected.
-                throw new Exception("No eye trackers detected.");
-
-            // Return the ID of the first device.
-            return deviceIds[0];
-        }
-
-        /* Start the eye tracker.  Throws exception on error.
-         */
-        private static void StartDevice(int deviceID)
-        {
-            QLError qlerror;
-
-            // Start the device.
-            qlerror = QuickLink2API.QLDevice_Start(deviceID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_Start() returned {0}", qlerror.ToString()));
-        }
-
-        /* Stop the eye tracker.  Throws exception on error.
-         */
-        private static void StopDevice(int deviceID)
-        {
-            QLError qlerror;
-
-            // Stop the device.
-            qlerror = QuickLink2API.QLDevice_Stop(deviceID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_Stop() returned {0}", qlerror.ToString()));
-        }
-
-        /* Loads the device password from a file.  Returns the password string.
-         * Throws exception on error.
-         */
-        private static string LoadDevicePassword(int deviceID, string loadFilename)
-        {
-            QLError qlerror;
-
-            // Create a new settings container.
-            int settingsID;
-            qlerror = QuickLink2API.QLSettings_Create(0, out settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Create() returned {0}", qlerror.ToString()));
-
-            // Read the settings out of a file.
-            qlerror = QuickLink2API.QLSettings_Load(loadFilename, ref settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLSettings_Load() returned {0}", qlerror.ToString()));
-
-            // Get the device's serial number.
-            QLDeviceInfo devInfo;
-            qlerror = QuickLink2API.QLDevice_GetInfo(deviceID, out devInfo);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Create() returned {0}", qlerror.ToString()));
-
-            // Check for the device password already in settings.
-            int buffSize = 25;
-            System.Text.StringBuilder password = new System.Text.StringBuilder(buffSize + 1);
-            qlerror = QuickLink2API.QLSettings_GetValueString(settingsID, "SN_" + devInfo.serialNumber, buffSize, password);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLSettings_GetValueString() returned {0}", qlerror.ToString()));
-
-            // Set the password on the device.
-            qlerror = QuickLink2API.QLDevice_SetPassword(deviceID, password.ToString());
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_SetPassword() returned {0}", qlerror.ToString()));
-
-            // Return the password.
-            return password.ToString();
-        }
-
-        /* Loads calibration from a file.  Throws exception on error.
-         */
-        private static void LoadDeviceCalibration(int deviceID, string loadFilename)
-        {
-            QLError qlerror;
-
-            // Create a new calibration container.
-            int calibrationID;
-            qlerror = QuickLink2API.QLCalibration_Create(0, out calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLCalibration_Create() returned {0}", qlerror.ToString()));
-
-            // Load the calibration out of a file.
-            qlerror = QuickLink2API.QLCalibration_Load(loadFilename, ref calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLCalibration_Load() returned {0}", qlerror.ToString()));
-
-            // Apply the calibration.
-            qlerror = QuickLink2API.QLDevice_ApplyCalibration(deviceID, calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_ApplyCalibration() returned {0}", qlerror.ToString()));
-        }
-
-        /* Sets the eye tracker's password and saves it to a file.  Throws
-         * exception on error.
-         */
-        private static void SetandSavePassword(int deviceID, string password, string saveFilename)
-        {
-            QLError qlerror;
-
-            // Set the password.
-            qlerror = QuickLink2API.QLDevice_SetPassword(deviceID, password);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_SetPassword() returned {0}", qlerror.ToString()));
-
-            // Get the device info so we have its serial number.
-            QLDeviceInfo devInfo;
-            qlerror = QuickLink2API.QLDevice_GetInfo(deviceID, out devInfo);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_GetInfo() returned {0}", qlerror.ToString()));
-
-            // Create a new settings container.
-            int settingsID;
-            qlerror = QuickLink2API.QLSettings_Create(0, out settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Create() returned {0}", qlerror.ToString()));
-
-            // Add the password field to the settings in our new container.
-            qlerror = QuickLink2API.QLSettings_AddSetting(settingsID, "SN_" + devInfo.serialNumber);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_AddSetting() returned {0}", qlerror.ToString()));
-
-            // Set the password field in our container.
-            qlerror = QuickLink2API.QLSettings_SetValueString(settingsID, "SN_" + devInfo.serialNumber, password.ToString());
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_SetValueString() returned {0}", qlerror.ToString()));
-
-            // Save the settings in our container to a settings file.
-            qlerror = QuickLink2API.QLSettings_Save(saveFilename, settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Save() returned {0}", qlerror.ToString()));
-        }
-
-        /* Performs a new calibration, saves it to a file, and loads it into
-         * the eye tracker.  Throws exception on error.
-         */
+        /// <summary>
+        /// Performs a new calibration, saves it to a file, and loads it into
+        /// the eye tracker.  Throws exception on error.
+        /// </summary>
         private static void PerformCalibration(int deviceID, QLCalibrationType calType, int duration, string saveFilename)
         {
             QLError qlerror;
@@ -405,6 +278,6 @@ namespace Calibrate2
             }
         }
 
-        #endregion Device Control
+        #endregion Calibration
     }
 }

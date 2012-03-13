@@ -2,7 +2,7 @@
 
 /* GazeInfo2: Uses QuickLink2DotNet to display info from the eye tracker.
  *
- * Copyright (c) 2011 Justin Weaver
+ * Copyright (c) 2011-2012 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -45,13 +45,29 @@ namespace GazeInfo2
 {
     public partial class MainForm : Form
     {
+        #region Configuration
+
+        /// <summary>
+        /// Minimum delay between successful frame reads (ms).
+        /// </summary>
+        private const int MinDelayBetweenReads = 1000;
+
+        /// <summary>
+        /// Maximum time for the reader thread to block and wait for a new
+        /// frame from the eye tracker before reporting error to the log and
+        /// trying again.
+        /// </summary>
+        private const int MaxFrameWaitTime = 240;
+
+        #endregion Configuration
+
         #region Fields
 
-        /* The files used to store the password and the calibration
-         * information.
-         */
-        private string filename_PasswordFilename = @"C:\qlsettings.txt";
-        private string filename_CalibrationFilename = @"c:\qlcalibration.qlc";
+        // The file used to store the password.
+        private string filename_Password = @"C:\qlsettings.txt";
+
+        // The file used to store the calibration information.
+        private string filename_Calibration = @"c:\qlcalibration.qlc";
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
@@ -62,9 +78,15 @@ namespace GazeInfo2
         // Thread that reads from the device.
         private Thread readerThread;
 
+        // Lock used for thread synchronization (wait/pulse).
+        private object l = new object();
+
+        // Frame struct is in use.
+        private bool frameInUse;
+
         #endregion Fields
 
-        #region Init / Cleanup
+        #region Constructors
 
         public MainForm()
         {
@@ -75,7 +97,7 @@ namespace GazeInfo2
             // Get the first device's ID.
             try
             {
-                this.devID = GetFirstDeviceID();
+                this.devID = EyeTrackerControl.GetFirstDeviceID();
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
             catch (Exception e)
@@ -106,38 +128,46 @@ namespace GazeInfo2
                 ;
         }
 
-        // Called when "Exit" is clicked from the menu.
+        #endregion Constructors
+
+        #region User Exit Click
+
+        /// <summary>
+        /// The user selected "Exit" from the Form's menu.
+        /// </summary>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // Called when form is being closed.
+        #endregion User Exit Click
+
+        #region FormClosing Event
+
+        /// <summary>
+        /// The Form is closing.
+        /// </summary>
         private void FormIsClosing(object sender, FormClosingEventArgs e)
         {
             this.isClosing = true;
-            try
-            {
-                StopDevice(this.devID);
-                this.Display("Stopped Device.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-            }
+
+            // Wake the reader thread.
+            lock (this.l)
+                Monitor.Pulse(this.l);
         }
 
-        #endregion Init / Cleanup
+        #endregion FormClosing Event
 
-        #region Update Main Form's Log and Frame Data Display
+        #region Log Display
 
-        /* We need to update the form, but we need to do it from the reader
-         * thread.  Basically the idea here is that this method checks if
-         * invoke is required (i.e. it is being called from the reader thread)
-         * and then passes a pointer back to itself, so that it can be
-         * triggered later from the proper context.
-         */
         private delegate void DisplayCallback(string s);
+
+        /// <summary>
+        /// We need to update the form, but sometimes we need to do it from
+        /// another context.  If invoke is required, then this method wraps
+        /// itself in a delegate and passes it to Invoke so it can be called
+        /// properly.
+        /// </summary>
         private void Display(string s)
         {
             if (this.logBox.InvokeRequired)
@@ -156,21 +186,24 @@ namespace GazeInfo2
                 this.logBox.AppendText(s);
                 this.logBox.SelectionStart = this.logBox.TextLength;
 
-                /* This stuff is necessary to make sure the text window will
-                 * scroll down as we would expect it to.
-                 */
+                // Make sure the window scrolls down with new text as expected.
                 this.logBox.ScrollToCaret();
             }
         }
 
-        /* This gets called by the reader thread to update the info display on
-         * the form.  The trick is that the form's controls need to be called
-         * from the context of the thread that instantiated the form instance.
-         * So, we do the same trick as we do for Display() above: We
-         * check for invoke required before we do anything.
-         */
-        private delegate void UpdateReadoutCallback(QLFrameData frame);
-        private void UpdateReadout(QLFrameData frame)
+        #endregion Log Display
+
+        #region Form Readout Display
+
+        private delegate void UpdateReadoutCallback(ref QLFrameData frame);
+
+        /// <summary>
+        /// We need to update the form, but sometimes we need to do it from
+        /// another context.  If invoke is required, then this method wraps
+        /// itself in a delegate and passes it to Invoke so it can be called
+        /// properly.
+        /// </summary>
+        private void UpdateReadout(ref QLFrameData frame)
         {
             if (this.textBox_Timestamp.InvokeRequired)
             {
@@ -270,141 +303,35 @@ namespace GazeInfo2
                     this.textBox_LeftWeight.Text = "--";
                     this.textBox_RightWeight.Text = "--";
                 }
+
+                // Request another frame.
+                this.frameInUse = false;
+                lock (this.l)
+                    Monitor.Pulse(this.l);
             }
         }
 
-        #endregion Update Main Form's Log and Frame Data Display
+        #endregion Form Readout Display
 
-        #region Device Control
+        #region Frame Reader Thread
 
-        /* Find the first eye tracker on the system.  Returns the device
-         * number.  Throws exception on error.
-         */
-        private static int GetFirstDeviceID()
-        {
-            // Allocate a buffer for the device ID array.
-            int bufferSize = 100;
-            int[] deviceIds = new int[bufferSize];
-            int numDevices = bufferSize;
-
-            // Enumerate the eye tracker devices.
-            QLError qlerror = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIds);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QuickLink2API.QLDevice_Enumerate() returned {0}.", qlerror.ToString()));
-
-            if (numDevices == 0)
-                // No devices detected.
-                throw new Exception("No eye trackers detected.");
-
-            // Return the ID of the first device.
-            return deviceIds[0];
-        }
-
-        /* Start the eye tracker.  Throws exception on error.
-         */
-        private static void StartDevice(int deviceID)
-        {
-            QLError qlerror;
-
-            // Start the device.
-            qlerror = QuickLink2API.QLDevice_Start(deviceID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_Start() returned {0}", qlerror.ToString()));
-        }
-
-        /* Stop the eye tracker.  Throws exception on error.
-         */
-        private static void StopDevice(int deviceID)
-        {
-            QLError qlerror;
-
-            // Stop the device.
-            qlerror = QuickLink2API.QLDevice_Stop(deviceID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_Stop() returned {0}", qlerror.ToString()));
-        }
-
-        /* Loads the device password from a file.  Returns the password string.
-         * Throws exception on error.
-         */
-        private static string LoadDevicePassword(int deviceID, string loadFilename)
-        {
-            QLError qlerror;
-
-            // Create a new settings container.
-            int settingsID;
-            qlerror = QuickLink2API.QLSettings_Create(0, out settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Create() returned {0}", qlerror.ToString()));
-
-            // Read the settings out of a file.
-            qlerror = QuickLink2API.QLSettings_Load(loadFilename, ref settingsID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLSettings_Load() returned {0}", qlerror.ToString()));
-
-            // Get the device's serial number.
-            QLDeviceInfo devInfo;
-            qlerror = QuickLink2API.QLDevice_GetInfo(deviceID, out devInfo);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QL_Settings_Create() returned {0}", qlerror.ToString()));
-
-            // Check for the device password already in settings.
-            int buffSize = 25;
-            System.Text.StringBuilder password = new System.Text.StringBuilder(buffSize + 1);
-            qlerror = QuickLink2API.QLSettings_GetValueString(settingsID, "SN_" + devInfo.serialNumber, buffSize, password);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLSettings_GetValueString() returned {0}", qlerror.ToString()));
-
-            // Set the password on the device.
-            qlerror = QuickLink2API.QLDevice_SetPassword(deviceID, password.ToString());
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_SetPassword() returned {0}", qlerror.ToString()));
-
-            // Return the password.
-            return password.ToString();
-        }
-
-        /* Loads calibration from a file.  Throws exception on error.
-         */
-        private static void LoadDeviceCalibration(int deviceID, string loadFilename)
-        {
-            QLError qlerror;
-
-            // Create a new calibration container.
-            int calibrationID;
-            qlerror = QuickLink2API.QLCalibration_Create(0, out calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLCalibration_Create() returned {0}", qlerror.ToString()));
-
-            // Load the calibration out of a file.
-            qlerror = QuickLink2API.QLCalibration_Load(loadFilename, ref calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLCalibration_Load() returned {0}", qlerror.ToString()));
-
-            // Apply the calibration.
-            qlerror = QuickLink2API.QLDevice_ApplyCalibration(deviceID, calibrationID);
-            if (qlerror != QLError.QL_ERROR_OK)
-                throw new Exception(string.Format("QLDevice_ApplyCalibration() returned {0}", qlerror.ToString()));
-        }
-
-        #endregion Device Control
-
-        #region Device Reader Thread
-
-        /* This thread code periodically reads a new frame from the device and
-         * triggers an update to the form's display.
-         */
-        private void ReaderThreadTask()
+        /// <summary>
+        /// This thread code starts the device, reads and frame, and then
+        /// sleeps.  When the PictureBox paint event wakes it up, then it reads
+        /// another frame.  When the form is closing, it stops the device and
+        /// exits.
+        /// </summary>
+        public void ReaderThreadTask()
         {
             // Attempt to load the device password from a file.
             try
             {
-                LoadDevicePassword(this.devID, this.filename_PasswordFilename);
+                EyeTrackerControl.LoadDevicePassword(this.devID, this.filename_Password);
                 this.Display("Loaded password from settings file.\n");
             }
             catch (Exception)
             {
-                this.Display(string.Format("Unable to load password from file '{0}.  Try running the Calibrate example first to generate the file.'\n", this.filename_PasswordFilename));
+                this.Display(string.Format("Unable to load password from file '{0}'.  Try running the Calibrate example first to generate the file.\n", this.filename_Password));
                 // Can't continue without password.
                 return;
             }
@@ -412,7 +339,7 @@ namespace GazeInfo2
             // Start the device.
             try
             {
-                StartDevice(this.devID);
+                EyeTrackerControl.StartDevice(this.devID);
                 this.Display("Device has been started.\n");
             }
             catch (Exception ex)
@@ -425,36 +352,43 @@ namespace GazeInfo2
             // Attempt to load the device calibration from a file.
             try
             {
-                LoadDeviceCalibration(this.devID, this.filename_CalibrationFilename);
+                EyeTrackerControl.LoadAndApplyDeviceCalibration(this.devID, this.filename_Calibration);
                 this.Display("Loaded calibration from calibration file.\n");
             }
             catch (Exception)
             {
-                this.Display(string.Format("Unable to load calibration from file '{0}'.  Try running the Calibrate example first to generate the file.\n", this.filename_CalibrationFilename));
+                this.Display(string.Format("Unable to load calibration from file '{0}'.  Try running the Calibrate example first to generate the file.\n", this.filename_Calibration));
             }
 
-            // Delay between updates (ms).
-            int delay = 1000;
+            this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", MinDelayBetweenReads));
 
-            this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", delay));
+            // Create an empty frame structure to hold the data we read.
+            QLFrameData frame = new QLFrameData();
 
-            // Read frames from the device.
-            while (!this.isClosing)
+            while (true)
             {
+                // Sleep while the last frame is in use and we aren't shutting down.
+                lock (this.l)
+                    while (this.frameInUse && !this.isClosing)
+                        Monitor.Wait(this.l);
+
+                // Break if the program is closing.
+                if (this.isClosing)
+                    break;
+
                 // Read a new data sample.
-                QLFrameData frame = new QLFrameData();
-                QLError qlerror = QuickLink2API.QLDevice_GetFrame(this.devID, 0, ref frame); // 0 = no waiting.
+                QLError qlerror = QuickLink2API.QLDevice_GetFrame(this.devID, MaxFrameWaitTime, ref frame);
                 if (qlerror == QLError.QL_ERROR_OK)
                 {
-                    // Update the form's display.
-                    UpdateReadout(frame);
+                    // Tell the paint event handler to display the frame.
+                    this.frameInUse = true;
 
-                    if (delay > 0)
-                        Thread.Sleep(delay);
-                }
-                else if (qlerror == QLError.QL_ERROR_TIMEOUT_ELAPSED)
-                {
-                    // Timeout without a frame.  Just try again.
+                    // Update the form's display.
+                    UpdateReadout(ref frame);
+
+                    // Sleep the configured delay time.
+                    if (MinDelayBetweenReads > 0)
+                        Thread.Sleep(MinDelayBetweenReads);
                 }
                 else
                 {
@@ -462,8 +396,19 @@ namespace GazeInfo2
                     this.Display(string.Format("QLDevice_GetFrame() returned {0}\n", qlerror.ToString()));
                 }
             }
+
+            // Stop the device.
+            try
+            {
+                EyeTrackerControl.StopDevice(this.devID);
+                this.Display("Stopped Device.\n");
+            }
+            catch (Exception ex)
+            {
+                this.Display(ex.Message + "\n");
+            }
         }
 
-        #endregion Device Reader Thread
+        #endregion Frame Reader Thread
     }
 }

@@ -1,6 +1,6 @@
 QuickLink2DotNet: A .NET wrapper (in C#) for EyeTech's QuickLink2 API.
 
-Copyright (c) 2011 Justin Weaver
+Copyright (c) 2011-2012 Justin Weaver
 Homepage: http://quicklinkapi4net.googlecode.com
 
 

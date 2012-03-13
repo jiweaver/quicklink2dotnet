@@ -1,6 +1,6 @@
 QuickLink2DotNet Example Programs
 
-Copyright (c) 2011 Justin Weaver
+Copyright (c) 2011-2012 Justin Weaver
 Homepage: http://quicklinkapi4net.googlecode.com
 
 
@@ -10,7 +10,7 @@ Calibrate2		A program that performs device calibration.  It also saves the
 				calibration it performs to the file "c:\qlcalibration.qlc", and
 				it saves the device password to the file "c:\qlsettings.txt".
 				The password file is necessary for the other two programs 
-				(GazeInfo2 and VideoViewer) to function.  The calibration file
+				(GazeInfo2 and VideoViewer2) to function.  The calibration file
 				is optionally used by the GazeInfo2 program to display the
 				user's gaze point.
 
