@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuickLinkDotNet")]
+[assembly: AssemblyTitle("QuickLink2DotNet")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("QuickLinkDotNet")]
+[assembly: AssemblyProduct("QuickLink2DotNet")]
 [assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("217d0255-8a76-4959-ae7f-a152ad7eb147")]
+[assembly: Guid("A273813E-7DDB-41B5-B649-1D591335725E")]
 
 // Version information for an assembly consists of the following four values:
 //
