@@ -39,6 +39,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using Microsoft.Win32;
 
 namespace QuickLinkDotNet
@@ -131,22 +132,24 @@ namespace QuickLinkDotNet
             if (executablePath == null)
                 throw new Exception("The Quick Glance executable path could not be retrieved from the registry.");
 
-            Process p;
+            Process quickGlanceProcess;
             try
             {
-                p = Process.Start(executablePath);
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);
+                processStartInfo.WorkingDirectory = Path.GetDirectoryName(executablePath);
+                quickGlanceProcess = Process.Start(processStartInfo);
             }
             catch (Exception ex)
             {
                 throw new Exception("Failed to start executable '" + executablePath + "'.  (MSG): " + ex.Message);
             }
 
-            if (!p.WaitForInputIdle(WaitForQuickGlanceToStart_Timeout))
+            if (!quickGlanceProcess.WaitForInputIdle(WaitForQuickGlanceToStart_Timeout))
             {
                 throw new Exception("Timeout waiting for '" + executablePath + "' process to become idle.");
             }
 
-            return p;
+            return quickGlanceProcess;
         }
 
         private static string FindQuickGlancePath()
