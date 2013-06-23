@@ -56,19 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QuickLink2API.cs" />
+    <Compile Include="QuickLink2.cs" />
+    <Compile Include="QLTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE.txt" />
-    <Content Include="QuickLink2API Class Diagrams\README.txt" />
     <Content Include="README.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="QuickLink2API Class Diagrams\General.cd" />
-    <None Include="QuickLink2API Class Diagrams\Calibration.cd" />
-    <None Include="QuickLink2API Class Diagrams\Settings.cd" />
-    <None Include="QuickLink2API Class Diagrams\Device.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

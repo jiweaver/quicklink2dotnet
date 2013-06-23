@@ -2,7 +2,7 @@
 
 /* GazeInfo2: Uses QuickLink2DotNet to display info from the eye tracker.
  *
- * Copyright (c) 2011-2012 Justin Weaver
+ * Copyright (c) 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -63,11 +63,13 @@ namespace GazeInfo2
 
         #region Fields
 
+        private static string dirname = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "QuickLink2DotNet");
+
         // The file used to store the password.
-        private string filename_Password = @"C:\qlsettings.txt";
+        private static string filename_Password = System.IO.Path.Combine(dirname, "qlsettings.txt");
 
         // The file used to store the calibration information.
-        private string filename_Calibration = @"c:\qlcalibration.qlc";
+        private static string filename_Calibration = System.IO.Path.Combine(dirname + "qlcalibration.qlc");
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
@@ -326,12 +328,12 @@ namespace GazeInfo2
             // Attempt to load the device password from a file.
             try
             {
-                EyeTrackerControl.LoadDevicePassword(this.devID, this.filename_Password);
+                EyeTrackerControl.LoadDevicePassword(this.devID, filename_Password);
                 this.Display("Loaded password from settings file.\n");
             }
             catch (Exception)
             {
-                this.Display(string.Format("Unable to load password from file '{0}'.  Try running the Calibrate example first to generate the file.\n", this.filename_Password));
+                this.Display(string.Format("Unable to load password from file '{0}'.  Try running the Calibrate example first to generate the file.\n", filename_Password));
                 // Can't continue without password.
                 return;
             }
@@ -352,12 +354,12 @@ namespace GazeInfo2
             // Attempt to load the device calibration from a file.
             try
             {
-                EyeTrackerControl.LoadAndApplyDeviceCalibration(this.devID, this.filename_Calibration);
+                EyeTrackerControl.LoadAndApplyDeviceCalibration(this.devID, filename_Calibration);
                 this.Display("Loaded calibration from calibration file.\n");
             }
             catch (Exception)
             {
-                this.Display(string.Format("Unable to load calibration from file '{0}'.  Try running the Calibrate example first to generate the file.\n", this.filename_Calibration));
+                this.Display(string.Format("Unable to load calibration from file '{0}'.  Try running the Calibrate example first to generate the file.\n", filename_Calibration));
             }
 
             this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", MinDelayBetweenReads));

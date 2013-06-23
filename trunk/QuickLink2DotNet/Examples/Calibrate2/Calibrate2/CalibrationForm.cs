@@ -2,7 +2,7 @@
 
 /* Calibrator: This program provides 5, 9, or 16 point full screen calibration.
  *
- * Copyright (c) 2011-2012 Justin Weaver
+ * Copyright (c) 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to

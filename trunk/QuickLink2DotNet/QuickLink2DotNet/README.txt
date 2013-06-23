@@ -1,6 +1,6 @@
 QuickLink2DotNet: A .NET wrapper (in C#) for EyeTech's QuickLink2 API.
 
-Copyright (c) 2011-2012 Justin Weaver
+Copyright (c) 2011-2013 Justin Weaver
 Homepage: http://quicklinkapi4net.googlecode.com
 
 
@@ -8,15 +8,23 @@ DESCRIPTION:
 	This is a .NET wrapper (in C#) for EyeTech's QuickLink2 API.  The QuickLink
 	API can be used by developers to control EyeTech's line of eye trackers.
 	The QuickLink2 API can be obtained from EyeTech's website
-	<http://eyetechds.com>.
+	<http://www.eyetechds.com>.
 
+VERSION:
+	This wrapper has been updated to work with QuickLink2 Version 2.5.1.0
+	(Released at http://www.eyetechds.com on Aug 8, 2012)
+	
 NOTICE:
 	This wrapper is for QuickLink2.  The wrapper for the original QuickLink is
 	also available from <http://quicklinkapi4net.googlecode.com>.
 
 SPECIAL THANKS:
-	To the University of Alaska Department of Mathematical Sciences for
-	allowing me to use an EyeTech TM3 eye tracker for this project.
+	To the University of Alaska <http://www.uaa.alaska.edu> Department of 
+	Mathematical Sciences for allowing me to use an EyeTech TM3 eye tracker for
+	this project.
+
+	To EyeTech Digital Systems Inc. <http://www.eyetechds.com> for generously
+	lending me a TM3 eye tracker, which allows me to keep this wrapper updated.
 
 HOW THE WRAPPER WORKS:
 	The API wrapper loads QuickLink2's unmanaged libraries into local memory
@@ -47,7 +55,7 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	"using QuickLink2DotNet;"
 
 	8. Use any of the methods, classes, structs, or enums declared in 
-	QuickLink2API.cs that you want to.
+	QLTypes.cs and QuickLink2.cs that you want to.
 
 	9. Choose the project's architecture.
 	For a 32-bit program:

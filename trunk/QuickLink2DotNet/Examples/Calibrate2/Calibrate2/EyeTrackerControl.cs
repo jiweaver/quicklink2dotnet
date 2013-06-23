@@ -2,7 +2,7 @@
 
 /* EyeTrackerControl: Convenience methods for controlling an eye tracker.
  *
- * Copyright (c) 2011-2012 Justin Weaver
+ * Copyright (c) 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to

@@ -2,7 +2,7 @@
 
 /* Calibrator: This program provides 5, 9, or 16 point full screen calibration.
  *
- * Copyright (c) 2011-2012 Justin Weaver
+ * Copyright (c) 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -45,11 +45,13 @@ namespace Calibrate2
     {
         #region Fields
 
+        private static string dirname = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "QuickLink2DotNet");
+
         // The file used to store the password.
-        private string filename_Password = @"C:\qlsettings.txt";
+        private static string filename_Password = System.IO.Path.Combine(dirname, "qlsettings.txt");
 
         // The file used to store the calibration information.
-        private string filename_Calibration = @"c:\qlcalibration.qlc";
+        private static string filename_Calibration = System.IO.Path.Combine(dirname + "qlcalibration.qlc");
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
@@ -98,10 +100,25 @@ namespace Calibrate2
                 return;
             }
 
+            if (!System.IO.Directory.Exists(dirname))
+            {
+                // Create the program data directory
+                try
+                {
+                    System.IO.Directory.CreateDirectory(dirname);
+                    this.Display(string.Format("Created directory {0} to store settings.\n", dirname));
+                }
+                catch (Exception e)
+                {
+                    this.Display(string.Format("Could not create settings directory '{0}'.  MSG: {1}\n", dirname, e.Message));
+                    return;
+                }
+            }
+
             // Load the device password from a file.
             try
             {
-                this.textBox_Password.Text = EyeTrackerControl.LoadDevicePassword(this.devID, this.filename_Password);
+                this.textBox_Password.Text = EyeTrackerControl.LoadDevicePassword(this.devID, filename_Password);
                 this.Display(string.Format("Loaded password {0} from settings file.\n", this.textBox_Password.Text));
             }
             catch (Exception)
@@ -201,12 +218,12 @@ namespace Calibrate2
             // Save the password to a file for later use.
             try
             {
-                EyeTrackerControl.SaveDevicePassword(this.devID, this.textBox_Password.Text, this.filename_Password);
+                EyeTrackerControl.SaveDevicePassword(this.devID, this.textBox_Password.Text, filename_Password);
                 this.Display("Password saved.\n");
             }
             catch (Exception ex)
             {
-                this.Display(ex.Message + "\n");
+                this.Display("Saving Password: " + ex.Message + this.devID + "|" + this.textBox_Password.Text + "|" + filename_Password + "\n");
             }
 
             // Start the device.
@@ -230,7 +247,7 @@ namespace Calibrate2
             int duration = Convert.ToInt32(this.numericUpDown_TargetDuration.Value);
             try
             {
-                PerformCalibration(this.devID, calType, duration, this.filename_Calibration);
+                PerformCalibration(this.devID, calType, duration, filename_Calibration);
                 this.Display("Calibration complete.\n");
             }
             catch (Exception ex)
