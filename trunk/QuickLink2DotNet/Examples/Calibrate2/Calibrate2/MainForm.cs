@@ -51,7 +51,7 @@ namespace Calibrate2
         private static string filename_Password = System.IO.Path.Combine(dirname, "qlsettings.txt");
 
         // The file used to store the calibration information.
-        private static string filename_Calibration = System.IO.Path.Combine(dirname + "qlcalibration.qlc");
+        private static string filename_Calibration = System.IO.Path.Combine(dirname, "qlcalibration.qlc");
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
