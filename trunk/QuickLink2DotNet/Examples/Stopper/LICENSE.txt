@@ -1,4 +1,4 @@
-/* QuickLink2DotNet Examples : Examples for the QuickLink2DotNet API wrapper.
+/* QuickLink2DotNet Examples: Stopper.
  *
  * Copyright (c) 2011-2013 Justin Weaver
  *

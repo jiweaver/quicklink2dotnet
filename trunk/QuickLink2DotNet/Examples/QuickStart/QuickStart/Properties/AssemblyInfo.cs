@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GazeInfo2")]
+[assembly: AssemblyTitle("QuickStart")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GazeInfo2")]
-[assembly: AssemblyCopyright("Copyright ©  2011 Justin Weaver")]
+[assembly: AssemblyCompany("EyeTech Digital Systems")]
+[assembly: AssemblyProduct("QuickStart")]
+[assembly: AssemblyCopyright("Copyright ©  2013 EyeTech Digital Systems")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f7414a84-7b2d-4db1-9fcd-c1ece5b0bf31")]
+[assembly: Guid("bc596b31-cb95-4e8f-940d-633cfb61981a")]
 
 // Version information for an assembly consists of the following four values:
 //
