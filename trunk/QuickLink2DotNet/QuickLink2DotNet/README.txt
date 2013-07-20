@@ -15,16 +15,23 @@ VERSION:
 	(Released at http://www.eyetechds.com on Aug 8, 2012)
 	
 NOTICE:
-	This wrapper is for QuickLink2.  The wrapper for the original QuickLink is
-	also available from <http://quicklinkapi4net.googlecode.com>.
+	This wrapper is for the QuickLink2 API.  The wrapper for the original 
+	QuickLink API is also available from
+	<http://quicklinkapi4net.googlecode.com>.
 
 SPECIAL THANKS:
 	To the University of Alaska <http://www.uaa.alaska.edu> Department of 
 	Mathematical Sciences for allowing me to use an EyeTech TM3 eye tracker for
 	this project.
 
-	To EyeTech Digital Systems Inc. <http://www.eyetechds.com> for generously
-	lending me a TM3 eye tracker, which allows me to keep this wrapper updated.
+	To EyeTech Digital Systems, Inc. <http://www.eyetechds.com> for generously
+	lending me an EyeTech TM3 eye tracker, which allows me to keep this wrapper
+	updated.
+
+	To Caleb Hinton, Brianna Peters, Maulik Mistry, and everyone else at 
+	EyeTech Digital Systems, Inc. <http://www.eyetechds.com> for their 
+	continuing help and technical support, and for their contributions of code
+	examples and unit tests (see individual files).
 
 HOW THE WRAPPER WORKS:
 	The API wrapper loads QuickLink2's unmanaged libraries into local memory
@@ -91,11 +98,7 @@ HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT:
 	12. Run your program.
 
 NOTES:
-	1. I could not make the API call "QLAPI_GetVersion()" work.  I finally
-	decided it was not important enough to make myself insane over.  If anyone
-	else happens to know how to get it working, please let me know.
-	
-	2. There is a known problem with QuickLink2 software.  Sometimes when the
+	There is a known problem with QuickLink2 software.  Sometimes when the
 	QuickLink2 API is initially started, the eye tracker continuously loses
 	and then relocates the user's eyes every few seconds.  When this happens,
 	just restart your program until it works properly.  Note that the problem
