@@ -1242,7 +1242,7 @@ namespace QuickLink2DotNet
                [In] System.String settingName,
                QLSettingType settingType,
                System.Int32 size,
-               System.IntPtr value);
+               ref System.IntPtr value);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLSettings_GetValueInt( QLSettingsId settings,
