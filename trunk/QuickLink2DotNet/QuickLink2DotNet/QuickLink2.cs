@@ -202,7 +202,7 @@ namespace QuickLink2DotNet
         QLError
            QLDevice_GetStatus(
                System.Int32 deviceID,
-               ref QLDeviceStatus status);
+               out QLDeviceStatus status);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLDevice_ExportSettings( QLDeviceId device,
@@ -474,7 +474,7 @@ namespace QuickLink2DotNet
            QLDevice_GetIndicator(
                System.Int32 deviceID,
                QLIndicatorType type,
-               ref QLIndicatorMode mode);
+               out QLIndicatorMode mode);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLDevice_GetFrame( QLDeviceOrGroupId deviceOrGroup,
@@ -1494,7 +1494,7 @@ namespace QuickLink2DotNet
             QLSettings_GetValueVoidPointer(
                 System.Int32 settingsID,
                 [In] System.String settingName,
-                System.IntPtr value);
+                ref System.IntPtr value);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLSettings_GetValueString( QLSettingsId settings,
