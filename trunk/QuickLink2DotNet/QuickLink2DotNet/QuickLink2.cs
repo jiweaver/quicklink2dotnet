@@ -50,7 +50,6 @@ namespace QuickLink2DotNet
 {
     public static class QuickLink2API
     {
-        /* Note: This call not working  -Justin */
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLAPI_GetVersion( int bufferSize, char* buffer);
         ///
@@ -64,12 +63,12 @@ namespace QuickLink2DotNet
         ///
         /// @return The success of the function.
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        //[DllImport("QuickLink2.dll", EntryPoint = "QLAPI_GetVersion", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        //public static extern
-        //QLError
-        //   QLAPI_GetVersion(
-        //       System.Int32 bufferSize,
-        //       System.Text.StringBuilder buffer);
+        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_GetVersion", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        public static extern
+        QLError
+           QLAPI_GetVersion(
+               System.Int32 bufferSize,
+               System.Text.StringBuilder buffer);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLAPI_ExportSettings( QLSettingsId settings);
