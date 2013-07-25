@@ -970,7 +970,7 @@ namespace QuickLink2DotNet
             QLSettings_SetValueInt8(
                 System.Int32 settingsID,
                 [In] System.String settingName,
-                System.Byte value);
+                System.SByte value);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLSettings_SetValueInt16( QLSettingsId settings,
@@ -1278,7 +1278,7 @@ namespace QuickLink2DotNet
             QLSettings_GetValueInt8(
                 System.Int32 settingsID,
                 [In] System.String settingName,
-                out System.Byte value);
+                out System.SByte value);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLSettings_GetValueInt16( QLSettingsId settings,
