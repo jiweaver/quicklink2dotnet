@@ -707,8 +707,8 @@ namespace QuickLink2DotNet
         public static extern
         QLError QLDeviceGroup_Enumerate(
             System.Int32 deviceGroup,
-            out System.Int32 numDevices,
-            out System.Int32 deviceIdBuffer);
+            ref System.Int32 numDevices,
+            [In,Out] System.Int32[] deviceIdBuffer);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLDeviceGroup_GetFrame( QLDeviceGroupId deviceGroup,
@@ -747,8 +747,8 @@ namespace QuickLink2DotNet
         QLError QLDeviceGroup_GetFrame(
             System.Int32 deviceGroup,
             System.Int32 waitTime,
-            out System.Int32 numFrames,
-            ref QLFrameData frame);
+            ref System.Int32 numFrames,
+            [In,Out] QLFrameData[] frameBuffer);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// @fn QLError QUICK_LINK_2_CALL_CONVEN QLSettings_Load( const char* path,
