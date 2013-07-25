@@ -52,7 +52,6 @@
     <Compile Include="CalibrationForm.Designer.cs">
       <DependentUpon>CalibrationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EyeTrackerControl.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +87,10 @@
     <ProjectReference Include="..\..\..\QuickLink2DotNet\QuickLink2DotNet.csproj">
       <Project>{95D15B06-7319-4839-850B-C35F63B4FCCF}</Project>
       <Name>QuickLink2DotNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\QuickLink2APIHelper\QuickLink2APIHelper\QuickLink2APIHelper.csproj">
+      <Project>{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}</Project>
+      <Name>QuickLink2APIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

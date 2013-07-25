@@ -37,6 +37,7 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
+using QuickLink2APIHelper;
 using QuickLink2DotNet;
 
 namespace Calibrate2
@@ -76,7 +77,8 @@ namespace Calibrate2
             // Get the first device's ID.
             try
             {
-                this.devID = EyeTrackerControl.GetFirstDeviceID();
+                int[] deviceIDs = Helper.GetDeviceIDs();
+                this.devID = deviceIDs[0];
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
             catch (Exception e)
@@ -100,6 +102,9 @@ namespace Calibrate2
                 return;
             }
 
+            int settingsID = QuickLink2APIHelper.Helper.GetDeviceSettings(this.devID);
+            this.Display(QuickLink2APIHelper.Helper.SettingsToString(settingsID));
+
             if (!System.IO.Directory.Exists(dirname))
             {
                 // Create the program data directory
@@ -118,7 +123,7 @@ namespace Calibrate2
             // Load the device password from a file.
             try
             {
-                this.textBox_Password.Text = EyeTrackerControl.LoadDevicePassword(this.devID, filename_Password);
+                this.textBox_Password.Text = Helper.LoadDevicePassword(this.devID, filename_Password);
                 this.Display(string.Format("Loaded password {0} from settings file.\n", this.textBox_Password.Text));
             }
             catch (Exception)
@@ -153,7 +158,11 @@ namespace Calibrate2
             // Stop the device.
             try
             {
-                EyeTrackerControl.StopDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Stop(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
+                }
                 this.Display("Stopped Device.\n");
             }
             catch (Exception ex)
@@ -207,7 +216,11 @@ namespace Calibrate2
             // the form's password textbox.
             try
             {
-                EyeTrackerControl.SetDevicePassword(this.devID, this.textBox_Password.Text);
+                QLError error = QuickLink2API.QLDevice_SetPassword(this.devID, this.textBox_Password.Text);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_SetPassword() returned {0}", error.ToString()));
+                }
                 this.Display("Password set.\n");
             }
             catch (Exception ex)
@@ -218,7 +231,7 @@ namespace Calibrate2
             // Save the password to a file for later use.
             try
             {
-                EyeTrackerControl.SaveDevicePassword(this.devID, this.textBox_Password.Text, filename_Password);
+                Helper.SaveDevicePassword(this.devID, this.textBox_Password.Text, filename_Password);
                 this.Display("Password saved.\n");
             }
             catch (Exception ex)
@@ -229,7 +242,11 @@ namespace Calibrate2
             // Start the device.
             try
             {
-                EyeTrackerControl.StartDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Start(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Start() returned {0}", error.ToString()));
+                }
                 this.Display("Device has been started.\n");
             }
             catch (Exception ex)
@@ -258,7 +275,11 @@ namespace Calibrate2
             // Stop the device.
             try
             {
-                EyeTrackerControl.StopDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Stop(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
+                }
                 this.Display("Stopped Device.\n");
             }
             catch (Exception ex)

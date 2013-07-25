@@ -39,6 +39,7 @@ using System;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using QuickLink2APIHelper;
 using QuickLink2DotNet;
 
 namespace GazeInfo2
@@ -99,7 +100,8 @@ namespace GazeInfo2
             // Get the first device's ID.
             try
             {
-                this.devID = EyeTrackerControl.GetFirstDeviceID();
+                int[] deviceIDs = Helper.GetDeviceIDs();
+                this.devID = deviceIDs[0];
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
             catch (Exception e)
@@ -328,7 +330,7 @@ namespace GazeInfo2
             // Attempt to load the device password from a file.
             try
             {
-                EyeTrackerControl.LoadDevicePassword(this.devID, filename_Password);
+                Helper.LoadDevicePassword(this.devID, filename_Password);
                 this.Display("Loaded password from settings file.\n");
             }
             catch (Exception)
@@ -341,7 +343,11 @@ namespace GazeInfo2
             // Start the device.
             try
             {
-                EyeTrackerControl.StartDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Start(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Start() returned {0}", error.ToString()));
+                }
                 this.Display("Device has been started.\n");
             }
             catch (Exception ex)
@@ -354,7 +360,7 @@ namespace GazeInfo2
             // Attempt to load the device calibration from a file.
             try
             {
-                EyeTrackerControl.LoadAndApplyDeviceCalibration(this.devID, filename_Calibration);
+                Helper.LoadAndApplyDeviceCalibration(this.devID, filename_Calibration);
                 this.Display("Loaded calibration from calibration file.\n");
             }
             catch (Exception)
@@ -402,7 +408,11 @@ namespace GazeInfo2
             // Stop the device.
             try
             {
-                EyeTrackerControl.StopDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Stop(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
+                }
                 this.Display("Stopped Device.\n");
             }
             catch (Exception ex)

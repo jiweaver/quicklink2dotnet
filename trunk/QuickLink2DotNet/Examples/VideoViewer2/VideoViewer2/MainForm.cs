@@ -43,6 +43,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Forms;
+using QuickLink2APIHelper;
 using QuickLink2DotNet;
 
 namespace VideoViewer2
@@ -103,7 +104,8 @@ namespace VideoViewer2
             // Get the first device's ID.
             try
             {
-                this.devID = EyeTrackerControl.GetFirstDeviceID();
+                int[] deviceIDs = Helper.GetDeviceIDs();
+                this.devID = deviceIDs[0];
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
             catch (Exception e)
@@ -275,7 +277,7 @@ namespace VideoViewer2
             // Attempt to load the device password from a file.
             try
             {
-                EyeTrackerControl.LoadDevicePassword(this.devID, filename_Password);
+                Helper.LoadDevicePassword(this.devID, filename_Password);
                 this.Display("Loaded password from settings file.\n");
             }
             catch (Exception)
@@ -288,7 +290,11 @@ namespace VideoViewer2
             // Start the device.
             try
             {
-                EyeTrackerControl.StartDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Start(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Start() returned {0}", error.ToString()));
+                }
                 this.Display("Device has been started.\n");
             }
             catch (Exception ex)
@@ -332,7 +338,11 @@ namespace VideoViewer2
             // Stop the device.
             try
             {
-                EyeTrackerControl.StopDevice(this.devID);
+                QLError error = QuickLink2API.QLDevice_Stop(this.devID);
+                if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new Exception(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
+                }
                 this.Display("Stopped Device.\n");
             }
             catch (Exception ex)
