@@ -74,7 +74,7 @@ namespace QuickLink2DotNet
         /// <code>
         /// System.Text.StringBuilder buffer = new System.Text.StringBuilder(8);
         /// QLError error = QuickLink2API.QLAPI_GetVersion(8, buffer);
-        /// if (error == case QLError.QL_ERROR_OK)
+        /// if (error == QLError.QL_ERROR_OK)
         /// {
         ///         System.Console.WriteLine("Version: {0}", buffer.ToString());
         /// }
