@@ -2076,8 +2076,8 @@ namespace QuickLink2DotNet
         /// the buffer pointed to by <paramref name="value" />; otherwise, this value is ignored.
         /// </param>
         /// <param name="value">
-        /// A reference to an initialized <see cref="System.IntPtr" /> object which will receive a
-        /// reference to the value of the setting.
+        /// An initialized <see cref="System.IntPtr" /> object which will receive a reference to the
+        /// value of the setting.
         /// </param>
         /// <returns>
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
@@ -2091,7 +2091,7 @@ namespace QuickLink2DotNet
                [In] System.String settingName,
                QLSettingType settingType,
                System.Int32 size,
-               ref System.IntPtr value);
+               System.IntPtr value);
 
         /// <summary>
         /// <para>
@@ -2652,8 +2652,8 @@ namespace QuickLink2DotNet
         /// retrieved from the settings container.
         /// </param>
         /// <param name="value">
-        /// A reference to an initialized <see cref="System.IntPtr" /> object which will receive a
-        /// reference to the value of the setting.
+        /// An initialized <see cref="System.IntPtr" /> object which will receive a reference to the
+        /// value of the setting.
         /// </param>
         /// <returns>
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
@@ -2665,7 +2665,7 @@ namespace QuickLink2DotNet
             QLSettings_GetValueVoidPointer(
                 System.Int32 settingsID,
                 [In] System.String settingName,
-                ref System.IntPtr value);
+                System.IntPtr value);
 
         /// <summary>
         /// <para>

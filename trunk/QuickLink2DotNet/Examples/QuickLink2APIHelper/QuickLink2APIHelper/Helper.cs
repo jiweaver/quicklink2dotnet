@@ -45,6 +45,8 @@ namespace QuickLink2APIHelper
 {
     public static class Helper
     {
+        #region Enumeration
+
         /// <summary>
         /// Get the deviceIDs of every eye tracker device detected on the system.
         /// </summary>
@@ -80,21 +82,27 @@ namespace QuickLink2APIHelper
             return deviceIDs;
         }
 
-        private class Setting
+        #endregion Enumeration
+
+        #region Settings
+
+        public class Settings
         {
-            public string Name;
-            public QLSettingType SettingType;
-            public Type Type;
-
-            public Setting(string name, QLSettingType settingType, Type type)
+            private class Setting
             {
-                this.Name = name;
-                this.SettingType = settingType;
-                this.Type = type;
-            }
-        }
+                public string Name;
+                public QLSettingType SettingType;
+                public Type Type;
 
-        private static Setting[] Settings = new Setting[] {
+                public Setting(string name, QLSettingType settingType, Type type)
+                {
+                    this.Name = name;
+                    this.SettingType = settingType;
+                    this.Type = type;
+                }
+            }
+
+            private static Setting[] DeviceSettings = new Setting[] {
             new Setting(QL_SETTINGS.QL_SETTING_DEVICE_BANDWIDTH_MODE, QLSettingType.QL_SETTING_TYPE_INT32, typeof(QLDeviceBandwidthMode)),
             new Setting(QL_SETTINGS.QL_SETTING_DEVICE_BANDWIDTH_PERCENT_FULL, QLSettingType.QL_SETTING_TYPE_INT32, typeof(System.Int32)),
             new Setting(QL_SETTINGS.QL_SETTING_DEVICE_BANDWIDTH_PERCENT_TRACKING, QLSettingType.QL_SETTING_TYPE_INT32, typeof(System.Int32)),
@@ -121,141 +129,123 @@ namespace QuickLink2APIHelper
             new Setting(QL_SETTINGS.QL_SETTING_DEVICE_ROI_SIZE_PERCENT_Y, QLSettingType.QL_SETTING_TYPE_INT32, typeof(System.Int32)),
         };
 
-        public static int GetDeviceSettings(int deviceID)
-        {
-            int settingsID;
-            QuickLink2DotNet.QLError error = QuickLink2DotNet.QuickLink2API.QLSettings_Create(-1, out settingsID);
-            if (error != QuickLink2DotNet.QLError.QL_ERROR_OK)
+            public static int GetDeviceSettings(int deviceID)
             {
-                throw new Exception(string.Format("QLSettings_Create(-1, out settingsID) returned {0}.", error.ToString()));
-            }
-
-            foreach (Setting setting in Settings)
-            {
-                error = QuickLink2DotNet.QuickLink2API.QLDevice_IsSettingSupported(deviceID, setting.Name);
-                if (error == QuickLink2DotNet.QLError.QL_ERROR_OK)
+                int settingsID;
+                QuickLink2DotNet.QLError error = QuickLink2DotNet.QuickLink2API.QLSettings_Create(-1, out settingsID);
+                if (error != QuickLink2DotNet.QLError.QL_ERROR_OK)
                 {
-                    error = QuickLink2DotNet.QuickLink2API.QLSettings_AddSetting(settingsID, setting.Name);
-                    if (error != QuickLink2DotNet.QLError.QL_ERROR_OK)
+                    throw new Exception(string.Format("QLSettings_Create(-1, out settingsID) returned {0}.", error.ToString()));
+                }
+
+                foreach (Setting setting in DeviceSettings)
+                {
+                    error = QuickLink2DotNet.QuickLink2API.QLDevice_IsSettingSupported(deviceID, setting.Name);
+                    if (error == QuickLink2DotNet.QLError.QL_ERROR_OK)
                     {
-                        throw new Exception(string.Format("QLSettings_AddSetting({0}, {1}) returned {2}.", settingsID, setting.Name, error.ToString()));
+                        error = QuickLink2DotNet.QuickLink2API.QLSettings_AddSetting(settingsID, setting.Name);
+                        if (error != QuickLink2DotNet.QLError.QL_ERROR_OK)
+                        {
+                            throw new Exception(string.Format("QLSettings_AddSetting({0}, {1}) returned {2}.", settingsID, setting.Name, error.ToString()));
+                        }
+                    }
+                    else if (error != QuickLink2DotNet.QLError.QL_ERROR_NOT_SUPPORTED)
+                    {
+                        throw new Exception(string.Format("QLSettings_IsSettingSupported({0}, {1}) returned {2}.", deviceID, setting.Name, error.ToString()));
                     }
                 }
-                else if (error != QuickLink2DotNet.QLError.QL_ERROR_NOT_SUPPORTED)
+
+                error = QuickLink2DotNet.QuickLink2API.QLDevice_ExportSettings(deviceID, settingsID);
+                if (error != QuickLink2DotNet.QLError.QL_ERROR_OK)
                 {
-                    throw new Exception(string.Format("QLSettings_IsSettingSupported({0}, {1}) returned {2}.", deviceID, setting.Name, error.ToString()));
+                    throw new Exception(string.Format("QLSettings_ExportSettings({0}, {1}) returned {2}.", deviceID, settingsID, error.ToString()));
                 }
+
+                return settingsID;
             }
 
-            error = QuickLink2DotNet.QuickLink2API.QLDevice_ExportSettings(deviceID, settingsID);
-            if (error != QuickLink2DotNet.QLError.QL_ERROR_OK)
+            public static string ToString(int settingsID)
             {
-                throw new Exception(string.Format("QLSettings_ExportSettings({0}, {1}) returned {2}.", deviceID, settingsID, error.ToString()));
-            }
+                System.Text.StringBuilder buffer = new System.Text.StringBuilder(8);
 
-            return settingsID;
+                foreach (Setting setting in DeviceSettings)
+                {
+                    QuickLink2DotNet.QLError error;
+                    string stringValue = "";
+
+                    IntPtr intPtr = Marshal.AllocHGlobal(Marshal.SizeOf(new System.Int32()));
+                    error = QuickLink2DotNet.QuickLink2API.QLSettings_GetValue(settingsID, setting.Name, setting.SettingType, 0, intPtr);
+
+                    bool formatError = false;
+                    if (setting.Type == typeof(System.Int32))
+                    {
+                        int value = (int)Marshal.PtrToStructure(intPtr, typeof(System.Int32));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(QLDeviceBandwidthMode))
+                    {
+                        QLDeviceBandwidthMode value = (QLDeviceBandwidthMode)Marshal.PtrToStructure(intPtr, typeof(System.Int32));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(QLDeviceGainMode))
+                    {
+                        QLDeviceGainMode value = (QLDeviceGainMode)Marshal.PtrToStructure(intPtr, typeof(System.Int32));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(QLDeviceGazePointFilterMode))
+                    {
+                        QLDeviceGazePointFilterMode value = (QLDeviceGazePointFilterMode)Marshal.PtrToStructure(intPtr, typeof(System.Int32));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(QLDeviceEyesToUse))
+                    {
+                        QLDeviceEyesToUse value = (QLDeviceEyesToUse)Marshal.PtrToStructure(intPtr, typeof(System.Int32));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(QLDeviceIRLightMode))
+                    {
+                        QLDeviceIRLightMode value = (QLDeviceIRLightMode)Marshal.PtrToStructure(intPtr, typeof(System.Int32));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(System.Boolean))
+                    {
+                        bool value = (bool)Marshal.PtrToStructure(intPtr, typeof(bool));
+                        stringValue = value.ToString();
+                    }
+                    else if (setting.Type == typeof(System.Single))
+                    {
+                        float value = (float)Marshal.PtrToStructure(intPtr, typeof(float));
+                        stringValue = value.ToString();
+                    }
+                    else
+                    {
+                        formatError = true;
+                    }
+
+                    Marshal.FreeHGlobal(intPtr);
+
+                    if (formatError)
+                    {
+                        throw new Exception(string.Format("Error: Getting setting '{0}' of type '{1}' from container #{2}.", setting.Name, setting.SettingType, settingsID));
+                    }
+
+                    if (error == QuickLink2DotNet.QLError.QL_ERROR_OK)
+                    {
+                        buffer.AppendFormat("{0}: {1}{2}", setting.Name, stringValue, Environment.NewLine);
+                    }
+                    else if (error != QuickLink2DotNet.QLError.QL_ERROR_NOT_FOUND)
+                    {
+                        throw new Exception(string.Format("Error: Getting setting '{0}' of type '{1}' from container #{2} returned {3}.", setting.Name, setting.SettingType, settingsID, error.ToString()));
+                    }
+                }
+
+                return buffer.ToString();
+            }
         }
 
-        public static System.Single IntPtrToSingle(IntPtr intPtr)
-        {
-            System.Single[] values = new System.Single[1];
+        #endregion Settings
 
-            var gch = GCHandle.Alloc(intPtr, GCHandleType.Pinned);
-            try
-            {
-                var source = gch.AddrOfPinnedObject();
-                Marshal.Copy(source, values, 0, 1);
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                gch.Free();
-            }
-
-            return values[0];
-        }
-
-        public static bool IntPtrToBool(IntPtr intPtr)
-        {
-            int value = intPtr.ToInt32();
-            if (value != 0 && value != 1)
-            {
-                throw new Exception("Error translating IntPtr to Boolean.");
-            }
-            return (value == 1) ? true : false;
-        }
-
-        public static string SettingsToString(int settingsID)
-        {
-            System.Text.StringBuilder buffer = new System.Text.StringBuilder(8);
-
-            foreach (Setting setting in Settings)
-            {
-                QuickLink2DotNet.QLError error;
-                string stringValue;
-
-                IntPtr intPtr = new IntPtr();
-                error = QuickLink2DotNet.QuickLink2API.QLSettings_GetValue(settingsID, setting.Name, setting.SettingType, 0, ref intPtr);
-
-                if (setting.Type == typeof(System.Int32))
-                {
-                    stringValue = intPtr.ToInt32().ToString();
-                }
-                else if (setting.Type == typeof(QLDeviceBandwidthMode))
-                {
-                    int value = intPtr.ToInt32();
-                    stringValue = ((QLDeviceBandwidthMode)value).ToString();
-                }
-                else if (setting.Type == typeof(QLDeviceGainMode))
-                {
-                    int value = intPtr.ToInt32();
-                    stringValue = ((QLDeviceGainMode)(intPtr.ToInt32())).ToString();
-                }
-                else if (setting.Type == typeof(QLDeviceGazePointFilterMode))
-                {
-                    int value = intPtr.ToInt32();
-                    stringValue = ((QLDeviceGazePointFilterMode)(intPtr.ToInt32())).ToString();
-                }
-                else if (setting.Type == typeof(QLDeviceEyesToUse))
-                {
-                    int value = intPtr.ToInt32();
-                    stringValue = ((QLDeviceEyesToUse)(intPtr.ToInt32())).ToString();
-                }
-                else if (setting.Type == typeof(QLDeviceIRLightMode))
-                {
-                    int value = intPtr.ToInt32();
-                    stringValue = ((QLDeviceIRLightMode)(intPtr.ToInt32())).ToString();
-                }
-                else if (setting.Type == typeof(System.Boolean))
-                {
-                    bool value = IntPtrToBool(intPtr);
-                    stringValue = value.ToString();
-                }
-                else if (setting.Type == typeof(System.Single))
-                {
-                    System.Single value = IntPtrToSingle(intPtr);
-                    stringValue = value.ToString();
-                }
-                else
-                {
-                    throw new Exception(string.Format("Error: Getting setting '{0}' of type '{1}' from container #{2}.", setting.Name, setting.SettingType, settingsID));
-                }
-
-                if (error == QuickLink2DotNet.QLError.QL_ERROR_OK)
-                {
-                    buffer.AppendFormat("{0}: {1}{2}", setting.Name, stringValue, Environment.NewLine);
-                }
-                else if (error != QuickLink2DotNet.QLError.QL_ERROR_NOT_FOUND)
-                {
-                    throw new Exception(string.Format("Error: Getting setting '{0}' of type '{1}' from container #{2} returned {3}.", setting.Name, setting.SettingType, settingsID, error.ToString()));
-                }
-            }
-
-            return buffer.ToString();
-        }
+        #region Password
 
         /// <summary>
         /// Loads the device password from a file.  Returns the password
@@ -339,6 +329,10 @@ namespace QuickLink2APIHelper
                 throw new Exception(string.Format("QL_Settings_Save() returned {0}", qlerror.ToString()));
         }
 
+        #endregion Password
+
+        #region Calibration
+
         /// <summary>
         /// Loads calibration from a file.  Throws exception on error.
         /// </summary>
@@ -362,5 +356,7 @@ namespace QuickLink2APIHelper
             if (qlerror != QLError.QL_ERROR_OK)
                 throw new Exception(string.Format("QLDevice_ApplyCalibration() returned {0}", qlerror.ToString()));
         }
+
+        #endregion Calibration
     }
 }
