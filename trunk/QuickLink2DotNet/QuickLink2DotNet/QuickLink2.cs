@@ -70,6 +70,11 @@ namespace QuickLink2DotNet
         /// <returns>
         /// The success of the function.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// System.Text.StringBuilder buffer = new System.Text.StringBuilder(8);
@@ -118,6 +123,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the settings values were successfully exported from the API.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_ExportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -155,6 +165,11 @@ namespace QuickLink2DotNet
         /// The success of the function. If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the settings values were successfully imported to the API.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_ImportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -201,6 +216,11 @@ namespace QuickLink2DotNet
         /// and the function should be called again.
         /// </para>
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int numDevices = 8;
@@ -255,6 +275,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the <paramref name="info" /> object contains the information about the device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
@@ -304,6 +329,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the <paramref name="status" /> parameter contains the status of the device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
@@ -365,6 +395,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the settings values were successfully exported from the device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
@@ -429,6 +464,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the settings values were successfully imported to the device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceOrGroupID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
@@ -474,6 +514,11 @@ namespace QuickLink2DotNet
         /// <see cref="QLError.QL_ERROR_NOT_SUPPORTED" />, then the setting is not supported by the
         /// device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
@@ -529,6 +574,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the password was accepted by the device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
@@ -576,6 +626,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the device or group was started successfully.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
@@ -627,6 +682,11 @@ namespace QuickLink2DotNet
         /// the device or group was stopped successfully and all system resources used by the device(s)
         /// have been closed.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
@@ -668,6 +728,11 @@ namespace QuickLink2DotNet
         /// all devices were stopped successfully and all system resources used by the devices have been
         /// closed.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// QLError error = QuickLink2API.QLDevice_Stop_All();
@@ -716,6 +781,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the indicator was set to the desired mode for the specified device or group.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
@@ -764,6 +834,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the indicator mode was retrieved from the specified device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
@@ -835,6 +910,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the most recent frame was successfully retrieved from the device or group.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         /// <example>
         /// <code>
         /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
@@ -900,6 +980,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the calibration was successfully applied to the device.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ApplyCalibration", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -947,6 +1032,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the measuring of the radius of the left and right eyes was successful.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_CalibrateEyeRadius", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError QLDevice_CalibrateEyeRadius(
@@ -978,6 +1068,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the device group was created successfully.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError QLDeviceGroup_Create(
@@ -1010,6 +1105,11 @@ namespace QuickLink2DotNet
         /// the device was successfully added to the device group.  <see cref="QLError.QL_ERROR_OK" />
         /// will also be returned if the device was already in the group.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_AddDevice", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError QLDeviceGroup_AddDevice(
@@ -1040,6 +1140,11 @@ namespace QuickLink2DotNet
         /// the device was successfully removed from the device group. <see cref="QLError.QL_ERROR_OK" />
         /// will also be returned if the device was already missing from the group.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_RemoveDevice", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError QLDeviceGroup_RemoveDevice(
@@ -1087,6 +1192,11 @@ namespace QuickLink2DotNet
         /// and the function should be called again.
         /// </para>
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_Enumerate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError QLDeviceGroup_Enumerate(
@@ -1142,6 +1252,11 @@ namespace QuickLink2DotNet
         /// should be called again.
         /// </para>
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_GetFrame", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError QLDeviceGroup_GetFrame(
@@ -1187,6 +1302,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the settings were successfully loaded.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Load", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1220,6 +1340,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the settings were successfully saved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Save", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1261,6 +1386,11 @@ namespace QuickLink2DotNet
         /// The success of the function. If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the new settings container was successfully created.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1296,6 +1426,11 @@ namespace QuickLink2DotNet
         /// the setting was successfully added to the settings container or the setting was already in
         /// the settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_AddSetting", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1330,6 +1465,11 @@ namespace QuickLink2DotNet
         /// the setting was successfully removed from the settings container. If the return value is
         /// <see cref="QLError.QL_ERROR_NOT_FOUND" /> then the setting was not in the container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_RemoveSetting", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1391,6 +1531,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValue", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1434,6 +1579,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1476,6 +1626,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1518,6 +1673,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1560,6 +1720,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1602,6 +1767,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1644,6 +1814,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1686,6 +1861,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1728,6 +1908,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1770,6 +1955,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1812,6 +2002,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1854,6 +2049,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueFloat", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1896,6 +2096,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueDouble", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1938,6 +2143,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueBool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -1980,6 +2190,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueVoidPointer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2022,6 +2237,11 @@ namespace QuickLink2DotNet
         /// the setting value was successfully updated or the setting was successfully added to the
         /// settings container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueString", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2083,6 +2303,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValue", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2126,6 +2351,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2167,6 +2397,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2208,6 +2443,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2249,6 +2489,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2290,6 +2535,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2331,6 +2581,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2372,6 +2627,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2413,6 +2673,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2454,6 +2719,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2495,6 +2765,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2536,6 +2811,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueFloat", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2577,6 +2857,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueDouble", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2618,6 +2903,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueBool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2659,6 +2949,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueVoidPointer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2704,6 +2999,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the value of the setting was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueString", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2750,6 +3050,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the string length for the setting string was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueStringSize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2791,6 +3096,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the calibration was successfully loaded.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Load", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2826,6 +3136,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the calibration was successfully saved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Save", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2863,6 +3178,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the new calibration container was successfully created.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2905,6 +3225,11 @@ namespace QuickLink2DotNet
         /// the calibration container was successfully initialized and is now ready to receive new
         /// calibration data.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Initialize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -2949,6 +3274,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the target positions were successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetTargets", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -3010,6 +3340,11 @@ namespace QuickLink2DotNet
         /// <see cref="QLError.QL_ERROR_OK" /> means that calibration data collection was successfully
         /// started for the target.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Calibrate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -3063,6 +3398,11 @@ namespace QuickLink2DotNet
         /// <see cref="QLError.QL_ERROR_INTERNAL_ERROR" /> then use the function
         /// <see cref="QLCalibration_GetStatus" /> to get extended error information.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetScoring", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -3106,6 +3446,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the calibration status for the target was successfully retrieved.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetStatus", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -3144,6 +3489,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the calibration was successfully finalized.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Finalize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -3176,6 +3526,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the calibration was successfully canceled.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Cancel", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError
@@ -3220,6 +3575,11 @@ namespace QuickLink2DotNet
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
         /// the bias was successfully added to the calibration container.
         /// </returns>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
         [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_AddBias", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern
         QLError

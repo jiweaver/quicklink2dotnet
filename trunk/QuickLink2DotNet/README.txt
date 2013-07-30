@@ -19,15 +19,13 @@ Main Directory Contents:
 	This example will store its calibration file in: "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc"
 	This example will store its settings/password file in: "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt"
 
-(2) QuickLink2APIHelper: A class library of helper methods for use with QuickLink2DotNet.
+(2) GazeInfo2: Displays a stream of info from the first eye tracker device on the system.
 
-(3) GazeInfo2: Displays a stream of info from the first eye tracker device on the system.
+(3) QuickStart: A simple example to demonstrate initialization, calibration, and data collection from the eye tracker.
 
-(4) QuickStart: A simple example to demonstrate initialization, calibration, and data collection from the eye tracker.
+(4) Stopper: Shuts down all the EyeTech eye tracker devices on the system.  This is sometimes handy to have during debugging.
 
-(5) Stopper: Shuts down all the EyeTech eye tracker devices on the system.  This is sometimes handy to have during debugging.
-
-(6) VideoViewer2: Displays video from the first eye tracker device on the system.
+(5) VideoViewer2: Displays video from the first eye tracker device on the system.
 
 
 IMPORTANT NOTE ABOUT EXAMPLES:

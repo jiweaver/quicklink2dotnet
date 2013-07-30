@@ -162,7 +162,7 @@
             this.groupBox1.Size = new System.Drawing.Size(200, 235);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "GazeInfo";
             // 
             // textBox_RightWeight
             // 
@@ -741,7 +741,7 @@
             this.logBox.TabIndex = 4;
             this.logBox.WordWrap = false;
             // 
-            // GazeInfoForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -750,7 +750,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "GazeInfoForm";
+            this.Name = "MainForm";
             this.Text = "GazeInfo2";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

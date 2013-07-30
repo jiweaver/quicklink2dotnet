@@ -43,7 +43,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Forms;
-using QuickLink2APIHelper;
 using QuickLink2DotNet;
 
 namespace VideoViewer2
@@ -104,7 +103,7 @@ namespace VideoViewer2
             // Get the first device's ID.
             try
             {
-                int[] deviceIDs = Helper.GetDeviceIDs();
+                int[] deviceIDs = QLHelper.GetDeviceIDs();
                 this.devID = deviceIDs[0];
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
@@ -274,35 +273,43 @@ namespace VideoViewer2
         /// </summary>
         public void ReaderThreadTask()
         {
+            string password;
+
             // Attempt to load the device password from a file.
             try
             {
-                Helper.LoadDevicePassword(this.devID, filename_Password);
+                password = QLHelper.LoadDevicePasswordFromFile(this.devID, filename_Password);
                 this.Display("Loaded password from settings file.\n");
             }
-            catch (Exception)
+            catch (QLErrorException e)
             {
-                this.Display(string.Format("Unable to load password from file '{0}'.  Try running the Calibrate example first to generate the file.\n", filename_Password));
+                this.Display(e.Message + "\n");
+                // Can't continue without password.
+                return;
+            }
+            catch (DllNotFoundException e)
+            {
+                this.Display(e.Message + "\n");
                 // Can't continue without password.
                 return;
             }
 
-            // Start the device.
-            try
+            // Write the password to the device.
+            QLError error = QuickLink2API.QLDevice_SetPassword(this.devID, password);
+            if (error != QLError.QL_ERROR_OK)
             {
-                QLError error = QuickLink2API.QLDevice_Start(this.devID);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    throw new Exception(string.Format("QLDevice_Start() returned {0}", error.ToString()));
-                }
-                this.Display("Device has been started.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-                // Can't continue if device is not started.
+                this.Display(string.Format("QLDevice_SetPassword() returned {0}.", error.ToString()));
                 return;
             }
+
+            // Start the device.
+            error = QuickLink2API.QLDevice_Start(this.devID);
+            if (error != QLError.QL_ERROR_OK)
+            {
+                this.Display(string.Format("QLDevice_Start() returned {0}", error.ToString()));
+                return;
+            }
+            this.Display("Device has been started.\n");
 
             this.Display(string.Format("Reading from device {0}.", this.devID));
 
@@ -336,19 +343,13 @@ namespace VideoViewer2
             }
 
             // Stop the device.
-            try
+            error = QuickLink2API.QLDevice_Stop(this.devID);
+            if (error != QLError.QL_ERROR_OK)
             {
-                QLError error = QuickLink2API.QLDevice_Stop(this.devID);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    throw new Exception(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
-                }
-                this.Display("Stopped Device.\n");
+                this.Display(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
             }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-            }
+
+            this.Display("Stopped Device.\n");
         }
 
         #endregion Frame Reader Thread

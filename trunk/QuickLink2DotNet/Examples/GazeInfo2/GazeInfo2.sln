@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInfo2", "GazeInfo2\Gaze
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLink2DotNet", "..\..\QuickLink2DotNet\QuickLink2DotNet.csproj", "{95D15B06-7319-4839-850B-C35F63B4FCCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLink2APIHelper", "..\QuickLink2APIHelper\QuickLink2APIHelper\QuickLink2APIHelper.csproj", "{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,16 +35,6 @@ Global
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|x86.ActiveCfg = Release|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{AC23FC47-BCBB-4CBE-A7B7-DDFFC684FA14}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

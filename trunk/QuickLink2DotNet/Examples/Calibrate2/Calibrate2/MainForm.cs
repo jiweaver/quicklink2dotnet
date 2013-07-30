@@ -37,7 +37,6 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using QuickLink2APIHelper;
 using QuickLink2DotNet;
 
 namespace Calibrate2
@@ -77,33 +76,30 @@ namespace Calibrate2
             // Get the first device's ID.
             try
             {
-                int[] deviceIDs = Helper.GetDeviceIDs();
+                int[] deviceIDs = QLHelper.GetDeviceIDs();
+                if (deviceIDs.Length == 0)
+                {
+                    this.Display("No eye trackers found\n");
+                    return;
+                }
                 this.devID = deviceIDs[0];
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
-            catch (Exception e)
+            catch (QLErrorException e)
             {
                 this.Display(e.Message + "\n");
-                // Can't continue without a device.
+                return;
+            }
+            catch (DllNotFoundException e)
+            {
+                this.Display(e.Message + "\n");
                 return;
             }
 
             // Get the device info.
-            try
-            {
-                QLDeviceInfo devInfo;
-                QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
-                this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
-            }
-            catch (Exception e)
-            {
-                this.Display(e.Message + "\n");
-                // Can't continue without device serial number.
-                return;
-            }
-
-            int settingsID = QuickLink2APIHelper.Helper.GetDeviceSettings(this.devID);
-            this.Display(QuickLink2APIHelper.Helper.SettingsToString(settingsID));
+            QLDeviceInfo devInfo;
+            QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
+            this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
 
             if (!System.IO.Directory.Exists(dirname))
             {
@@ -120,15 +116,30 @@ namespace Calibrate2
                 }
             }
 
-            // Load the device password from a file.
+            string password;
+            // Attempt to load the device password from a file.
             try
             {
-                this.textBox_Password.Text = Helper.LoadDevicePassword(this.devID, filename_Password);
-                this.Display(string.Format("Loaded password {0} from settings file.\n", this.textBox_Password.Text));
+                password = QLHelper.LoadDevicePasswordFromFile(this.devID, filename_Password);
+                this.Display("Loaded password from settings file.\n");
             }
-            catch (Exception)
+            catch (ArgumentException e)
             {
-                this.Display("WARNING: No password file found.  Create one by enter the device's password above and performing a calibration.");
+                this.Display(e.Message + "\n");
+                return;
+            }
+            catch (QLErrorException e)
+            {
+                this.Display(e.Message + "\n");
+                return;
+            }
+
+            // Write the password to the device.
+            QLError error = QuickLink2API.QLDevice_SetPassword(this.devID, password);
+            if (error != QLError.QL_ERROR_OK)
+            {
+                this.Display(string.Format("QLDevice_SetPassword() returned {0}.", error.ToString()));
+                return;
             }
         }
 
@@ -231,7 +242,7 @@ namespace Calibrate2
             // Save the password to a file for later use.
             try
             {
-                Helper.SaveDevicePassword(this.devID, this.textBox_Password.Text, filename_Password);
+                QLHelper.SaveDevicePasswordToFile(this.devID, this.textBox_Password.Text, filename_Password);
                 this.Display("Password saved.\n");
             }
             catch (Exception ex)

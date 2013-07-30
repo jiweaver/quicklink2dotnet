@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="QLHelper.cs" />
     <Compile Include="QuickLink2.cs" />
     <Compile Include="QLTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -39,7 +39,6 @@ using System;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using QuickLink2APIHelper;
 using QuickLink2DotNet;
 
 namespace GazeInfo2
@@ -100,30 +99,31 @@ namespace GazeInfo2
             // Get the first device's ID.
             try
             {
-                int[] deviceIDs = Helper.GetDeviceIDs();
+                int[] deviceIDs = QLHelper.GetDeviceIDs();
+                if (deviceIDs.Length == 0)
+                {
+                    this.Display("No eye trackers found.");
+                    return;
+                }
                 this.devID = deviceIDs[0];
                 this.Display(string.Format("Using device {0}.\n", this.devID));
             }
-            catch (Exception e)
+            catch (QLErrorException e)
             {
                 this.Display(e.Message + "\n");
                 // Can't continue without a device.
                 return;
             }
-
-            // Get the device info.
-            try
-            {
-                QLDeviceInfo devInfo;
-                QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
-                this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
-            }
-            catch (Exception e)
+            catch (DllNotFoundException e)
             {
                 this.Display(e.Message + "\n");
-                // Can't continue without device info.
                 return;
             }
+
+            // Get the device info.
+            QLDeviceInfo devInfo;
+            QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
+            this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
 
             // Create the capture thread, start it, and wait till it's alive.
             this.readerThread = new Thread(new ThreadStart(this.ReaderThreadTask));
@@ -327,46 +327,71 @@ namespace GazeInfo2
         /// </summary>
         public void ReaderThreadTask()
         {
+            string password;
+
             // Attempt to load the device password from a file.
             try
             {
-                Helper.LoadDevicePassword(this.devID, filename_Password);
+                password = QLHelper.LoadDevicePasswordFromFile(this.devID, filename_Password);
                 this.Display("Loaded password from settings file.\n");
             }
-            catch (Exception)
+            catch (QLErrorException e)
             {
-                this.Display(string.Format("Unable to load password from file '{0}'.  Try running the Calibrate example first to generate the file.\n", filename_Password));
+                this.Display(e.Message + "\n");
+                // Can't continue without password.
+                return;
+            }
+            catch (DllNotFoundException e)
+            {
+                this.Display(e.Message + "\n");
                 // Can't continue without password.
                 return;
             }
 
-            // Start the device.
-            try
+            // Write the password to the device.
+            QLError error = QuickLink2API.QLDevice_SetPassword(this.devID, password);
+            if (error != QLError.QL_ERROR_OK)
             {
-                QLError error = QuickLink2API.QLDevice_Start(this.devID);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    throw new Exception(string.Format("QLDevice_Start() returned {0}", error.ToString()));
-                }
-                this.Display("Device has been started.\n");
-            }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-                // Can't continue if device is not started.
+                this.Display(string.Format("QLDevice_SetPassword() returned {0}.", error.ToString()));
                 return;
             }
 
-            // Attempt to load the device calibration from a file.
-            try
+            // Start the device.
+            error = QuickLink2API.QLDevice_Start(this.devID);
+            if (error != QLError.QL_ERROR_OK)
             {
-                Helper.LoadAndApplyDeviceCalibration(this.devID, filename_Calibration);
-                this.Display("Loaded calibration from calibration file.\n");
+                this.Display(string.Format("QLDevice_Start() returned {0}", error.ToString()));
+                return;
             }
-            catch (Exception)
+            this.Display("Device has been started.\n");
+
+            // Load the calibration out of a file into a new calibration container.
+            int calibrationID = -1;
+            error = QuickLink2API.QLCalibration_Load(filename_Calibration, ref calibrationID);
+            if (error == QLError.QL_ERROR_INVALID_PATH)
             {
-                this.Display(string.Format("Unable to load calibration from file '{0}'.  Try running the Calibrate example first to generate the file.\n", filename_Calibration));
+                this.Display(string.Format("The specified calibration file '{0}' does not exist", filename_Calibration));
+                return;
             }
+            else if (error != QLError.QL_ERROR_OK)
+            {
+                this.Display(string.Format("QLCalibration_Load() returned {0}.", error.ToString()));
+                return;
+            }
+
+            // Apply the calibration.
+            error = QuickLink2API.QLDevice_ApplyCalibration(this.devID, calibrationID);
+            if (error == QLError.QL_ERROR_INVALID_DEVICE_ID)
+            {
+                this.Display(string.Format("Invalid device ID: {0}.", this.devID));
+                return;
+            }
+            else if (error != QLError.QL_ERROR_OK)
+            {
+                this.Display(string.Format("QLDevice_ApplyCalibration returned {0}.", error.ToString()));
+                return;
+            }
+            this.Display("Calibration has been loaded and applied.\n");
 
             this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", MinDelayBetweenReads));
 
@@ -406,19 +431,13 @@ namespace GazeInfo2
             }
 
             // Stop the device.
-            try
+            error = QuickLink2API.QLDevice_Stop(this.devID);
+            if (error != QLError.QL_ERROR_OK)
             {
-                QLError error = QuickLink2API.QLDevice_Stop(this.devID);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    throw new Exception(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
-                }
-                this.Display("Stopped Device.\n");
+                this.Display(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
             }
-            catch (Exception ex)
-            {
-                this.Display(ex.Message + "\n");
-            }
+
+            this.Display("Stopped Device.\n");
         }
 
         #endregion Frame Reader Thread
