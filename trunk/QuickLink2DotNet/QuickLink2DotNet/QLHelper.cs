@@ -173,7 +173,7 @@ namespace QuickLink2DotNet
         /// </exception>
         public static int[] GetDeviceIDs()
         {
-            int numDevices = 8;
+            int numDevices = 1;
             int[] deviceIDs = new int[numDevices];
 
             QLError error = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIDs);
