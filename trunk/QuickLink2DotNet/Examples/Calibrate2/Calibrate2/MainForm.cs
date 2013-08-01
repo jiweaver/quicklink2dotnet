@@ -63,7 +63,7 @@ namespace Calibrate2
 
         #region Constructors
 
-        public MainForm()
+        public MainForm(int deviceID)
         {
             InitializeComponent();
 
@@ -73,28 +73,9 @@ namespace Calibrate2
 
             this.numericUpDown_TargetDuration.Value = 1500;
 
-            // Get the first device's ID.
-            try
-            {
-                int[] deviceIDs = QLHelper.GetDeviceIDs();
-                if (deviceIDs.Length == 0)
-                {
-                    this.Display("No eye trackers found\n");
-                    return;
-                }
-                this.devID = deviceIDs[0];
-                this.Display(string.Format("Using device {0}.\n", this.devID));
-            }
-            catch (QLErrorException e)
-            {
-                this.Display(e.Message + "\n");
-                return;
-            }
-            catch (DllNotFoundException e)
-            {
-                this.Display(e.Message + "\n");
-                return;
-            }
+            this.devID = deviceID;
+
+            this.Display(string.Format("Using device {0}.\n", this.devID));
 
             // Get the device info.
             QLDeviceInfo devInfo;

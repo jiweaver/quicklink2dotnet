@@ -90,39 +90,20 @@ namespace GazeInfo2
 
         #region Constructors
 
-        public MainForm()
+        public MainForm(int deviceID)
         {
             InitializeComponent();
 
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
 
-            // Get the first device's ID.
-            try
-            {
-                int[] deviceIDs = QLHelper.GetDeviceIDs();
-                if (deviceIDs.Length == 0)
-                {
-                    this.Display("No eye trackers found.");
-                    return;
-                }
-                this.devID = deviceIDs[0];
-                this.Display(string.Format("Using device {0}.\n", this.devID));
-            }
-            catch (QLErrorException e)
-            {
-                this.Display(e.Message + "\n");
-                // Can't continue without a device.
-                return;
-            }
-            catch (DllNotFoundException e)
-            {
-                this.Display(e.Message + "\n");
-                return;
-            }
+            this.devID = deviceID;
+
+            this.Display(string.Format("Using device {0}.\n", this.devID));
 
             // Get the device info.
             QLDeviceInfo devInfo;
             QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
+
             this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
 
             // Create the capture thread, start it, and wait till it's alive.

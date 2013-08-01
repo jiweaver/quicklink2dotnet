@@ -156,7 +156,7 @@ namespace QuickLink2DotNet
         /// <list type="numbered">
         /// <item>
         /// <description>
-        /// Loading the calibration from the specified file fails
+        /// Enumerating the bus fails.
         /// </description>
         /// </item>
         /// </list>
@@ -428,6 +428,417 @@ namespace QuickLink2DotNet
             {
                 throw new QLErrorException("QLSettings_Save", error);
             }
+        }
+
+        /// <summary>
+        /// Prompts the user for a password for the specified device and writes it to the specified
+        /// settings file.  If the specified settings file already exists, and an entry for the device's
+        /// password exists within the file, then the user will be prompted if they "are sure?" they want
+        /// to overwrite the existing password (unless the <paramref name="force"/> parameter is true).
+        /// </summary>
+        /// <param name="deviceID">
+        /// The ID of the device for which we wish to set the password.
+        /// </param>
+        /// <param name="filename">
+        /// The path to the settings file where we wish to save the password.
+        /// </param>
+        /// <param name="force">
+        /// When set to true, ignores and overwrites any existing password for the specified device
+        /// without prompting; otherwise, prompts "are you sure?" when the password already exists in the
+        /// specified file.
+        /// </param>
+        /// <exception cref="QLErrorException">
+        /// <para>
+        /// Thrown when:
+        /// <list type="numbered">
+        /// <item>
+        /// <description>
+        /// The specified file already exists, but loading the settings from the specified file fails.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Creating a new settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Fetching info for the specified device fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Removal of existing password from settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Writing the value of the new password to the settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Saving the settings container to the specified file fails
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In all cases, the name of the offending API function is written to the QLFunctionName field,
+        /// the returned QLError value is written to the QLError field, and a message with further
+        /// specific information is written to the Message field of the exception object.
+        /// </para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when:
+        /// <list type="numbered">
+        /// <item>
+        /// <description>
+        /// The specified deviceID is invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </exception>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
+        public static void ConsoleInteractive_SetDevicePassword(int deviceID, string filename, bool force)
+        {
+            ConsoleKey keypress = ConsoleKey.Y;
+
+            if (!force)
+            {
+                try
+                {
+                    QLHelper.LoadDevicePasswordFromFile(deviceID, filename);
+                    Console.Write("Device password is already set. Would you like to enter a new password? (y/n): ");
+                    ConsoleKeyInfo keyInfo = Console.ReadKey();
+                    Console.WriteLine();
+                    keypress = keyInfo.Key;
+                }
+                catch (QLErrorException e)
+                {
+                    if (e.QLError != QLError.QL_ERROR_INVALID_PATH && e.QLError != QLError.QL_ERROR_NOT_FOUND)
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            while (keypress == ConsoleKey.Y)
+            {
+                QLDeviceInfo info;
+                QuickLink2API.QLDevice_GetInfo(deviceID, out info);
+                Console.Write("Enter password for detected model {0} with serial number {1}: ", info.modelName, info.serialNumber);
+                string password = Console.ReadLine();
+
+                QLError error = QuickLink2API.QLDevice_SetPassword(deviceID, password);
+                if (error == QLError.QL_ERROR_INVALID_PASSWORD)
+                {
+                    Console.WriteLine("New password is invalid. Try again? (y/n): ");
+                    ConsoleKeyInfo keyInfo = Console.ReadKey();
+                    keypress = keyInfo.Key;
+                    continue;
+                }
+                else if (error != QLError.QL_ERROR_OK)
+                {
+                    throw new QLErrorException("QLDevice_SetPassword", error, "Setting device password failed");
+                }
+                else
+                {
+                    QLHelper.SaveDevicePasswordToFile(deviceID, password, filename);
+                    Console.WriteLine("New password saved.");
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Prompts the user for a password for the specified device and writes it to the specified
+        /// settings file.  If the specified settings file already exists, and an entry for the device's
+        /// password exists within the file, then the user will be prompted if they "are sure?" they want
+        /// to overwrite the existing password.
+        /// </summary>
+        /// <param name="deviceID">
+        /// The ID of the device for which we wish to set the password.
+        /// </param>
+        /// <param name="filename">
+        /// The path to the settings file where we wish to save the password.
+        /// </param>
+        /// <exception cref="QLErrorException">
+        /// <para>
+        /// Thrown when:
+        /// <list type="numbered">
+        /// <item>
+        /// <description>
+        /// The specified file already exists, but loading the settings from the specified file fails.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Creating a new settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Fetching info for the specified device fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Removal of existing password from settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Writing the value of the new password to the settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Saving the settings container to the specified file fails
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In all cases, the name of the offending API function is written to the QLFunctionName field,
+        /// the returned QLError value is written to the QLError field, and a message with further
+        /// specific information is written to the Message field of the exception object.
+        /// </para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when:
+        /// <list type="numbered">
+        /// <item>
+        /// <description>
+        /// The specified deviceID is invalid.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </exception>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
+        public static void ConsoleInteractive_SetDevicePassword(int deviceID, string filename)
+        {
+            ConsoleInteractive_SetDevicePassword(deviceID, filename, false);
+        }
+
+        /// <summary>
+        /// Detects all eye tracker devices on the system and lists them on the console, then prompts the
+        /// user to choose a device.  If only one device is found, that device ID is returned without
+        /// prompting the user for input.
+        /// </summary>
+        /// <returns>
+        /// The ID of the chosen device.  Returns -1 if no devices are found or the user opts to quit.
+        /// </returns>
+        /// <exception cref="QLErrorException">
+        /// Thrown when:
+        /// <list type="numbered">
+        /// <item>
+        /// <description>
+        /// Enumerating the bus fails.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
+        /// In all cases, the name of the offending API function is written to the QLFunctionName field,
+        /// the returned QLError value is written to the QLError field, and a message with further
+        /// specific information is written to the Message field of the exception object.
+        /// </para>
+        /// </exception>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
+        public static int ConsoleInteractive_GetDeviceID()
+        {
+            int deviceID = -1;
+
+            int[] deviceIDs = QLHelper.GetDeviceIDs();
+            if (deviceIDs.Length == 0)
+            {
+                Console.WriteLine("No eye trackers found.");
+                return -1;
+            }
+            else if (deviceIDs.Length == 1)
+            {
+                return deviceIDs[0];
+            }
+            else
+            {
+                Console.WriteLine("Found devices:");
+                for (int i = 0; i < deviceIDs.Length; i++)
+                {
+                    QLDeviceInfo info;
+                    QLError error = QuickLink2API.QLDevice_GetInfo(deviceIDs[i], out info);
+                    Console.WriteLine("  ID: {0}; Model: {1}; Serial: {2}", deviceIDs[i], info.modelName, info.serialNumber);
+                }
+
+                do
+                {
+                    Console.Write("Enter the ID of the device to use (or enter q to quit): ");
+                    string answer = Console.ReadLine();
+
+                    if (answer.Equals("q") || answer.Equals("Q"))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            deviceID = Int32.Parse(answer);
+                        }
+                        catch (ArgumentException) { continue; }
+                        catch (FormatException) { continue; }
+                        catch (OverflowException) { continue; }
+                    }
+
+                    for (int i = 0; i < deviceIDs.Length; i++)
+                    {
+                        if (deviceID == deviceIDs[i])
+                        {
+                            return deviceID;
+                        }
+                    }
+                } while (deviceID < 0);
+
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// <list type="numeric">
+        /// <item>
+        /// <decription>
+        /// Uses the console to allow the user to select a device from all detected devices on the
+        /// system.
+        /// </decription>
+        /// </item>
+        /// <item>
+        /// <decription>
+        /// Checks the specified settings file for a valid password for the selected device and prompts
+        /// the user to enter one if it is not found.  If a new password is entered, then the new
+        /// password is also saved to the specified settings file.
+        /// </decription>
+        /// </item>
+        /// <item>
+        /// <decription>
+        /// Readies the selected device by writing the password to it.
+        /// </decription>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="filename">
+        /// The path to the settings file that we wish to load the device password from and/or where we
+        /// wish to save the password to.
+        /// </param>
+        /// <returns>
+        /// The ID of the chosen device on success.  -1 if no devices are detected or the user cancels.
+        /// </returns>
+        /// <exception cref="QLErrorException">
+        /// <para>
+        /// Thrown when:
+        /// <list type="numbered">
+        /// <item>
+        /// <description>
+        /// Enumerating the bus fails.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Loading the settings from the specified file fails for reasons other than
+        /// <see cref="QLError.QL_ERROR_INVALID_PATH"/>, <see cref="QLError.QL_ERROR_NOT_FOUND"/>, or
+        /// <see cref="QLError.QL_ERROR_INVALID_PASSWORD"/>.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Fetching info for the specified device fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// The specified file already exists, but loading the settings from the specified file fails.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Creating a new settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Fetching info for the specified device fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Removal of existing password from settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Writing the value of the new password to the settings container fails
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// Saving the settings container to the specified file fails
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// In all cases, the name of the offending API function is written to the QLFunctionName field,
+        /// the returned QLError value is written to the QLError field, and a message with further
+        /// specific information is written to the Message field of the exception object.
+        /// </para>
+        /// </exception>
+        /// <exception cref="DllNotFoundException">
+        /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
+        /// in the same directory as your program's binary executable; otherwise, this exception will be
+        /// thrown.
+        /// </exception>
+        public static int ConsoleInteractive_Initialize(string filename)
+        {
+            int deviceID = QLHelper.ConsoleInteractive_GetDeviceID();
+
+            if (deviceID == -1)
+            {
+                return -1;
+            }
+
+            try
+            {
+                QLHelper.LoadDevicePasswordFromFile(deviceID, filename);
+            }
+            catch (QLErrorException e)
+            {
+                if (e.QLError == QLError.QL_ERROR_INVALID_PATH || e.QLError == QLError.QL_ERROR_NOT_FOUND)
+                {
+                    Console.WriteLine("Device password not found.");
+                    QLHelper.ConsoleInteractive_SetDevicePassword(deviceID, filename);
+                }
+                else if (e.QLError == QLError.QL_ERROR_INVALID_PASSWORD)
+                {
+                    Console.WriteLine("Device password is invalid.");
+                    QLHelper.ConsoleInteractive_SetDevicePassword(deviceID, filename, true);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return deviceID;
         }
     }
 }
