@@ -1,8 +1,9 @@
 ﻿#region License
 
-/* QuickLink2DotNet : A .NET wrapper (in C#) for EyeTech's QuickLink2 API.
+/* QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's
+ * unmanaged QuickLink2 API for use in the managed Microsoft .NET environment.
  *
- * Copyright (c) 2011-2013 Justin Weaver
+ * Copyright © 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -36,8 +37,9 @@
  * same directory as your program executable.  You can download QuickLink2 from
  * http://www.eyetechds.com/support/downloads.
  *
- * The extensive API documentation is based upon the API documentation provided
- * by EyeTech.
+ * The extensive XML documentation in this wrapper is based upon the inline
+ * Doxygen comments found in the QuickLink2 API C++ header files from EyeTech
+ * Digital Systems, Inc.
  */
 
 #endregion Header Comments

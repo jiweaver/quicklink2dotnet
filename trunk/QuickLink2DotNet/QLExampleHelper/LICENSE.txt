@@ -1,4 +1,5 @@
-/* QuickLink2DotNet Examples: Calibrate2.
+/* QuickLink2DotNet Example Helper: A class library containing some convenience
+ * methods used in a number of the example programs to reduce code duplication.
  *
  * Copyright (c) 2011-2013 Justin Weaver
  *

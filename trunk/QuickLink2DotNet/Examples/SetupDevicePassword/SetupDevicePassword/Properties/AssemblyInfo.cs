@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SetupDevicePassword")]
-[assembly: AssemblyCopyright("Copyright © 2013 Justin Weaver")]
+[assembly: AssemblyCopyright("Copyright © 2011-2013 Justin Weaver")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

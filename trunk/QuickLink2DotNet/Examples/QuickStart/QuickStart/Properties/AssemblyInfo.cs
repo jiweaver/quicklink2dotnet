@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EyeTech Digital Systems")]
 [assembly: AssemblyProduct("QuickStart")]
-[assembly: AssemblyCopyright("Copyright ©  2013 EyeTech Digital Systems")]
+[assembly: AssemblyCopyright("Copyright © 2009-2013 EyeTech Digital Systems")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,9 +1,14 @@
 ﻿#region License
 
-/* Initialize: Class to provide an easy method for initializing an eye tracker
- * device.
+/* QuickLink2DotNet QuickStart Example: A very simple console example to
+ * demonstrate initialization, calibration, and data collection from the eye
+ * tracker.  The password is saved in the file
+ * "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later
+ * use.  The calibration is saved in the file
+ * "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later
+ * use.
  *
- * Copyright (c) 2009-2012 EyeTech Digital Systems
+ * Copyright © 2009-2012 EyeTech Digital Systems
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to

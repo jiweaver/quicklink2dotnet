@@ -1,39 +1,36 @@
-QuickLink2DotNet
+QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's unmanaged QuickLink2 API for use in the managed Microsoft .NET environment.
 
-Copyright (c) 2011-2013 Justin Weaver
+Author: Justin Weaver
+Copyright © 2011-2013 Justin Weaver
 Homepage: http://quicklinkapi4net.googlecode.com
 
 
+!!!ATTENTION!!!: Copy the QuickLink2 libraries (QuickLink2.dll, PGRFlyCapture.dll, and SMX11MX.dll) from your QuickLink2 installation into a your program's output directory.  Otherwise, your program will not find the libraries at runtime.  For instance, if you want to run the SetupDevicePassword example, first you should compile the example in Visual Studio 2010, and then copy the aforementioned QuickLink2 libraries to the example's \bin\Debug directory before you attempt to run the example.
+
+
 Main Directory Contents:
+===================================
+(1) Docs: Main help and documentation files for QuickLink2DotNet.
 
-(1) Docs: Main help and documentation files for QuickLink2DotNet. <---LOOK HERE FOR ALL OTHER INFORMATION NOT PRESENTED HERE!
+(2) Examples: Usage examples and helpful utilities for use with QuickLink2DotNet.
 
-(2) Examples: Examples and helpful utilities for use with QuickLink2DotNet.
+(3) QLExampleHelper: A class library containing some convenience methods used in a number of the example programs to reduce code duplication.
 
-(3) QuickLink2DotNet: The QuickLink2DotNet API wrapper.
-
-
-'Examples' Directory Contents:
-
-(1) Calibrate2: A program that performs and saves device calibration, and saves the device password to a file for later use.  Be aware that the password file that this example generates is necessary for GazeInfo2 and VideoViewer2 to function properly.  Additionally, GazeInfo2 will not be able to report the user's gaze information unless the calibration file is present.  So, be sure to run this example before attempting to run GazeInfo2 or VideoViewer2.
-	This example will store its calibration file in: "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc"
-	This example will store its settings/password file in: "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt"
-
-(2) QuickLink2APIHelper: A class library of helper methods for use with QuickLink2DotNet.
-
-(3) GazeInfo2: Displays a stream of info from the first eye tracker device on the system.
-
-(4) QuickStart: A simple example to demonstrate initialization, calibration, and data collection from the eye tracker.
-
-(5) SetupDevicePassword: Set the password, and save it to the settings file, for any selected device detected on the system.
-
-(6) ShowDeviceSettings: Display all of the device settings for any selected device detected on the system.
-
-(7) StopAllDevices: Shuts down all the EyeTech eye tracker devices on the system.  This is sometimes handy to have during debugging.
-
-(8) VideoViewer2: Displays video from the first eye tracker device on the system.
+(4) QuickLink2DotNet: The QuickLink2DotNet API wrapper.
 
 
-IMPORTANT NOTE ABOUT EXAMPLES:
+Examples Directory Contents:
+===================================
+(1) DeviceInfo: Displays a list of available devices and prompts the user to select one.  Then queries the selected device for all its settings and displays their values.
 
-Don't forget to copy the QuickLink2 DLLs from your QuickLink2 install into the 'Examples\<Example Name>\bin\Debug' or 'Examples\<Example Name>\bin\Release' directories of whatever example you are working with.  Otherwise, the examples will complain about not being able to find the QuickLink2 DLLs when you try to run them.
+(2) GazeInfo2: Displays a list of available devices and prompts the user to select one.  Then displays a stream of info from the device on a Windows Form.  Requires password and calibration files (see #3, 4, and 5 in this list).
+
+(3) QuickStart: A very simple console example to demonstrate initialization, calibration, and data collection from the eye tracker.  The password is saved in the file  "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later use.  The calibration is saved in the file "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later use.
+
+(4) SetupDeviceCalibration: Displays a list of available devices and prompts the user to select one.  Then performs device calibration.  The calibration is saved in the file "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later use.
+
+(5) SetupDevicePassword: Displays a list of available devices and prompts the user to select one.  Then prompts for the device's password.  The password is saved in the file  "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later use.
+
+(6) StopAllDevices: Stops all the EyeTech eye tracker devices on the system without prompting.  Requires password file (see #4 or 5 in this list).
+
+(7) VideoViewer2: Displays a list of available devices and prompts the user to select one.  Then displays video from the selected device.  Requires password and calibration files (see #3, 4, and 5 in this list).

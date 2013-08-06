@@ -1,8 +1,9 @@
 ﻿#region License
 
-/* QuickLink2DotNet : A .NET wrapper (in C#) for EyeTech's QuickLink2 API.
+/* QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's
+ * unmanaged QuickLink2 API for use in the managed Microsoft .NET environment.
  *
- * Copyright (c) 2011-2013 Justin Weaver
+ * Copyright © 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -29,16 +30,17 @@
 
 /* $Id: QLTypes.cs 38 2011-05-09 01:07:39Z piranther $
  *
- * Description: This file contains the definitions of all the strings,
- * data structures, and enumerations available through QuickLink2.dll
+ * Description: This file exposes the API constants, data structures, and
+ * enumerations available through EyeTech's QuickLink2.dll for use in managed
+ * code like C# and Visual Basic.
  *
- * This wrapper requires that you place the QuickLink2.dlls in the same
- * directory as your program executable.  You can download QuickLink2 from
- * http://www.eyetechds.com/support/downloads
+ * ATTENTION!!: This wrapper requires that you place the QuickLink2.dlls in the
+ * same directory as your program executable.  You can download QuickLink2 from
+ * http://www.eyetechds.com/support/downloads.
  *
- * The extensive inline documentation has been cut & pasted from the
- * QLTypes.h C++ header file for convenient reference. That original file is
- * Copyright (C) 1996 - 2012 EyeTech Digital Systems.
+ * The extensive XML documentation in this wrapper is based upon the inline
+ * Doxygen comments found in the QuickLink2 API C++ header files from EyeTech
+ * Digital Systems, Inc.
  */
 
 #endregion Header Comments

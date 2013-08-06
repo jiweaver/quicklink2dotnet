@@ -1,5 +1,8 @@
-/* QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's
- * unmanaged QuickLink2 API for use in the managed Microsoft .NET environment.
+/* QuickLink2DotNet SetupDeviceCalibration Example: Displays a list of
+ * available devices and prompts the user to select one.  Then performs device
+ * calibration.  The calibration is saved in the file
+ * "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later
+ * use.
  *
  * Copyright © 2011-2013 Justin Weaver
  *

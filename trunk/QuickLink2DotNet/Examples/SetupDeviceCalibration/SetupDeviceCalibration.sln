@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calibrate2", "Calibrate2\Calibrate2.csproj", "{2C6B7AE2-6716-4E95-A813-5A8929AEABCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupDeviceCalibration", "SetupDeviceCalibration\SetupDeviceCalibration.csproj", "{2C6B7AE2-6716-4E95-A813-5A8929AEABCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLink2DotNet", "..\..\QuickLink2DotNet\QuickLink2DotNet.csproj", "{95D15B06-7319-4839-850B-C35F63B4FCCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLExampleHelper", "..\..\QLExampleHelper\QLExampleHelper.csproj", "{C059CF24-B4CF-4C99-8CCA-951044A0807E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,16 @@ Global
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{95D15B06-7319-4839-850B-C35F63B4FCCF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C059CF24-B4CF-4C99-8CCA-951044A0807E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

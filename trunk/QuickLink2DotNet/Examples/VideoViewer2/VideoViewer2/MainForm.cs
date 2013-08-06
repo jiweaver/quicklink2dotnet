@@ -1,9 +1,10 @@
 ﻿#region License
 
-/* VideoViewer2: This program displays the video image from the first eye
- * tracker on the system.
+/* QuickLink2DotNet VideoViewer2 Example: Displays a list of available devices
+ * and prompts the user to select one.  Then displays video from the selected
+ * device.  Requires password and calibration files.
  *
- * Copyright (c) 2011-2013 Justin Weaver
+ * Copyright © 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -28,10 +29,10 @@
 
 #region Header Comments
 
-/* $Id: MainForm.cs 38 2011-05-09 01:07:39Z piranther $
+/* $Id: QLTypes.cs 38 2011-05-09 01:07:39Z piranther $
  *
- * Description: This program displays the video image from the first eye
- * tracker on the system.
+ * Author: Justin Weaver
+ * Homepage: http://quicklinkapi4net.googlecode.com
  */
 
 #endregion Header Comments
@@ -49,23 +50,7 @@ namespace VideoViewer2
 {
     public partial class MainForm : Form
     {
-        #region Configuration
-
-        /// <summary>
-        /// Maximum time for the reader thread to block and wait for a new
-        /// frame from the eye tracker before reporting error to the log and
-        /// trying again.
-        /// </summary>
-        private const int MaxFrameWaitTime = 240;
-
-        #endregion Configuration
-
         #region Fields
-
-        private static string dirname = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "QuickLink2DotNet");
-
-        // The file used to store the password.
-        private static string filename_Password = System.IO.Path.Combine(dirname, "qlsettings.txt");
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
@@ -101,14 +86,6 @@ namespace VideoViewer2
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
 
             this.devID = deviceID;
-
-            this.Display(string.Format("Using device {0}.\n", this.devID));
-
-            // Get the device info.
-            QLDeviceInfo devInfo;
-            QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
-
-            this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
 
             // Create the reader thread, start it, and wait till it's alive.
             this.readerThread = new Thread(new ThreadStart(this.ReaderThreadTask));
@@ -255,46 +232,6 @@ namespace VideoViewer2
         /// </summary>
         public void ReaderThreadTask()
         {
-            string password;
-
-            // Attempt to load the device password from a file.
-            try
-            {
-                password = QLHelper.LoadDevicePasswordFromFile(this.devID, filename_Password);
-                this.Display("Loaded password from settings file.\n");
-            }
-            catch (QLErrorException e)
-            {
-                this.Display(e.Message + "\n");
-                // Can't continue without password.
-                return;
-            }
-            catch (DllNotFoundException e)
-            {
-                this.Display(e.Message + "\n");
-                // Can't continue without password.
-                return;
-            }
-
-            // Write the password to the device.
-            QLError error = QuickLink2API.QLDevice_SetPassword(this.devID, password);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_SetPassword() returned {0}.", error.ToString()));
-                return;
-            }
-
-            // Start the device.
-            error = QuickLink2API.QLDevice_Start(this.devID);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_Start() returned {0}", error.ToString()));
-                return;
-            }
-            this.Display("Device has been started.\n");
-
-            this.Display(string.Format("Reading from device {0}.", this.devID));
-
             while (true)
             {
                 // Sleep while the frame is full and we aren't shutting down.
@@ -307,7 +244,7 @@ namespace VideoViewer2
                     break;
 
                 // Read a new data sample.
-                QLError qlerror = QuickLink2API.QLDevice_GetFrame(this.devID, MaxFrameWaitTime, ref this.currentFrame);
+                QLError qlerror = QuickLink2API.QLDevice_GetFrame(this.devID, 20000, ref this.currentFrame);
                 if (qlerror == QLError.QL_ERROR_OK)
                 {
                     // Make a Bitmap with the pixel data from the new frame.
@@ -323,15 +260,6 @@ namespace VideoViewer2
                     this.Display(string.Format("QLDevice_GetFrame() returned {0}\n", qlerror.ToString()));
                 }
             }
-
-            // Stop the device.
-            error = QuickLink2API.QLDevice_Stop(this.devID);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
-            }
-
-            this.Display("Stopped Device.\n");
         }
 
         #endregion Frame Reader Thread

@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{862AED9C-D616-4ED7-8DD2-ABE594206785}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C059CF24-B4CF-4C99-8CCA-951044A0807E}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StopAllDevices</RootNamespace>
-    <AssemblyName>StopAllDevices</AssemblyName>
+    <RootNamespace>QLExampleHelper</RootNamespace>
+    <AssemblyName>QLExampleHelper</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,15 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLExampleHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\QLExampleHelper\QLExampleHelper.csproj">
-      <Project>{C059CF24-B4CF-4C99-8CCA-951044A0807E}</Project>
-      <Name>QLExampleHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\QuickLink2DotNet\QuickLink2DotNet.csproj">
+    <ProjectReference Include="..\QuickLink2DotNet\QuickLink2DotNet.csproj">
       <Project>{95D15B06-7319-4839-850B-C35F63B4FCCF}</Project>
       <Name>QuickLink2DotNet</Name>
     </ProjectReference>

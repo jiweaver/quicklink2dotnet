@@ -1,8 +1,9 @@
 ﻿#region License
 
-/* StopAllDevices: Stops all eye tracker devices connected to the system.
+/* QuickLink2DotNet StopAllDevices Example: Stops all the EyeTech eye tracker
+ * devices on the system without prompting.  Requires password file.
  *
- * Copyright (c) 2011-2013 Justin Weaver
+ * Copyright © 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -27,9 +28,10 @@
 
 #region Header Comments
 
-/* $Id: MainForm.cs 38 2011-05-09 01:07:39Z piranther $
+/* $Id: QLTypes.cs 38 2011-05-09 01:07:39Z piranther $
  *
- * Description: Stops all eye tracker devices connected to the system.
+ * Author: Justin Weaver
+ * Homepage: http://quicklinkapi4net.googlecode.com
  */
 
 #endregion Header Comments
@@ -39,6 +41,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using QLExampleHelper;
 using QuickLink2DotNet;
 
 namespace StopAllDevices
@@ -62,49 +65,53 @@ namespace StopAllDevices
                 for (int i = 0; i < deviceIDs.Length; i++)
                 {
                     int deviceID = deviceIDs[i];
+
                     QLDeviceInfo info;
                     QLError error = QuickLink2API.QLDevice_GetInfo(deviceID, out info);
-                    if (error == QLError.QL_ERROR_OK)
+                    if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("  ID: {0}; Model: {1}; Serial: {2}", deviceID, info.modelName, info.serialNumber);
+                        Console.WriteLine("QLDevice_GetInfo() returned {0} for device {1}.", error.ToString(), deviceID);
+                        continue;
                     }
+
+                    Console.WriteLine("  ID: {0}; Model: {1}; Serial: {2}", deviceID, info.modelName, info.serialNumber);
                 }
+
                 Console.WriteLine();
 
                 for (int i = 0; i < deviceIDs.Length; i++)
                 {
                     int deviceID = deviceIDs[i];
-                    try
+
+                    string password = QLHelper.ReadPasswordFromFile(deviceID, filename);
+                    if (password == null)
                     {
-                        QLHelper.LoadDevicePasswordFromFile(deviceID, filename);
-                    }
-                    catch (QLErrorException e)
-                    {
-                        if (e.QLError == QLError.QL_ERROR_INVALID_PATH || e.QLError == QLError.QL_ERROR_NOT_FOUND)
-                        {
-                            Console.WriteLine("Device password not found.");
-                            QLHelper.ConsoleInteractive_SetDevicePassword(deviceID, filename);
-                        }
-                        else if (e.QLError == QLError.QL_ERROR_INVALID_PASSWORD)
-                        {
-                            Console.WriteLine("Device password is invalid.");
-                            QLHelper.ConsoleInteractive_SetDevicePassword(deviceID, filename, true);
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        Console.WriteLine("No password found for device {0}.", deviceID);
+                        continue;
                     }
 
-                    QLError error = QuickLink2API.QLDevice_Stop(deviceID);
-                    if (error == QLError.QL_ERROR_OK)
+                    QLError error = QuickLink2API.QLDevice_SetPassword(deviceID, password);
+                    if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("Device {0} stopped.", deviceID);
+                        Console.WriteLine("QLDevice_SetPassword() returned {0} for device {1}.", error.ToString(), deviceID);
+                        continue;
                     }
-                    else
+
+                    error = QuickLink2API.QLDevice_Start(deviceID);
+                    if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("Performing QLDevice_Stop() on device {0} failed with error code {1}.", deviceID, error.ToString());
+                        Console.WriteLine("QLDevice_Start() returned {0} for device {1}.", error.ToString(), deviceID);
+                        continue;
                     }
+
+                    error = QuickLink2API.QLDevice_Stop(deviceID);
+                    if (error != QLError.QL_ERROR_OK)
+                    {
+                        Console.WriteLine("QLDevice_Stop() returned {0} for device {1}.", error.ToString(), deviceID);
+                        continue;
+                    }
+
+                    Console.WriteLine("Device {0} stopped.", deviceID);
                 }
             }
 

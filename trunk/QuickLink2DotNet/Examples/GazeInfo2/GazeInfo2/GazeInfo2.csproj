@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AE7AF838-FBB1-4B1B-8B27-59697A46B002}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GazeInfo2</RootNamespace>
     <AssemblyName>GazeInfo2</AssemblyName>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -78,6 +81,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\QLExampleHelper\QLExampleHelper.csproj">
+      <Project>{C059CF24-B4CF-4C99-8CCA-951044A0807E}</Project>
+      <Name>QLExampleHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\QuickLink2DotNet\QuickLink2DotNet.csproj">
       <Project>{95D15B06-7319-4839-850B-C35F63B4FCCF}</Project>
       <Name>QuickLink2DotNet</Name>

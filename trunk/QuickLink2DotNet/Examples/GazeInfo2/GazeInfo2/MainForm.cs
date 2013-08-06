@@ -1,8 +1,10 @@
 ﻿#region License
 
-/* GazeInfo2: Uses QuickLink2DotNet to display info from the eye tracker.
+/* QuickLink2DotNet GazInfo2 Example: Displays a list of available devices and
+ * prompts the user to select one.  Then displays a stream of info from the
+ * device on a Windows Form.  Requires password and calibration files.
  *
- * Copyright (c) 2011-2013 Justin Weaver
+ * Copyright © 2011-2013 Justin Weaver
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -27,10 +29,10 @@
 
 #region Header Comments
 
-/* $Id: MainForm.cs 38 2011-05-09 01:07:39Z piranther $
+/* $Id: QLTypes.cs 38 2011-05-09 01:07:39Z piranther $
  *
- * Description: This program shows info from the eye tracker about the user's
- * gaze.
+ * Author: Justin Weaver
+ * Homepage: http://quicklinkapi4net.googlecode.com
  */
 
 #endregion Header Comments
@@ -52,24 +54,9 @@ namespace GazeInfo2
         /// </summary>
         private const int MinDelayBetweenReads = 1000;
 
-        /// <summary>
-        /// Maximum time for the reader thread to block and wait for a new
-        /// frame from the eye tracker before reporting error to the log and
-        /// trying again.
-        /// </summary>
-        private const int MaxFrameWaitTime = 240;
-
         #endregion Configuration
 
         #region Fields
-
-        private static string dirname = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "QuickLink2DotNet");
-
-        // The file used to store the password.
-        private static string filename_Password = System.IO.Path.Combine(dirname, "qlsettings.txt");
-
-        // The file used to store the calibration information.
-        private static string filename_Calibration = System.IO.Path.Combine(dirname + "qlcalibration.qlc");
 
         // The ID of the device we are using.  Fetched from QuickLink2.
         private int devID = -1;
@@ -97,14 +84,6 @@ namespace GazeInfo2
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
 
             this.devID = deviceID;
-
-            this.Display(string.Format("Using device {0}.\n", this.devID));
-
-            // Get the device info.
-            QLDeviceInfo devInfo;
-            QuickLink2API.QLDevice_GetInfo(this.devID, out devInfo);
-
-            this.Display(string.Format("[Dev{0}] Model:{1}, Serial:{2}, Sensor:{3}x{4}.\n", this.devID, devInfo.modelName, devInfo.serialNumber, devInfo.sensorWidth, devInfo.sensorHeight));
 
             // Create the capture thread, start it, and wait till it's alive.
             this.readerThread = new Thread(new ThreadStart(this.ReaderThreadTask));
@@ -308,72 +287,6 @@ namespace GazeInfo2
         /// </summary>
         public void ReaderThreadTask()
         {
-            string password;
-
-            // Attempt to load the device password from a file.
-            try
-            {
-                password = QLHelper.LoadDevicePasswordFromFile(this.devID, filename_Password);
-                this.Display("Loaded password from settings file.\n");
-            }
-            catch (QLErrorException e)
-            {
-                this.Display(e.Message + "\n");
-                // Can't continue without password.
-                return;
-            }
-            catch (DllNotFoundException e)
-            {
-                this.Display(e.Message + "\n");
-                // Can't continue without password.
-                return;
-            }
-
-            // Write the password to the device.
-            QLError error = QuickLink2API.QLDevice_SetPassword(this.devID, password);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_SetPassword() returned {0}.", error.ToString()));
-                return;
-            }
-
-            // Start the device.
-            error = QuickLink2API.QLDevice_Start(this.devID);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_Start() returned {0}", error.ToString()));
-                return;
-            }
-            this.Display("Device has been started.\n");
-
-            // Load the calibration out of a file into a new calibration container.
-            int calibrationID = -1;
-            error = QuickLink2API.QLCalibration_Load(filename_Calibration, ref calibrationID);
-            if (error == QLError.QL_ERROR_INVALID_PATH)
-            {
-                this.Display(string.Format("The specified calibration file '{0}' does not exist", filename_Calibration));
-                return;
-            }
-            else if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLCalibration_Load() returned {0}.", error.ToString()));
-                return;
-            }
-
-            // Apply the calibration.
-            error = QuickLink2API.QLDevice_ApplyCalibration(this.devID, calibrationID);
-            if (error == QLError.QL_ERROR_INVALID_DEVICE_ID)
-            {
-                this.Display(string.Format("Invalid device ID: {0}.", this.devID));
-                return;
-            }
-            else if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_ApplyCalibration returned {0}.", error.ToString()));
-                return;
-            }
-            this.Display("Calibration has been loaded and applied.\n");
-
             this.Display(string.Format("Reading from device.  Updating Every: {0} ms.\n", MinDelayBetweenReads));
 
             // Create an empty frame structure to hold the data we read.
@@ -391,34 +304,24 @@ namespace GazeInfo2
                     break;
 
                 // Read a new data sample.
-                QLError qlerror = QuickLink2API.QLDevice_GetFrame(this.devID, MaxFrameWaitTime, ref frame);
-                if (qlerror == QLError.QL_ERROR_OK)
-                {
-                    // Tell the paint event handler to display the frame.
-                    this.frameInUse = true;
-
-                    // Update the form's display.
-                    UpdateReadout(ref frame);
-
-                    // Sleep the configured delay time.
-                    if (MinDelayBetweenReads > 0)
-                        Thread.Sleep(MinDelayBetweenReads);
-                }
-                else
+                QLError error = QuickLink2API.QLDevice_GetFrame(this.devID, 20000, ref frame);
+                if (error != QLError.QL_ERROR_OK)
                 {
                     // Attempting to get a frame resulted in an error!
-                    this.Display(string.Format("QLDevice_GetFrame() returned {0}\n", qlerror.ToString()));
+                    this.Display(string.Format("QLDevice_GetFrame() returned {0}\n", error.ToString()));
+                    continue;
                 }
-            }
 
-            // Stop the device.
-            error = QuickLink2API.QLDevice_Stop(this.devID);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                this.Display(string.Format("QLDevice_Stop() returned {0}", error.ToString()));
-            }
+                // Tell the paint event handler to display the frame.
+                this.frameInUse = true;
 
-            this.Display("Stopped Device.\n");
+                // Update the form's display.
+                UpdateReadout(ref frame);
+
+                // Sleep the configured delay time.
+                if (MinDelayBetweenReads > 0)
+                    Thread.Sleep(MinDelayBetweenReads);
+            }
         }
 
         #endregion Frame Reader Thread
