@@ -21,15 +21,15 @@ Main Directory Contents:
 
 Examples Directory Contents:
 ===================================
-(1) DeviceInfo: Displays a list of available devices and prompts the user to select one.  Then queries the selected device for all its settings and displays their values.
+(1) GazeInfo2: Displays a list of available devices and prompts the user to select one.  Then displays a stream of info from the device on a Windows Form.  Requires password and calibration files (see #3, 4, and 5 in this list).
 
-(2) GazeInfo2: Displays a list of available devices and prompts the user to select one.  Then displays a stream of info from the device on a Windows Form.  Requires password and calibration files (see #3, 4, and 5 in this list).
+(2) QuickStart: A very simple console example to demonstrate initialization, calibration, and data collection from the eye tracker.  The password is saved in the file  "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later use.  The calibration is saved in the file "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later use.
 
-(3) QuickStart: A very simple console example to demonstrate initialization, calibration, and data collection from the eye tracker.  The password is saved in the file  "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later use.  The calibration is saved in the file "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later use.
+(3) SetupDeviceCalibration: Displays a list of available devices and prompts the user to select one.  Then performs device calibration.  The calibration is saved in the file "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later use.
 
-(4) SetupDeviceCalibration: Displays a list of available devices and prompts the user to select one.  Then performs device calibration.  The calibration is saved in the file "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlcalibration.qlc" for later use.
+(4) SetupDevicePassword: Displays a list of available devices and prompts the user to select one.  Then prompts for the device's password.  The password is saved in the file  "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later use.
 
-(5) SetupDevicePassword: Displays a list of available devices and prompts the user to select one.  Then prompts for the device's password.  The password is saved in the file  "%USERPROFILE%\AppData\Roaming\QuickLink2DotNet\qlsettings.txt" for later use.
+(5) ShowDeviceSettings: Displays a list of available devices and prompts the user to select one.  Then queries the selected device for all its settings and displays their values.
 
 (6) StopAllDevices: Stops all the EyeTech eye tracker devices on the system without prompting.  Requires password file (see #4 or 5 in this list).
 
