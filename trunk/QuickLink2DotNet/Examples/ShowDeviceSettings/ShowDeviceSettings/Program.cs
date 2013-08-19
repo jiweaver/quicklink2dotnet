@@ -96,15 +96,7 @@ namespace ShowDeviceSettings
 
         private static bool LoadSettingsFrom(int deviceId)
         {
-            int settingsID;
-
-            // Create a new, empty container.
-            QLError error = QuickLink2API.QLSettings_Create(-1, out settingsID);
-            if (error != QLError.QL_ERROR_OK)
-            {
-                Console.WriteLine("QLSettings_Create() returned {0} for device {1}.", error.ToString());
-                return false;
-            }
+            QLError error;
 
             // Discover supported settings.
             foreach (KeyValuePair<string, DeviceSetting> setting in DeviceSettings)
@@ -113,25 +105,38 @@ namespace ShowDeviceSettings
                 if (error == QLError.QL_ERROR_NOT_SUPPORTED)
                 {
                     setting.Value.Supported = false;
-                    error = QuickLink2API.QLSettings_RemoveSetting(settingsID, setting.Key);
-                    if (error != QLError.QL_ERROR_OK && error != QLError.QL_ERROR_NOT_FOUND)
+                }
+                else if (error == QLError.QL_ERROR_OK)
+                {
+                    setting.Value.Supported = true;
+                }
+                else
+                {
+                    Console.WriteLine("QLSettings_IsSettingSupported() returned {0} for key {1}.", error.ToString(), setting.Key);
+                    return false;
+                }
+            }
+
+            // Create a new, empty container.
+            int settingsID;
+            error = QuickLink2API.QLSettings_Create(0, out settingsID);
+            if (error != QLError.QL_ERROR_OK)
+            {
+                Console.WriteLine("QLSettings_Create() returned {0}.", error.ToString());
+                return false;
+            }
+
+            // Add supported settings to container.
+            foreach (KeyValuePair<string, DeviceSetting> setting in DeviceSettings)
+            {
+                if (setting.Value.Supported)
+                {
+                    error = QuickLink2API.QLSettings_AddSetting(settingsID, setting.Key);
+                    if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("QLSettings_RemoveSetting() returned {0} for key {1} device {2}.", error.ToString(), setting.Key, deviceId);
+                        Console.WriteLine("QLSettings_AddSetting() returned {0} for key {1}.", error.ToString(), setting.Key);
                         return false;
                     }
-                }
-                else if (error != QLError.QL_ERROR_OK)
-                {
-                    Console.WriteLine("QLSettings_IsSettingSupported() returned {0} for key {1} on device {2}.", error.ToString(), setting.Key, deviceId);
-                    return false;
-                }
-
-                setting.Value.Supported = true;
-                error = QuickLink2API.QLSettings_AddSetting(settingsID, setting.Key);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    Console.WriteLine("QLSettings_AddSetting() returned {0} for key {1} on device {2}.", error.ToString(), setting.Key, deviceId);
-                    return false;
                 }
             }
 
@@ -139,11 +144,11 @@ namespace ShowDeviceSettings
             error = QuickLink2API.QLDevice_ExportSettings(deviceId, settingsID);
             if (error != QLError.QL_ERROR_OK)
             {
-                Console.WriteLine("QLSettings_ExportSettings() returned {0} for device {1}.", error.ToString(), deviceId);
+                Console.WriteLine("QLSettings_ExportSettings() returned {0}.", error.ToString());
                 return false;
             }
 
-            // Fill in the values for the supported settings.
+            // Collect the values for the supported settings.
             foreach (KeyValuePair<string, DeviceSetting> setting in DeviceSettings)
             {
                 if (!setting.Value.Supported)
@@ -158,7 +163,7 @@ namespace ShowDeviceSettings
                         error = QuickLink2API.QLSettings_GetValueBool(settingsID, setting.Key, out boolValue);
                         if (error != QLError.QL_ERROR_OK)
                         {
-                            Console.WriteLine("QLSettings_GetValueBool() returned {0} for key {1} on device {2}.", error.ToString(), setting.Key, deviceId);
+                            Console.WriteLine("QLSettings_GetValueBool() returned {0} for key {1}.", error.ToString(), setting.Key);
                             return false;
                         }
                         setting.Value.Value = (object)boolValue;
@@ -169,7 +174,7 @@ namespace ShowDeviceSettings
                         error = QuickLink2API.QLSettings_GetValueFloat(settingsID, setting.Key, out floatValue);
                         if (error != QLError.QL_ERROR_OK)
                         {
-                            Console.WriteLine("QLSettings_GetValueFloat() returned {0} for key {1} on device {2}.", error.ToString(), setting.Key, deviceId);
+                            Console.WriteLine("QLSettings_GetValueFloat() returned {0} for key {1}.", error.ToString(), setting.Key);
                             return false;
                         }
                         setting.Value.Value = (object)floatValue;
@@ -180,7 +185,7 @@ namespace ShowDeviceSettings
                         error = QuickLink2API.QLSettings_GetValueInt32(settingsID, setting.Key, out int32Value);
                         if (error != QLError.QL_ERROR_OK)
                         {
-                            Console.WriteLine("QLSettings_GetValueInt32() returned {0} for key {1} on device {2}.", error.ToString(), setting.Key, deviceId);
+                            Console.WriteLine("QLSettings_GetValueInt32() returned {0} for key {1}.", error.ToString(), setting.Key);
                             return false;
                         }
                         setting.Value.Value = (object)int32Value;
