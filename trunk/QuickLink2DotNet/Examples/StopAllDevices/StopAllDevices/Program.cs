@@ -81,9 +81,10 @@ namespace StopAllDevices
         {
             int[] deviceIds;
             QLError error = QLHelper.DeviceEnumerate(out deviceIds);
-            if (error == QLError.QL_ERROR_OK)
+            if (error != QLError.QL_ERROR_OK)
             {
                 Console.WriteLine("QLDevice_Enumerate() returned {0}.", error.ToString());
+                return;
             }
 
             QLHelper.PrintListOfDeviceInfo(deviceIds);
