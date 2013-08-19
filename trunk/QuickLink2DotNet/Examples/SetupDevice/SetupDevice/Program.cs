@@ -1,6 +1,7 @@
 ﻿#region License
 
-/* StopAllDevices: Stops all the EyeTech eye tracker devices on the system.
+/* SetupDevice: Setup an eye tracker device by setting its password, calibration, and
+ * other miscellaneous settings.
  *
  * Copyright © 2011-2013 Justin Weaver
  *
@@ -38,14 +39,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using QuickLink2DotNet;
 using QuickLink2DotNetHelper;
 
-namespace StopAllDevices
+namespace SetupDevice
 {
     class Program
     {
@@ -77,51 +77,18 @@ namespace StopAllDevices
 
         #endregion Disable Close Button
 
-        private static void doTask()
-        {
-            int[] deviceIds;
-            QLError error = QLHelper.DeviceEnumerate(out deviceIds);
-            if (error == QLError.QL_ERROR_OK)
-            {
-                Console.WriteLine("QLDevice_Enumerate() returned {0}.", error.ToString());
-            }
-
-            QLHelper.PrintListOfDeviceInfo(deviceIds);
-
-            Console.WriteLine();
-
-            for (int i = 0; i < deviceIds.Length; i++)
-            {
-                QLHelper helper = QLHelper.FromDeviceId(deviceIds[i]);
-
-                if (!helper.SetupPassword())
-                {
-                    continue;
-                }
-
-                error = QuickLink2API.QLDevice_Start(helper.DeviceId);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    Console.WriteLine("QLDevice_Start() returned {0} for device {1}.", error.ToString(), helper.DeviceId);
-                    continue;
-                }
-
-                error = QuickLink2API.QLDevice_Stop(helper.DeviceId);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    Console.WriteLine("QLDevice_Stop() returned {0} for device {1}.", error.ToString(), helper.DeviceId);
-                    continue;
-                }
-
-                Console.WriteLine("Device {0} stopped.", helper.DeviceId);
-            }
-        }
-
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             DisableCloseButton();
 
-            doTask();
+            QLHelper helper = QLHelper.ChooseDevice();
+            if (helper != null)
+            {
+                if (helper.SetupPassword())
+                {
+                    helper.SetupCalibration(true);
+                }
+            }
 
             // Flush the input buffer.
             while (Console.KeyAvailable) { Console.ReadKey(true); }

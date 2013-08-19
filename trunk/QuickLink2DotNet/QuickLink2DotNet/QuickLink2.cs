@@ -91,7 +91,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_GetVersion", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_GetVersion", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLAPI_GetVersion(
@@ -114,9 +114,9 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_GetValue"/>
         /// <seealso cref="QLSettings_Load"/>
         /// <seealso cref="QLSettings_SetValue"/>
-        /// <param name="settingsID">
-        /// A settingsID is a unique identifier that is used to specify a settings container.  A
-        /// settingsID is initially obtained by calling either the function
+        /// <param name="settingsId">
+        /// A settingsId is a unique identifier that is used to specify a settings container.  A
+        /// settingsId is initially obtained by calling either the function
         /// <see cref="QLSettings_Create" /> or the function <see cref="QLSettings_Load" />.  In
         /// particular, this parameter specifies which settings container will receive the exported
         /// settings values from the API.
@@ -130,11 +130,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_ExportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_ExportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLAPI_ExportSettings(
-               System.Int32 settingsID);
+               System.Int32 settingsId);
 
         /// <summary>
         /// <para>
@@ -156,9 +156,9 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_GetValue"/>
         /// <seealso cref="QLSettings_Load"/>
         /// <seealso cref="QLSettings_SetValue"/>
-        /// <param name="settingsID">
-        /// A settingsID is a unique identifier that is used to specify a settings container.  A
-        /// settingsID is initially obtained by calling either the function
+        /// <param name="settingsId">
+        /// A settingsId is a unique identifier that is used to specify a settings container.  A
+        /// settingsId is initially obtained by calling either the function
         /// <see cref="QLSettings_Create" /> or the function <see cref="QLSettings_Load" />.  In
         /// particular, this parameter specifies which settings container will supply the settings values
         /// that will be imported to the API.
@@ -172,11 +172,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_ImportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLAPI_ImportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLAPI_ImportSettings(
-               System.Int32 settingsID);
+               System.Int32 settingsId);
 
         #endregion Group: API
 
@@ -187,11 +187,11 @@ namespace QuickLink2DotNet
         /// This function creates an ID for each EyeTech device connected to the system.
         /// </para>
         /// <para>
-        /// Each deviceID is a unique integer that is used in other API functions to reference a specific
-        /// device on the system.  Once QuickLink2.dll is loaded a deviceID will always refer to the same
+        /// Each deviceId is a unique integer that is used in other API functions to reference a specific
+        /// device on the system.  Once QuickLink2.dll is loaded a deviceId will always refer to the same
         /// device until QuickLink2.dll is unloaded.  This is true even if the device is disconnected
         /// from the computer and then later reconnected.  A device is not guaranteed to have the same
-        /// deviceID value from one loading of QuickLink2.dll to the next.
+        /// deviceId value from one loading of QuickLink2.dll to the next.
         /// </para>
         /// </summary>
         /// <seealso cref="QLError"/>
@@ -226,13 +226,13 @@ namespace QuickLink2DotNet
         /// <example>
         /// <code>
         /// int numDevices = 8;
-        /// int[] deviceIDs = new int[numDevices];
-        /// QLError error = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIDs);
+        /// int[] deviceIds = new int[numDevices];
+        /// QLError error = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIds);
         /// if (error == QLError.QL_ERROR_BUFFER_TOO_SMALL)
         /// {
         ///     /* Try again with a properly sized array. */
-        ///     deviceIDs = new int[numDevices];
-        ///     error = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIDs);
+        ///     deviceIds = new int[numDevices];
+        ///     error = QuickLink2API.QLDevice_Enumerate(ref numDevices, deviceIds);
         /// }
         /// if (error == QLError.QL_ERROR_OK)
         /// {
@@ -240,7 +240,7 @@ namespace QuickLink2DotNet
         ///    System.Console.Write("Detected Device IDs: ");
         ///    for (int x=0; x&lt;numDevices; x++)
         ///    {
-        ///        System.Console.Write("{0} ", deviceIDs[x]);
+        ///        System.Console.Write("{0} ", deviceIds[x]);
         ///    }
         ///    System.Console.WriteLine();
         /// }
@@ -250,7 +250,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Enumerate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Enumerate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_Enumerate(
@@ -265,7 +265,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLDevice_Enumerate"/>
         /// <seealso cref="QLDeviceInfo"/>
         /// <seealso cref="QLError"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device from which to get information.  This ID is obtained by calling the
         /// function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -284,9 +284,9 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
+        /// int deviceId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
         /// QLDeviceInfo info;
-        /// QLError error = QuickLink2API.QLDevice_GetInfo(deviceID, out info);
+        /// QLError error = QuickLink2API.QLDevice_GetInfo(deviceId, out info);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
         ///         System.Console.WriteLine("Model Name: {0}", info.modelName.ToString());
@@ -300,11 +300,11 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetInfo", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetInfo", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_GetInfo(
-               System.Int32 deviceID,
+               System.Int32 deviceId,
                out QLDeviceInfo info);
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLDevice_Enumerate"/>
         /// <seealso cref="QLDeviceStatus" />
         /// <seealso cref="QLError"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device from which to get information.  This ID is obtained by calling the
         /// function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -338,9 +338,9 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
+        /// int deviceId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
         /// QLDeviceStatus status;
-        /// QLError error = QuickLink2API.QLDevice_GetStatus(deviceID, out status);
+        /// QLError error = QuickLink2API.QLDevice_GetStatus(deviceId, out status);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
         ///     System.Console.WriteLine(status.ToString());
@@ -351,11 +351,11 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetStatus", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetStatus", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_GetStatus(
-               System.Int32 deviceID,
+               System.Int32 deviceId,
                out QLDeviceStatus status);
 
         /// <summary>
@@ -384,11 +384,11 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_GetValue"/>
         /// <seealso cref="QLSettings_Load"/>
         /// <seealso cref="QLSettings_SetValue"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device from which to export the settings.  This ID is obtained by calling the
         /// function <see cref="QLDevice_Enumerate" />.
         /// </param>
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that will receive the exported values from the device.  This
         /// ID is obtained by calling either the function <see cref="QLSettings_Create" /> or the
         /// function <see cref="QLSettings_Load" />.
@@ -404,24 +404,24 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
-        /// int settingsID = 2; // NOTE: Get this value by calling QLSettings_Create() or QLSettings_Load().
-        /// error = QuickLink2API.QLDevice_ExportSettings(deviceID, settingsID);
+        /// int deviceId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
+        /// int settingsId = 2; // NOTE: Get this value by calling QLSettings_Create() or QLSettings_Load().
+        /// error = QuickLink2API.QLDevice_ExportSettings(deviceId, settingsId);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Settings for device {0} successfully exported to container {1}.", deviceID, settingsID);
+        ///     System.Console.WriteLine("Settings for device {0} successfully exported to container {1}.", deviceId, settingsId);
         /// } else
         /// {
         ///     System.Console.WriteLine("Error: {1}", error.ToString());
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ExportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ExportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLDevice_ExportSettings(
-               System.Int32 deviceID,
-               System.Int32 settingsID);
+               System.Int32 deviceId,
+               System.Int32 settingsId);
 
         /// <summary>
         /// <para>
@@ -457,7 +457,7 @@ namespace QuickLink2DotNet
         /// calling either the function <see cref="QLDevice_Enumerate" /> or the
         /// function <see cref="QLDeviceGroup_Create" />.
         /// </param>
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that will supply the settings values to be imported to the
         /// device or group.  This ID is obtained by calling either the function
         /// <see cref="QLSettings_Create" /> or the function <see cref="QLSettings_Load" />.
@@ -474,24 +474,24 @@ namespace QuickLink2DotNet
         /// <example>
         /// <code>
         /// int deviceOrGroupID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
-        /// int settingsID = 2; // NOTE: Get this value by calling QLSettings_Create() or QLSettings_Load().
+        /// int settingsId = 2; // NOTE: Get this value by calling QLSettings_Create() or QLSettings_Load().
         /// // Here, we would set some values in the container by calling any of the QLSettings_SetValue() family of functions.
-        /// error = QuickLink2API.QLDevice_ImportSettings(deviceOrGroupID, settingsID);
+        /// error = QuickLink2API.QLDevice_ImportSettings(deviceOrGroupID, settingsId);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Settings for device or group {0} successfully imported from container {1}.", deviceOrGroupID, settingsID);
+        ///     System.Console.WriteLine("Settings for device or group {0} successfully imported from container {1}.", deviceOrGroupID, settingsId);
         /// } else
         /// {
         ///     System.Console.WriteLine("Error: {0}", error.ToString());
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ImportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ImportSettings", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_ImportSettings(
                System.Int32 deviceOrGroupID,
-               System.Int32 settingsID);
+               System.Int32 settingsId);
 
         /// <summary>
         /// <para>
@@ -502,7 +502,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QL_SETTINGS"/>
         /// <seealso cref="QLDevice_Enumerate"/>
         /// <seealso cref="QLError"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device to check for setting support.  This ID is obtained by calling the
         /// function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -523,8 +523,8 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
-        /// QLError error = QuickLink2API.QLDevice_IsSettingSupported(deviceID, QL_SETTINGS.QL_SETTING_DEVICE_IMAGE_PROCESSING_ENABLED);
+        /// int deviceId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
+        /// QLError error = QuickLink2API.QLDevice_IsSettingSupported(deviceId, QL_SETTINGS.QL_SETTING_DEVICE_IMAGE_PROCESSING_ENABLED);
         /// switch (error)
         /// {
         ///     case QLError.QL_ERROR_OK:
@@ -539,11 +539,11 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_IsSettingSupported", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_IsSettingSupported", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLDevice_IsSettingSupported(
-                System.Int32 deviceID,
+                System.Int32 deviceId,
                 [In] System.String settingName);
 
         /// <summary>
@@ -565,7 +565,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLDevice_GetStatus" />
         /// <seealso cref="QLDevice_Start" />
         /// <seealso cref="QLError"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device for which we want to set the password.  This ID is obtained by calling
         /// the function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -583,12 +583,12 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
+        /// int deviceId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
         /// string password = "12345";  // This is usually printed on the back of the eye tracker.
-        /// QLError error = QuickLink2API.QLDevice_SetPassword(deviceID, password);
+        /// QLError error = QuickLink2API.QLDevice_SetPassword(deviceId, password);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Password for device {0} successfully set.", deviceID);
+        ///     System.Console.WriteLine("Password for device {0} successfully set.", deviceId);
         /// }
         /// else
         /// {
@@ -596,11 +596,11 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_SetPassword", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_SetPassword", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLDevice_SetPassword(
-                System.Int32 deviceID,
+                System.Int32 deviceId,
                 [In] System.String password);
 
         /// <summary>
@@ -647,7 +647,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Start", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Start", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_Start(
@@ -703,7 +703,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Stop", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Stop", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_Stop(
@@ -748,7 +748,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Stop_All", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_Stop_All", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_Stop_All();
@@ -802,7 +802,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_SetIndicator", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_SetIndicator", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_SetIndicator(
@@ -821,7 +821,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLError"/>
         /// <seealso cref="QLIndicatorMode"/>
         /// <seealso cref="QLIndicatorType"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device from which to get the indicator mode. This ID is obtained by calling the
         /// function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -843,12 +843,12 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
+        /// int deviceId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate().
         /// QLIndicatorMode mode;
-        /// QLError error = QuickLink2API.QLDevice_GetIndicator(deviceID, QLIndicatorType.QL_INDICATOR_TYPE_LEFT, out mode);
+        /// QLError error = QuickLink2API.QLDevice_GetIndicator(deviceId, QLIndicatorType.QL_INDICATOR_TYPE_LEFT, out mode);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Left indicator of device {0} is set to mode {1}", deviceID, mode.ToString());
+        ///     System.Console.WriteLine("Left indicator of device {0} is set to mode {1}", deviceId, mode.ToString());
         /// }
         /// else
         /// {
@@ -856,11 +856,11 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetIndicator", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetIndicator", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_GetIndicator(
-               System.Int32 deviceID,
+               System.Int32 deviceId,
                QLIndicatorType type,
                out QLIndicatorMode mode);
 
@@ -936,7 +936,7 @@ namespace QuickLink2DotNet
         /// }
         /// </code>
         /// </example>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetFrame", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_GetFrame", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_GetFrame(
@@ -969,11 +969,11 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Save" />
         /// <seealso cref="QLDevice_Enumerate" />
         /// <seealso cref="QLError"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device that is to be calibrated.  This ID is obtained by calling the function
         /// <see cref="QLDevice_Enumerate" />.
         /// </param>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of the calibration object to apply.  This ID is obtained by calling either the
         /// function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -987,12 +987,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ApplyCalibration", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_ApplyCalibration", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLDevice_ApplyCalibration(
-               System.Int32 deviceID,
-               System.Int32 calibrationID);
+               System.Int32 deviceId,
+               System.Int32 calibrationId);
 
         /// <summary>
         /// <para>
@@ -1014,7 +1014,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_GetValue"/>
         /// <seealso cref="QLSettings_Load"/>
         /// <seealso cref="QLSettings_SetValue"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device from which to calibrate the eye radius.  This ID is obtained by calling
         /// the function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -1039,10 +1039,10 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_CalibrateEyeRadius", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDevice_CalibrateEyeRadius", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError QLDevice_CalibrateEyeRadius(
-            System.Int32 deviceID,
+            System.Int32 deviceId,
             System.Single distance,
             out System.Single leftRadius,
             out System.Single rightRadius);
@@ -1075,7 +1075,7 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError QLDeviceGroup_Create(
             out System.Int32 deviceGroupID);
@@ -1098,7 +1098,7 @@ namespace QuickLink2DotNet
         /// The ID of the device group to which the device should be added.  This ID is obtained by
         /// calling the function <see cref="QLDeviceGroup_Create" />.
         /// </param>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device that will be added to the device group.  This ID is obtained by calling
         /// the function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -1112,11 +1112,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_AddDevice", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_AddDevice", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError QLDeviceGroup_AddDevice(
             System.Int32 deviceGroupID,
-            System.Int32 deviceID);
+            System.Int32 deviceId);
 
         /// <summary>
         /// <para>
@@ -1133,7 +1133,7 @@ namespace QuickLink2DotNet
         /// The ID of the device group from which the device should be removed.  This ID is obtained by
         /// calling the function <see cref="QLDeviceGroup_Create" />.
         /// </param>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device that will be removed from the device group.  This ID is obtained by
         /// calling the function <see cref="QLDevice_Enumerate" />.
         /// </param>
@@ -1147,11 +1147,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_RemoveDevice", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_RemoveDevice", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError QLDeviceGroup_RemoveDevice(
             System.Int32 deviceGroupID,
-            System.Int32 deviceID);
+            System.Int32 deviceId);
 
         /// <summary>
         /// <para>
@@ -1199,7 +1199,7 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_Enumerate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_Enumerate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError QLDeviceGroup_Enumerate(
             System.Int32 deviceGroupID,
@@ -1259,7 +1259,7 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_GetFrame", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLDeviceGroup_GetFrame", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError QLDeviceGroup_GetFrame(
             System.Int32 deviceGroupID,
@@ -1291,14 +1291,14 @@ namespace QuickLink2DotNet
         /// [in] A NULL-terminated string containing the full pathname of the settings
         /// file.
         /// </param>
-        /// <param name="settingsID">
-        /// A settingsID is a unique identifier that is used to specify a settings container.  In
+        /// <param name="settingsId">
+        /// A settingsId is a unique identifier that is used to specify a settings container.  In
         /// particular, this parameter is a reference to an initialized <see cref="System.Int32" />
-        /// object.  If the value contained in <paramref name="settingsID" /> refers to a valid settings
+        /// object.  If the value contained in <paramref name="settingsId" /> refers to a valid settings
         /// container then this function call will load the settings into the specified container;
-        /// However, if the the value contained in <paramref name="settingsID" /> does not refer to a
+        /// However, if the the value contained in <paramref name="settingsId" /> does not refer to a
         /// valid settings container, then a new settings container will be created and its ID will be
-        /// written into the <paramref name="settingsID" /> parameter when the call successfully returns.
+        /// written into the <paramref name="settingsId" /> parameter when the call successfully returns.
         /// </param>
         /// <returns>
         /// The success of the function.  If the return value is <see cref="QLError.QL_ERROR_OK" /> then
@@ -1309,12 +1309,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Load", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Load", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_Load(
                [In] System.String path,
-               ref System.Int32 settingsID);
+               ref System.Int32 settingsId);
 
         /// <summary>
         /// <para>
@@ -1335,7 +1335,7 @@ namespace QuickLink2DotNet
         /// <param name="path">
         /// A string containing the full pathname of the settings file.
         /// </param>
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container containing the settings to save.
         /// </param>
         /// <returns>
@@ -1347,12 +1347,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Save", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Save", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_Save(
                [In] System.String path,
-               System.Int32 settingsID);
+               System.Int32 settingsId);
 
         /// <summary>
         /// <para>
@@ -1379,8 +1379,8 @@ namespace QuickLink2DotNet
         /// either this function or the function <see cref="QLSettings_Load" />.  To create an empty
         /// settings container, set this value to zero.
         /// </param>
-        /// <param name="settingsID">
-        /// A settingsID is a unique identifier that is used to specify a settings container.  In
+        /// <param name="settingsId">
+        /// A settingsId is a unique identifier that is used to specify a settings container.  In
         /// particular, this parameter is a reference to an uninitialized <see cref="System.Int32" />
         /// object, which will receive the ID of the new settings container.
         /// </param>
@@ -1393,12 +1393,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_Create(
                System.Int32 sourceID,
-               out System.Int32 settingsID);
+               out System.Int32 settingsId);
 
         /// <summary>
         /// <para>
@@ -1414,7 +1414,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that will receive the new setting.  This ID is obtained by
         /// calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -1433,11 +1433,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_AddSetting", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_AddSetting", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_AddSetting(
-               System.Int32 settingsID,
+               System.Int32 settingsId,
                [In] System.String settingName);
 
         /// <summary>
@@ -1453,7 +1453,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_Load" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container from which the setting will be removed.  This ID is obtained
         /// by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -1472,11 +1472,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_RemoveSetting", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_RemoveSetting", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_RemoveSetting(
-               System.Int32 settingsID,
+               System.Int32 settingsId,
                [In] System.String settingName);
 
         /// <summary>
@@ -1510,7 +1510,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_SetValueUInt64" />
         /// <seealso cref="QLSettings_SetValueVoidPointer" />
         /// <seealso cref="QLSettingType"/>
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1538,11 +1538,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValue", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValue", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_SetValue(
-               System.Int32 settingsID,
+               System.Int32 settingsId,
                [In] System.String settingName,
                QLSettingType settingType,
                [In] System.IntPtr value);
@@ -1563,7 +1563,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1586,11 +1586,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueInt(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Int32 value);
 
@@ -1610,7 +1610,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1633,11 +1633,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueInt8(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.SByte value);
 
@@ -1657,7 +1657,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1680,11 +1680,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueInt16(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Int16 value);
 
@@ -1704,7 +1704,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1727,11 +1727,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueInt32(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Int32 value);
 
@@ -1751,7 +1751,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1774,11 +1774,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueInt64(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Int64 value);
 
@@ -1798,7 +1798,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1821,11 +1821,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueUInt(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.UInt32 value);
 
@@ -1845,7 +1845,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1868,11 +1868,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueUInt8(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Byte value);
 
@@ -1892,7 +1892,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1915,11 +1915,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueUInt16(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.UInt16 value);
 
@@ -1939,7 +1939,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -1962,11 +1962,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueUInt32(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.UInt32 value);
 
@@ -1986,7 +1986,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -2009,11 +2009,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueUInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueUInt64(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.UInt64 value);
 
@@ -2033,7 +2033,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -2056,11 +2056,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueFloat", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueFloat", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueFloat(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Single value);
 
@@ -2080,7 +2080,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -2103,11 +2103,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueDouble", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueDouble", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueDouble(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Double value);
 
@@ -2127,7 +2127,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -2150,11 +2150,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueBool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueBool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueBool(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 [MarshalAs(UnmanagedType.VariantBool)] System.Boolean value);
 
@@ -2174,7 +2174,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -2197,11 +2197,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueVoidPointer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueVoidPointer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueVoidPointer(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 [In] System.IntPtr value);
 
@@ -2221,7 +2221,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be altered or will
         /// receive the new setting if it did not exist previously.  This ID is obtained by calling
         /// either the function <see cref="QLSettings_Create" /> or the function
@@ -2244,11 +2244,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueString", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_SetValueString", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_SetValueString(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.String value);
 
@@ -2280,7 +2280,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2310,11 +2310,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValue", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValue", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_GetValue(
-               System.Int32 settingsID,
+               System.Int32 settingsId,
                [In] System.String settingName,
                QLSettingType settingType,
                System.Int32 size,
@@ -2336,7 +2336,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2358,11 +2358,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueInt(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Int32 value);
 
@@ -2382,7 +2382,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2404,11 +2404,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueInt8(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.SByte value);
 
@@ -2428,7 +2428,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2450,11 +2450,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueInt16(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Int16 value);
 
@@ -2474,7 +2474,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2496,11 +2496,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueInt32(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Int32 value);
 
@@ -2520,7 +2520,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2542,11 +2542,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueInt64(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Int64 value);
 
@@ -2566,7 +2566,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2588,11 +2588,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueUInt(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.UInt32 value);
 
@@ -2612,7 +2612,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2634,11 +2634,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt8", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueUInt8(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Byte value);
 
@@ -2658,7 +2658,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2680,11 +2680,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt16", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueUInt16(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.UInt16 value);
 
@@ -2704,7 +2704,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2726,11 +2726,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt32", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueUInt32(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.UInt32 value);
 
@@ -2750,7 +2750,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2772,11 +2772,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueUInt64", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueUInt64(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.UInt64 value);
 
@@ -2796,7 +2796,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2818,11 +2818,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueFloat", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueFloat", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueFloat(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Single value);
 
@@ -2842,7 +2842,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2864,11 +2864,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueDouble", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueDouble", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueDouble(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 out System.Double value);
 
@@ -2888,7 +2888,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2910,11 +2910,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueBool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueBool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueBool(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 [MarshalAs(UnmanagedType.VariantBool)] out System.Boolean value);
 
@@ -2934,7 +2934,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -2956,11 +2956,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueVoidPointer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueVoidPointer", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueVoidPointer(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.IntPtr value);
 
@@ -2981,7 +2981,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -3006,11 +3006,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueString", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueString", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
             QLSettings_GetValueString(
-                System.Int32 settingsID,
+                System.Int32 settingsId,
                 [In] System.String settingName,
                 System.Int32 size,
                 System.Text.StringBuilder value);
@@ -3035,7 +3035,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_Save" />
         /// <seealso cref="QLSettings_RemoveSetting" />
         /// <seealso cref="QLSettings_SetValue" />
-        /// <param name="settingsID">
+        /// <param name="settingsId">
         /// The ID of the settings container that either contains the setting to be read.  This ID is
         /// obtained by calling either the function <see cref="QLSettings_Create" /> or the function
         /// <see cref="QLSettings_Load" />.
@@ -3057,11 +3057,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueStringSize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLSettings_GetValueStringSize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLSettings_GetValueStringSize(
-               System.Int32 settingsID,
+               System.Int32 settingsId,
                [In] System.String settingName,
                out System.Int32 size);
 
@@ -3088,7 +3088,7 @@ namespace QuickLink2DotNet
         /// <param name="path">
         /// A <see cref="string" /> containing the full pathname of the calibration file.
         /// </param>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// An reference to an initialized <see cref="System.Int32" /> object.  If the object refers
         /// to a valid calibration container then that calibration container will receive the loaded
         /// calibration; however, if the object does not refer to a valid calibration container then a
@@ -3103,12 +3103,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Load", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Load", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Load(
                [In] System.String path,
-               ref System.Int32 calibrationID);
+               ref System.Int32 calibrationId);
 
         /// <summary>
         /// <para>
@@ -3129,7 +3129,7 @@ namespace QuickLink2DotNet
         /// <param name="path">
         /// A string containing the full pathname of the calibration file.
         /// </param>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of the calibration container whose data will be saved.  This ID is obtained by
         /// calling either the function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3143,12 +3143,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Save", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Save", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Save(
                [In] System.String path,
-               System.Int32 calibrationID);
+               System.Int32 calibrationId);
 
         /// <summary>
         /// <para>
@@ -3172,7 +3172,7 @@ namespace QuickLink2DotNet
         /// The ID of the calibration container from which to copy calibration data.  To create an empty
         /// settings container, set this value to zero.
         /// </param>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// A reference to an uninitialized <see cref="System.Int32" /> object.  This object will
         /// receive the ID of the newly created calibration container.
         /// </param>
@@ -3185,12 +3185,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Create", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Create(
                System.Int32 sourceID,
-               out System.Int32 calibrationID);
+               out System.Int32 calibrationId);
 
         /// <summary>
         /// <para>
@@ -3210,11 +3210,11 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
         /// <seealso cref="QLCalibrationType"/>
-        /// <param name="deviceID">
+        /// <param name="deviceId">
         /// The ID of the device from which to receive calibration data.  This ID is obtained by calling
         /// the function <see cref="QLDevice_Enumerate" />.
         /// </param>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of the calibration container that will receive the new calibration data.  This ID is
         /// obtained by calling either the function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3232,12 +3232,12 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Initialize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Initialize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Initialize(
-               System.Int32 deviceID,
-               System.Int32 calibrationID,
+               System.Int32 deviceId,
+               System.Int32 calibrationId,
                QLCalibrationType type);
 
         /// <summary>
@@ -3258,7 +3258,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
         /// <seealso cref="QLCalibrationTarget"/>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container from which to get the target data.  This ID is obtained by
         /// calling either the function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3281,11 +3281,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetTargets", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetTargets", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_GetTargets(
-               System.Int32 calibrationID,
+               System.Int32 calibrationId,
                ref System.Int32 numTargets,
                 [In, Out] QLCalibrationTarget[] targets);
 
@@ -3314,7 +3314,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Initialize"/>
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container which has been initialized and is ready to receive
         /// calibration data.  This ID is obtained by calling either the function
         /// <see cref="QLCalibration_Create" /> or the function <see cref="QLCalibration_Load" />.
@@ -3347,11 +3347,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Calibrate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Calibrate", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Calibrate(
-               System.Int32 calibrationID,
+               System.Int32 calibrationId,
                System.Int32 targetID,
                System.Int32 duration,
                [MarshalAs(UnmanagedType.VariantBool)] System.Boolean block);
@@ -3378,7 +3378,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Save"/>
         /// <seealso cref="QLCalibrationScore" />
         /// <seealso cref="QLEyeType" />
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container whose data will be used to calculate a score.  This ID is
         /// obtained by calling either the function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3405,11 +3405,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetScoring", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetScoring", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_GetScoring(
-               System.Int32 calibrationID,
+               System.Int32 calibrationId,
                System.Int32 targetID,
                QLEyeType eye,
                out QLCalibrationScore score);
@@ -3431,7 +3431,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
         /// <seealso cref="QLCalibrationStatus" />
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container whose data will be used to determine a status for the
         /// target.  This ID is obtained by calling either the function
         /// <see cref="QLCalibration_Create" /> or the function <see cref="QLCalibration_Load" />.
@@ -3453,11 +3453,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetStatus", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_GetStatus", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_GetStatus(
-               System.Int32 calibrationID,
+               System.Int32 calibrationId,
                System.Int32 targetID,
                out QLCalibrationStatus calibrationStatus);
 
@@ -3482,7 +3482,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Initialize"/>
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container to finalize.  This ID is obtained by calling either the
         /// function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3496,11 +3496,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Finalize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Finalize", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Finalize(
-               System.Int32 calibrationID);
+               System.Int32 calibrationId);
 
         /// <summary>
         /// <para>
@@ -3519,7 +3519,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Initialize"/>
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container to cancel.  This ID is obtained by calling either the
         /// function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3533,11 +3533,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Cancel", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_Cancel", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_Cancel(
-               System.Int32 calibrationID);
+               System.Int32 calibrationId);
 
         /// <summary>
         /// <para>
@@ -3555,7 +3555,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLCalibration_Load"/>
         /// <seealso cref="QLCalibration_Save"/>
         /// <seealso cref="QLEyeType" />
-        /// <param name="calibrationID">
+        /// <param name="calibrationId">
         /// The ID of a calibration container to which the bias will be added. This ID is obtained by
         /// calling either the function <see cref="QLCalibration_Create" /> or the function
         /// <see cref="QLCalibration_Load" />.
@@ -3582,11 +3582,11 @@ namespace QuickLink2DotNet
         /// in the same directory as your program's binary executable; otherwise, this exception will be
         /// thrown.
         /// </exception>
-        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_AddBias", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("QuickLink2.dll", EntryPoint = "QLCalibration_AddBias", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern
         QLError
            QLCalibration_AddBias(
-               System.Int32 calibrationID,
+               System.Int32 calibrationId,
                QLEyeType eye,
                System.Single xOffset,
                System.Single yOffset);

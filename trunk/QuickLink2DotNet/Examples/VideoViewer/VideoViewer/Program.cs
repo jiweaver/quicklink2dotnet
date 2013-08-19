@@ -1,6 +1,7 @@
 ﻿#region License
 
-/* StopAllDevices: Stops all the EyeTech eye tracker devices on the system.
+/* VideoViewer: Displays a list of available devices and prompts the user to
+ * select one.  Then displays video from the selected device.
  *
  * Copyright © 2011-2013 Justin Weaver
  *
@@ -36,16 +37,14 @@
 #endregion Header Comments
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Windows.Forms;
 using QuickLink2DotNet;
 using QuickLink2DotNetHelper;
 
-namespace StopAllDevices
+namespace VideoViewer
 {
     class Program
     {
@@ -79,45 +78,45 @@ namespace StopAllDevices
 
         private static void doTask()
         {
-            int[] deviceIds;
-            QLError error = QLHelper.DeviceEnumerate(out deviceIds);
-            if (error == QLError.QL_ERROR_OK)
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            QLHelper helper = QLHelper.ChooseDevice();
+            if (helper == null)
             {
-                Console.WriteLine("QLDevice_Enumerate() returned {0}.", error.ToString());
+                return;
             }
 
-            QLHelper.PrintListOfDeviceInfo(deviceIds);
-
-            Console.WriteLine();
-
-            for (int i = 0; i < deviceIds.Length; i++)
+            if (!helper.SetupPassword())
             {
-                QLHelper helper = QLHelper.FromDeviceId(deviceIds[i]);
-
-                if (!helper.SetupPassword())
-                {
-                    continue;
-                }
-
-                error = QuickLink2API.QLDevice_Start(helper.DeviceId);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    Console.WriteLine("QLDevice_Start() returned {0} for device {1}.", error.ToString(), helper.DeviceId);
-                    continue;
-                }
-
-                error = QuickLink2API.QLDevice_Stop(helper.DeviceId);
-                if (error != QLError.QL_ERROR_OK)
-                {
-                    Console.WriteLine("QLDevice_Stop() returned {0} for device {1}.", error.ToString(), helper.DeviceId);
-                    continue;
-                }
-
-                Console.WriteLine("Device {0} stopped.", helper.DeviceId);
+                return;
             }
+
+            // Start the device.
+            QLError error = QuickLink2API.QLDevice_Start(helper.DeviceId);
+            if (error != QLError.QL_ERROR_OK)
+            {
+                Console.WriteLine("QLDevice_Start() returned {0} for device {1}.", error.ToString(), helper.DeviceId);
+                return;
+            }
+            Console.WriteLine("Device has been started.\n");
+
+            using (QLHelper.VideoForm videoForm = new QLHelper.VideoForm(helper))
+            {
+                videoForm.ShowDialog();
+            }
+
+            // Stop the device.
+            error = QuickLink2API.QLDevice_Stop(helper.DeviceId);
+            if (error != QLError.QL_ERROR_OK)
+            {
+                Console.WriteLine("QLDevice_Stop() returned {0} for device {1}.", error.ToString(), helper.DeviceId);
+                return;
+            }
+            Console.WriteLine("Stopped Device.\n");
         }
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             DisableCloseButton();
 

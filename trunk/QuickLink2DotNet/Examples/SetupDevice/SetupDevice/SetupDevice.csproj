@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{862AED9C-D616-4ED7-8DD2-ABE594206785}</ProjectGuid>
+    <ProjectGuid>{1453FB62-4F7E-4BFD-82D4-C13ABBC92FA5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StopAllDevices</RootNamespace>
-    <AssemblyName>StopAllDevices</AssemblyName>
+    <RootNamespace>SetupDevice</RootNamespace>
+    <AssemblyName>SetupDevice</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

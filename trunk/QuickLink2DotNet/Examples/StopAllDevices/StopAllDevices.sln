@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StopAllDevices", "StopAllDe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLink2DotNet", "..\..\QuickLink2DotNet\QuickLink2DotNet.csproj", "{95D15B06-7319-4839-850B-C35F63B4FCCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLExampleHelper", "..\..\QLExampleHelper\QLExampleHelper.csproj", "{C059CF24-B4CF-4C99-8CCA-951044A0807E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLink2DotNetHelper", "..\..\QuickLink2DotNetHelper\QuickLink2DotNetHelper.csproj", "{C059CF24-B4CF-4C99-8CCA-951044A0807E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

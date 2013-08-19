@@ -1,4 +1,5 @@
-/* StopAllDevices: Stops all the EyeTech eye tracker devices on the system.
+/* SetupDevice: Setup an eye tracker device by setting its password,
+ * calibration, and other miscellaneous settings.
  *
  * Copyright © 2011-2013 Justin Weaver
  *

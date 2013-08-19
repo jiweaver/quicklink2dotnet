@@ -1,4 +1,6 @@
-/* StopAllDevices: Stops all the EyeTech eye tracker devices on the system.
+/* Gaze: Track the user's gaze, and display a red circle where they are
+ * currently looking.  If necessary, prompts for device's password and performs
+ * calibration.
  *
  * Copyright © 2011-2013 Justin Weaver
  *

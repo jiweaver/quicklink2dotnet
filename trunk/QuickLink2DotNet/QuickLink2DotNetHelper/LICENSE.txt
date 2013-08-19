@@ -1,4 +1,5 @@
-/* StopAllDevices: Stops all the EyeTech eye tracker devices on the system.
+/* QuickLink2DotNetHelper: A class library containing some helper methods for
+ * use with QuickLink2DotNet.
  *
  * Copyright © 2011-2013 Justin Weaver
  *
