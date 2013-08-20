@@ -47,15 +47,19 @@ namespace QuickLink2DotNetHelper
     public partial class QLHelper
     {
         /// <summary>
-        /// Get the deviceIDs of every eye tracker device detected on the system.
+        /// Get the deviceIDs of every eye tracker device detected on the system.  When the method
+        /// returns successfully, the <paramref name="deviceIds"/> array will be sized exactly to contain
+        /// the number of devices detected.  So, for example, if there is one device detected then the
+        /// array will have length 1; if 10 devices are detected then the array will have length 10; if
+        /// no devices are detected then the array will have length 0.
         /// </summary>
-        /// <returns>
-        /// The success of the method.  Returns <see cref="QLError.QL_ERROR_OK"/> on success.
-        /// </returns>
         /// <param name="deviceIds">
         /// A reference to an uninitialized integer array which will contain the ID of every device
         /// detected on the system upon the method's successful return.
         /// </param>
+        /// <returns>
+        /// The success of the method.  Returns <see cref="QLError.QL_ERROR_OK"/> on success.
+        /// </returns>
         /// <exception cref="DllNotFoundException">
         /// The QuickLink2 DLLs ("QuickLink2.dll," "PGRFlyCapture.dll," and "SMX11MX.dll") must be placed
         /// in the same directory as your program's binary executable; otherwise, this exception will be

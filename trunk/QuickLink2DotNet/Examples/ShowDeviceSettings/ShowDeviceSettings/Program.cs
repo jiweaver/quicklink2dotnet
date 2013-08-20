@@ -118,8 +118,8 @@ namespace ShowDeviceSettings
             }
 
             // Create a new, empty container.
-            int settingsID;
-            error = QuickLink2API.QLSettings_Create(0, out settingsID);
+            int settingsId;
+            error = QuickLink2API.QLSettings_Create(0, out settingsId);
             if (error != QLError.QL_ERROR_OK)
             {
                 Console.WriteLine("QLSettings_Create() returned {0}.", error.ToString());
@@ -131,7 +131,7 @@ namespace ShowDeviceSettings
             {
                 if (setting.Value.Supported)
                 {
-                    error = QuickLink2API.QLSettings_AddSetting(settingsID, setting.Key);
+                    error = QuickLink2API.QLSettings_AddSetting(settingsId, setting.Key);
                     if (error != QLError.QL_ERROR_OK)
                     {
                         Console.WriteLine("QLSettings_AddSetting() returned {0} for key {1}.", error.ToString(), setting.Key);
@@ -141,7 +141,7 @@ namespace ShowDeviceSettings
             }
 
             // Export supported settings to container.
-            error = QuickLink2API.QLDevice_ExportSettings(deviceId, settingsID);
+            error = QuickLink2API.QLDevice_ExportSettings(deviceId, settingsId);
             if (error != QLError.QL_ERROR_OK)
             {
                 Console.WriteLine("QLSettings_ExportSettings() returned {0}.", error.ToString());
@@ -160,7 +160,7 @@ namespace ShowDeviceSettings
                 {
                     case QLSettingType.QL_SETTING_TYPE_BOOL:
                         bool boolValue;
-                        error = QuickLink2API.QLSettings_GetValueBool(settingsID, setting.Key, out boolValue);
+                        error = QuickLink2API.QLSettings_GetValueBool(settingsId, setting.Key, out boolValue);
                         if (error != QLError.QL_ERROR_OK)
                         {
                             Console.WriteLine("QLSettings_GetValueBool() returned {0} for key {1}.", error.ToString(), setting.Key);
@@ -171,7 +171,7 @@ namespace ShowDeviceSettings
 
                     case QLSettingType.QL_SETTING_TYPE_FLOAT:
                         System.Single floatValue;
-                        error = QuickLink2API.QLSettings_GetValueFloat(settingsID, setting.Key, out floatValue);
+                        error = QuickLink2API.QLSettings_GetValueFloat(settingsId, setting.Key, out floatValue);
                         if (error != QLError.QL_ERROR_OK)
                         {
                             Console.WriteLine("QLSettings_GetValueFloat() returned {0} for key {1}.", error.ToString(), setting.Key);
@@ -182,7 +182,7 @@ namespace ShowDeviceSettings
 
                     case QLSettingType.QL_SETTING_TYPE_INT32:
                         System.Int32 int32Value;
-                        error = QuickLink2API.QLSettings_GetValueInt32(settingsID, setting.Key, out int32Value);
+                        error = QuickLink2API.QLSettings_GetValueInt32(settingsId, setting.Key, out int32Value);
                         if (error != QLError.QL_ERROR_OK)
                         {
                             Console.WriteLine("QLSettings_GetValueInt32() returned {0} for key {1}.", error.ToString(), setting.Key);

@@ -317,7 +317,7 @@ namespace QuickLink2DotNetHelper
                     QLError error = QuickLink2API.QLCalibration_Calibrate(this._calibrationId, this.Targets[targetIndex].targetId, this._targetDuration, true);
                     if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("QLCalibration_Calibrate() retuned {0}.", error.ToString());
+                        Console.WriteLine("QLCalibration_Calibrate() returned {0}.", error.ToString());
                         success = false;
                         break;
                     }
@@ -327,7 +327,7 @@ namespace QuickLink2DotNetHelper
                     error = QuickLink2API.QLCalibration_GetStatus(this._calibrationId, this.Targets[targetIndex].targetId, out status);
                     if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("QLCalibration_GetStatus() retuned {0}.", error.ToString());
+                        Console.WriteLine("QLCalibration_GetStatus() returned {0}.", error.ToString());
                         success = false;
                         break;
                     }
@@ -386,14 +386,14 @@ namespace QuickLink2DotNetHelper
                     QLError error = QuickLink2API.QLCalibration_GetScoring(this._calibrationId, this.Targets[i].targetId, QLEyeType.QL_EYE_TYPE_LEFT, out this.LeftScores[i]);
                     if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("QLCalibration_GetScoring(left) retuned {0}.", error.ToString());
+                        Console.WriteLine("QLCalibration_GetScoring(left) returned {0}.", error.ToString());
                         return false;
                     }
 
                     error = QuickLink2API.QLCalibration_GetScoring(this._calibrationId, this.Targets[i].targetId, QLEyeType.QL_EYE_TYPE_RIGHT, out this.RightScores[i]);
                     if (error != QLError.QL_ERROR_OK)
                     {
-                        Console.WriteLine("QLCalibration_GetScoring(right) retuned {0}.", error.ToString());
+                        Console.WriteLine("QLCalibration_GetScoring(right) returned {0}.", error.ToString());
                         return false;
                     }
                 }
@@ -468,14 +468,14 @@ namespace QuickLink2DotNetHelper
                 QLError error = QuickLink2API.QLCalibration_Create(0, out this._calibrationId);
                 if (error != QLError.QL_ERROR_OK)
                 {
-                    Console.WriteLine("QLCalibration_Create() retuned {0}.", error.ToString());
+                    Console.WriteLine("QLCalibration_Create() returned {0}.", error.ToString());
                     return false;
                 }
 
                 error = QuickLink2API.QLCalibration_Initialize(this._deviceId, this._calibrationId, this._calibrationType);
                 if (error != QLError.QL_ERROR_OK)
                 {
-                    Console.WriteLine("QLCalibration_Initialize() retuned {0}.", error.ToString());
+                    Console.WriteLine("QLCalibration_Initialize() returned {0}.", error.ToString());
                     return false;
                 }
 
@@ -483,7 +483,7 @@ namespace QuickLink2DotNetHelper
                 error = QuickLink2API.QLCalibration_GetTargets(this._calibrationId, ref numTargets, this.Targets);
                 if (error != QLError.QL_ERROR_OK)
                 {
-                    Console.WriteLine("QLCalibration_GetTargets() retuned {0}.", error.ToString());
+                    Console.WriteLine("QLCalibration_GetTargets() returned {0}.", error.ToString());
                     return false;
                 }
                 if (numTargets != this._numberOfTargets)

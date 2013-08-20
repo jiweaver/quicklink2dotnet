@@ -448,7 +448,7 @@ namespace QuickLink2DotNetHelper
                             error = QuickLink2API.QLCalibration_Finalize(calibrationForm.CalibrationId);
                             if (error != QLError.QL_ERROR_OK)
                             {
-                                Console.WriteLine("QLCalibration_Finalize() retuned {0}.", error.ToString());
+                                Console.WriteLine("QLCalibration_Finalize() returned {0}.", error.ToString());
                                 calibrationSuccessful = false;
                                 break;
                             }
@@ -577,12 +577,12 @@ namespace QuickLink2DotNetHelper
             bool calibrationLoadedFromFile = false;
 
             // Load the calibration out of a file into a new calibration container.
-            int calibrationID = -1;
-            QLError error = QuickLink2API.QLCalibration_Load(this.CalibrationFilename, ref calibrationID);
+            int calibrationId = -1;
+            QLError error = QuickLink2API.QLCalibration_Load(this.CalibrationFilename, ref calibrationId);
             if (error == QLError.QL_ERROR_OK)
             {
                 // Apply the loaded calibration to the device.
-                error = QuickLink2API.QLDevice_ApplyCalibration(this.DeviceId, calibrationID);
+                error = QuickLink2API.QLDevice_ApplyCalibration(this.DeviceId, calibrationId);
                 if (error == QLError.QL_ERROR_OK)
                 {
                     Console.WriteLine("Calibration loaded from file.");

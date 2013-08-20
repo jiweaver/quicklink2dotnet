@@ -452,7 +452,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLSettings_GetValue"/>
         /// <seealso cref="QLSettings_Load"/>
         /// <seealso cref="QLSettings_SetValue"/>
-        /// <param name="deviceOrGroupID">
+        /// <param name="deviceOrGroupId">
         /// The ID of the device or device group in which to import the settings.  This ID is obtained by
         /// calling either the function <see cref="QLDevice_Enumerate" /> or the
         /// function <see cref="QLDeviceGroup_Create" />.
@@ -473,13 +473,13 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceOrGroupID = 1;   // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
+        /// int deviceOrGroupId = 1;   // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
         /// int settingsId = 2; // NOTE: Get this value by calling QLSettings_Create() or QLSettings_Load().
         /// // Here, we would set some values in the container by calling any of the QLSettings_SetValue() family of functions.
-        /// error = QuickLink2API.QLDevice_ImportSettings(deviceOrGroupID, settingsId);
+        /// error = QuickLink2API.QLDevice_ImportSettings(deviceOrGroupId, settingsId);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Settings for device or group {0} successfully imported from container {1}.", deviceOrGroupID, settingsId);
+        ///     System.Console.WriteLine("Settings for device or group {0} successfully imported from container {1}.", deviceOrGroupId, settingsId);
         /// } else
         /// {
         ///     System.Console.WriteLine("Error: {0}", error.ToString());
@@ -490,7 +490,7 @@ namespace QuickLink2DotNet
         public static extern
         QLError
            QLDevice_ImportSettings(
-               System.Int32 deviceOrGroupID,
+               System.Int32 deviceOrGroupId,
                System.Int32 settingsId);
 
         /// <summary>
@@ -619,7 +619,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLDevice_Stop_All"/>
         /// <seealso cref="QLDeviceGroup_Create" />
         /// <seealso cref="QLError"/>
-        /// <param name="deviceOrGroupID">
+        /// <param name="deviceOrGroupId">
         /// The ID of the device or device group to start.  This ID is obtained by calling either the
         /// function <see cref="QLDevice_Enumerate" /> or the function
         /// <see cref="QLDeviceGroup_Create" />.
@@ -635,11 +635,11 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
-        /// QLError error = QuickLink2API.QLDevice_Start(deviceOrGroupID);
+        /// int deviceOrGroupId = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
+        /// QLError error = QuickLink2API.QLDevice_Start(deviceOrGroupId);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Device or group {0} has been started successfully.", deviceOrGroupID);
+        ///     System.Console.WriteLine("Device or group {0} has been started successfully.", deviceOrGroupId);
         /// }
         /// else
         /// {
@@ -651,7 +651,7 @@ namespace QuickLink2DotNet
         public static extern
         QLError
            QLDevice_Start(
-               System.Int32 deviceOrGroupID);
+               System.Int32 deviceOrGroupId);
 
         /// <summary>
         /// <para>
@@ -674,7 +674,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLDevice_Stop_All"/>
         /// <seealso cref="QLDeviceGroup_Create" />
         /// <seealso cref="QLError"/>
-        /// <param name="deviceOrGroupID">
+        /// <param name="deviceOrGroupId">
         /// The ID of the device or device group to stop.  This ID is obtained by calling either the
         /// function <see cref="QLDevice_Enumerate" /> or the function
         /// <see cref="QLDeviceGroup_Create" />.
@@ -691,11 +691,11 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
-        /// QLError error = QuickLink2API.QLDevice_Stop(deviceOrGroupID);
+        /// int deviceOrGroupId = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
+        /// QLError error = QuickLink2API.QLDevice_Stop(deviceOrGroupId);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Device or group {0} has been stopped successfully.", deviceOrGroupID);
+        ///     System.Console.WriteLine("Device or group {0} has been stopped successfully.", deviceOrGroupId);
         /// }
         /// else
         /// {
@@ -707,7 +707,7 @@ namespace QuickLink2DotNet
         public static extern
         QLError
            QLDevice_Stop(
-               System.Int32 deviceOrGroupID);
+               System.Int32 deviceOrGroupId);
 
         /// <summary>
         /// <para>
@@ -768,7 +768,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLError"/>
         /// <seealso cref="QLIndicatorMode"/>
         /// <seealso cref="QLIndicatorType"/>
-        /// <param name="deviceOrGroupID">
+        /// <param name="deviceOrGroupId">
         /// The ID of the device or device group whose indicator lights should be set.  This ID is
         /// obtained by calling either the function <see cref="QLDevice_Enumerate" /> or the
         /// function <see cref="QLDeviceGroup_Create" />.
@@ -790,11 +790,11 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
-        /// QLError error = QuickLink2API.QLDevice_SetIndicator(deviceOrGroupID, QLIndicatorType.QL_INDICATOR_TYPE_LEFT, QLIndicatorMode.QL_INDICATOR_MODE_ON);
+        /// int deviceOrGroupId = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
+        /// QLError error = QuickLink2API.QLDevice_SetIndicator(deviceOrGroupId, QLIndicatorType.QL_INDICATOR_TYPE_LEFT, QLIndicatorMode.QL_INDICATOR_MODE_ON);
         /// if (error == QLError.QL_ERROR_OK)
         /// {
-        ///     System.Console.WriteLine("Left indicator of device or group {0} has been turned on.", deviceOrGroupID);
+        ///     System.Console.WriteLine("Left indicator of device or group {0} has been turned on.", deviceOrGroupId);
         /// }
         /// else
         /// {
@@ -806,7 +806,7 @@ namespace QuickLink2DotNet
         public static extern
         QLError
            QLDevice_SetIndicator(
-               System.Int32 deviceOrGroupID,
+               System.Int32 deviceOrGroupId,
                QLIndicatorType type,
                QLIndicatorMode mode);
 
@@ -896,7 +896,7 @@ namespace QuickLink2DotNet
         /// <seealso cref="QLDeviceGroup_Create" />
         /// <seealso cref="QLError"/>
         /// <seealso cref="QLFrameData"/>
-        /// <param name="deviceOrGroupID">
+        /// <param name="deviceOrGroupId">
         /// The ID of the device or device group from which to get the most recent frame. This ID is
         /// obtained by calling either the function <see cref="QLDevice_Enumerate" /> or the function
         /// <see cref="QLDeviceGroup_Create" />.
@@ -919,12 +919,12 @@ namespace QuickLink2DotNet
         /// </exception>
         /// <example>
         /// <code>
-        /// int deviceOrGroupID = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
+        /// int deviceOrGroupId = 1;    // NOTE: Get this value by calling QLDevice_Enumerate() or QLDeviceGroup_Create().
         /// QLFrameData frameData = new QLFrameData();  // Create and allocate a new, empty frame structure to hold the data we read.
         /// // Read 10 frames and output whether the left eye is found in each frame.
         /// for (int i = 0; i&lt;10; i++)
         /// {
-        ///     QLError error = QuickLink2API.QLDevice_GetFrame(deviceOrGroupID, 10000, ref frameData);
+        ///     QLError error = QuickLink2API.QLDevice_GetFrame(deviceOrGroupId, 10000, ref frameData);
         ///     if (error == QLError.QL_ERROR_OK)
         ///     {
         ///         System.Console.WriteLine("Left eye found: {0}.", frameData.LeftEye.Found.ToString());
@@ -940,7 +940,7 @@ namespace QuickLink2DotNet
         public static extern
         QLError
            QLDevice_GetFrame(
-               System.Int32 deviceOrGroupID,
+               System.Int32 deviceOrGroupId,
                System.Int32 waitTime,
                ref QLFrameData frame);
 
