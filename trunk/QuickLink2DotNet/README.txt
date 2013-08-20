@@ -1,11 +1,11 @@
-QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's unmanaged QuickLink2 API for use in the managed Microsoft .NET environment.
+QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's unmanaged Quick Link 2 API for use in the managed Microsoft .NET environment.
 
 Author: Justin Weaver
 Copyright © 2011-2013 Justin Weaver
 Homepage: http://quicklinkapi4net.googlecode.com
 
 
-!!!ATTENTION!!!: Copy the QuickLink2 libraries (QuickLink2.dll, PGRFlyCapture.dll, and SMX11MX.dll) from your QuickLink2 installation into a your program's output directory.  Otherwise, your program will not find the libraries at runtime.  For instance, if you want to run the SetupDevice example, first you should compile the SetupDevice example in Visual Studio 2010, and then copy the aforementioned QuickLink2 libraries to the example's \bin\Debug directory before you attempt to run the example.
+!!!ATTENTION!!!: Copy the Quick Link 2 libraries (QuickLink2.dll, PGRFlyCapture.dll, and SMX11MX.dll) from your Quick Link 2 installation into a your program's output directory.  Otherwise, your program will not find the libraries at runtime.  For instance, if you want to run the SetupDevice example, first you should compile the SetupDevice example in Visual Studio 2010, and then copy the aforementioned Quick Link 2 libraries to the example's \bin\Debug directory before you attempt to run the example.
 
 
 Main Directory Contents:

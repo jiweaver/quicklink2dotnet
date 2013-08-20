@@ -1,7 +1,7 @@
 ﻿#region License
 
 /* QuickLink2DotNet: A wrapper written in C# to expose EyeTech Digital System's
- * unmanaged QuickLink2 API for use in the managed Microsoft .NET environment.
+ * unmanaged Quick Link 2 API for use in the managed Microsoft .NET environment.
  *
  * Copyright © 2011-2013 Justin Weaver
  *
@@ -33,8 +33,8 @@
  * Description: This file contains the main namespace XML documentation for
  * QuickLink2DotNet which is used to build the help document.
  *
- * ATTENTION!!: This wrapper requires that you place the QuickLink2.dlls in the
- * same directory as your program executable.  You can download QuickLink2 from
+ * ATTENTION!!: This wrapper requires that you place the Quick Link 2 DLLs in the
+ * same directory as your program executable.  You can download Quick Link 2 from
  * http://www.eyetechds.com/support/downloads.
  */
 
@@ -51,14 +51,14 @@ namespace QuickLink2DotNet
     /// <para>
     /// <b>The <see cref="QuickLink2DotNet"/> namespace contains a wrapper written by
     /// <a href="http://www.justinweaver.com">Justin Weaver</a> for use with the
-    /// QuickLink2 API made by <a href="http://eyetechds.com">EyeTech Digital
+    /// Quick Link 2 API made by <a href="http://eyetechds.com">EyeTech Digital
     /// Systems, Inc.</a></b>
     /// </para>
     /// <para>
     /// QuickLink2DotNet Homepage: <a href="http://quicklinkapi4net.googlecode.com">http://quicklinkapi4net.googlecode.com</a>.
     /// </para>
     /// <para>
-    /// This Version of QuickLink2DotNet is for QuickLink2 API v2.5.1.0 (released on Aug 8, 2012).
+    /// This Version of QuickLink2DotNet is for Quick Link 2 API v2.5.1.0 (released on Aug 8, 2012).
     /// </para>
     /// <para>
     /// <hr/>
@@ -97,10 +97,9 @@ namespace QuickLink2DotNet
     /// SPECIAL THANKS:
     /// </para>
     /// <para>
-    /// To the <a href="http://www.uaa.alaska.edu">University of Alaska Anchorage</a>
-    /// <a href="http://www.uaa.alaska.edu/mathematicalsciences/">Department of
-    /// Mathematical Sciences</a> for allowing me to use an EyeTech TM3 eye tracker
-    /// for this project.
+    /// To the <a href="http://www.uaa.alaska.edu/mathematicalsciences/">University
+    ///	of Alaska Anchorage Department of Mathematical Sciences</a> for allowing me to use an
+    ///	EyeTech TM3 eye tracker to get this project started.
     /// </para>
     /// <para>
     /// To <a href="http://www.eyetechds.com">EyeTech Digital Systems, Inc.</a> for generously
@@ -110,8 +109,8 @@ namespace QuickLink2DotNet
     /// <para>
     /// To Caleb Hinton, Brianna Peters, Maulik Mistry, and everyone else at
     /// <a href="http://www.eyetechds.com">EyeTech Digital Systems, Inc.</a> for their
-    /// continuing help and technical support, and for their contributions of code
-    /// examples and unit tests (see individual files).
+    /// continuing help and technical support, and for their code contributions (see
+	/// individual files for specific credits).
     /// </para>
     /// <para>
     /// <hr/>
@@ -120,7 +119,7 @@ namespace QuickLink2DotNet
     /// <para>
     /// HOW THE WRAPPER WORKS:
     /// </para>
-    /// The API wrapper loads QuickLink2's unmanaged libraries into local memory
+    /// The API wrapper loads Quick Link 2's unmanaged libraries into local memory
     /// space using .NET's InteropServices.  Microsoft's MSDN website provides a
     /// variety of helpful resources on the subject of working with unmanaged DLL
     /// functions from within managed code.
@@ -135,7 +134,7 @@ namespace QuickLink2DotNet
     /// <list type="number">
     /// <item>
     /// <description>
-    /// Download and install the QuickLink2 software from EyeTech’s website.
+    /// Download and install the Quick Link 2 software from EyeTech’s website.
     /// </description>
     /// </item>
     /// <item>
@@ -171,7 +170,7 @@ namespace QuickLink2DotNet
     /// <item>
     /// <description>
     /// Towards the top of each source file from which you want to call the
-    /// QuickLink2 API (with the already present "using" statements) add the line
+    /// Quick Link 2 API (with the already present "using" statements) add the line
     /// "using QuickLink2DotNet;"
     /// </description>
     /// </item>
@@ -216,16 +215,16 @@ namespace QuickLink2DotNet
     /// <item>
     /// <description>
     /// <para>
-    /// Copy the QuickLink2 DLL files to your program's directory.
+    /// Copy the Quick Link 2 DLL files to your program's directory.
     /// </para>
     /// <list type="bullet">
     /// <item>
     /// <description>
     /// <em>For a 32-bit program (see also Step 9):</em>
-    /// Copy the required QuickLink2 DLLs into you program's directory.  These
+    /// Copy the required Quick Link 2 DLLs into you program's directory.  These
     /// DLLs are likely in "Program Files\EyeTechDS\QuickLink2_x.x.x.x\bin"
-    /// (where the "x"s are the version number of QuickLink2), unless you chose
-    /// to customize QuickLink2's installation directory.  Copy all of the
+    /// (where the "x"s are the version number of Quick Link 2), unless you chose
+    /// to customize Quick Link 2's installation directory.  Copy all of the
     /// files in the aforementioned directory into your program's directory
     /// (which is usually either "bin\Debug" or "bin\Release", but can be
     /// different if you created a custom configuration).  If you don't perform
@@ -250,23 +249,6 @@ namespace QuickLink2DotNet
     /// </description>
     /// </item>
     /// </list>
-    /// </para>
-    /// <para>
-    /// <hr/>
-    /// </para>
-    /// <para>
-    /// <para>
-    /// NOTES:
-    /// </para>
-    /// <para>
-    /// There is a known problem with QuickLink2 software.  Sometimes when the
-    /// QuickLink2 API is initially started, the eye tracker continuously loses
-    /// and then relocates the user's eyes every few seconds.  When this happens,
-    /// just restart your program until it works properly.  Note that the problem
-    /// only occurs when QuickLink2 is started, so it won't suddenly start
-    /// happening while you are using a program.  If it happens, you will know
-    /// right away.
-    /// </para>
     /// </para>
     /// </summary>
     [System.Runtime.CompilerServices.CompilerGenerated]
