@@ -32,3 +32,8 @@ Examples Directory Contents:
 (5) StopAllDevices: Stops all the EyeTech eye tracker devices on the system.  Prompts for device passwords if necessary.  Does not require device calibration.
 
 (6) VideoViewer: Displays live video from a selected device.  Prompts for device's password if necessary.  Does not require device calibration.
+
+
+Getting Started:
+===================================
+See the "HOW TO USE THE WRAPPER IN YOUR VISUAL STUDIO 2010 PROJECT" section on the starting page of the 'Docs\QuickLink2DotNet.chm' help file.
