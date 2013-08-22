@@ -27,7 +27,7 @@
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>A Sandcastle Documented Class Library</HelpTitle>
     <FeedbackEMailLinkText>Justin Weaver</FeedbackEMailLinkText>
-    <FeedbackEMailAddress>justin4%40groklab.com</FeedbackEMailAddress>
+    <FeedbackEMailAddress>quicklinkdotnet%40gmail.com</FeedbackEMailAddress>
     <CopyrightText>Copyright %28c%29 2011-2013 Justin Weaver</CopyrightText>
     <ContentPlacement>BelowNamespaces</ContentPlacement>
     <DocumentationSources>
