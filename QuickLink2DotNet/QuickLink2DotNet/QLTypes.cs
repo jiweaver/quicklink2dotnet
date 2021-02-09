@@ -1165,7 +1165,7 @@ namespace QuickLink2DotNet
     /// </para>
     /// </summary>
     /// <seealso cref="QLRectInt"/>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct QLImageData
     {
         /// <summary>
@@ -1173,7 +1173,7 @@ namespace QuickLink2DotNet
         /// The pixel data of the image. The data is single channel grey-scale with 8-bits per pixel.
         /// </para>
         /// </summary>
-        public IntPtr PixelData;
+        [FieldOffset(0)] public Int32 PixelData;
 
         /// <summary>
         /// <para>
@@ -1181,7 +1181,7 @@ namespace QuickLink2DotNet
         /// if binning is turned on.
         /// </para>
         /// </summary>
-        public System.Int32 Width;
+        [FieldOffset(4)] public System.Int32 Width;
 
         /// <summary>
         /// <para>
@@ -1189,7 +1189,7 @@ namespace QuickLink2DotNet
         /// if binning is turned on.
         /// </para>
         /// </summary>
-        public System.Int32 Height;
+        [FieldOffset(8)] public System.Int32 Height;
 
         /// <summary>
         /// <para>
@@ -1197,14 +1197,14 @@ namespace QuickLink2DotNet
         /// started.
         /// </para>
         /// </summary>
-        public System.Double Timestamp;
+        [FieldOffset(16)] public System.Double Timestamp;
 
         /// <summary>
         /// <para>
         /// The gain value of the image.
         /// </para>
         /// </summary>
-        public System.Int32 Gain;
+        [FieldOffset(24)] public System.Int32 Gain;
 
         /// <summary>
         /// <para>
@@ -1212,7 +1212,7 @@ namespace QuickLink2DotNet
         /// determine if a frame was lost.
         /// </para>
         /// </summary>
-        public System.Int32 FrameNumber;
+        [FieldOffset(28)] public System.Int32 FrameNumber;
 
         /// <summary>
         /// <para>
@@ -1222,7 +1222,11 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLRectInt"/>
-        public QLRectInt ROI;
+        [FieldOffset(32)] public QLRectInt ROI;
+
+        [FieldOffset(48)] public Int32 ScaleFactor;
+
+        [FieldOffset(52)] public Int32 PixelFrameNumber;
 
 #if (ISX64)
 
@@ -1245,9 +1249,9 @@ namespace QuickLink2DotNet
         /// Note: Void pointers are 4-bytes on x86, and 8-bytes on x64.
         /// </para>
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 48)]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
 #endif
-        public System.String Reserved;
+        [FieldOffset(56)] public System.String Reserved;
     }
 
     /// <summary>
@@ -1256,7 +1260,7 @@ namespace QuickLink2DotNet
     /// </para>
     /// </summary>
     /// <seealso cref="QLXYPairFloat"/>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct QLEyeData
     {
         /// <summary>
@@ -1266,7 +1270,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         [MarshalAs(UnmanagedType.U1)]
-        public System.Boolean Found;
+        [FieldOffset(0)] public System.Boolean Found;
 
         /// <summary>
         /// <para>
@@ -1275,7 +1279,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         [MarshalAs(UnmanagedType.U1)]
-        public System.Boolean Calibrated;
+        [FieldOffset(1)] public System.Boolean Calibrated;
 
         /// <summary>
         /// <para>
@@ -1284,7 +1288,7 @@ namespace QuickLink2DotNet
         /// determined and it's value should not be used for that frame.
         /// </para>
         /// </summary>
-        public System.Single PupilDiameter;
+        [FieldOffset(4)] public System.Single PupilDiameter;
 
         /// <summary>
         /// <para>
@@ -1292,7 +1296,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLXYPairFloat"/>
-        public QLXYPairFloat Pupil;
+        [FieldOffset(8)] public QLXYPairFloat Pupil;
 
         /// <summary>
         /// <para>
@@ -1301,7 +1305,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLXYPairFloat"/>
-        public QLXYPairFloat Glint0;
+        [FieldOffset(16)] public QLXYPairFloat Glint0;
 
         /// <summary>
         /// <para>
@@ -1310,7 +1314,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLXYPairFloat"/>
-        public QLXYPairFloat Glint1;
+        [FieldOffset(24)] public QLXYPairFloat Glint1;
 
         /// <summary>
         /// <para>
@@ -1319,7 +1323,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLXYPairFloat"/>
-        public QLXYPairFloat GazePoint;
+        [FieldOffset(32)] public QLXYPairFloat GazePoint;
 
         /// <summary>
         /// <para>
@@ -1334,7 +1338,7 @@ namespace QuickLink2DotNet
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 #endif
-        public System.String Reserved;
+        [FieldOffset(40)] public System.String Reserved;
     }
 
     /// <summary>
@@ -1343,7 +1347,7 @@ namespace QuickLink2DotNet
     /// based on which eyes were found and previous data depending on filtering settings.
     /// </para>
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct QLWeightedGazePoint
     {
         /// <summary>
@@ -1353,35 +1357,35 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         [MarshalAs(UnmanagedType.U1)]
-        public System.Boolean Valid;
+        [FieldOffset(0)] public System.Boolean Valid;
 
         /// <summary>
         /// <para>
         /// The x position of the gaze point in percentage of the calibrated area.
         /// </para>
         /// </summary>
-        public System.Single x;
+        [FieldOffset(4)] public System.Single x;
 
         /// <summary>
         /// <para>
         /// The y position of the gaze point in percentage of the calibrated area.
         /// </para>
         /// </summary>
-        public System.Single y;
+        [FieldOffset(8)] public System.Single y;
 
         /// <summary>
         /// <para>
         /// The amount the left eye affected the weighted gaze point.
         /// </para>
         /// </summary>
-        public System.Single LeftWeight;
+        [FieldOffset(12)] public System.Single LeftWeight;
 
         /// <summary>
         /// <para>
         /// The amount the right eye affected the weighted gaze point.
         /// </para>
         /// </summary>
-        public System.Single RightWeight;
+        [FieldOffset(16)] public System.Single RightWeight;
 
         /// <summary>
         /// <para>
@@ -1396,7 +1400,7 @@ namespace QuickLink2DotNet
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 #endif
-        public System.String Reserved;
+        [FieldOffset(20)] public System.String Reserved;
     }
 
     /// <summary>
@@ -1408,7 +1412,7 @@ namespace QuickLink2DotNet
     /// <seealso cref="QLImageData"/>
     /// <seealso cref="QLWeightedGazePoint"/>
     /// <seealso cref="QuickLink2API.QLDevice_GetFrame" />
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct QLFrameData
     {
         /// <summary>
@@ -1417,7 +1421,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLImageData"/>
-        public QLImageData ImageData;
+        [FieldOffset(0)] public QLImageData ImageData;
 
         /// <summary>
         /// <para>
@@ -1425,7 +1429,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLEyeData"/>
-        public QLEyeData LeftEye;
+        [FieldOffset(96)] public QLEyeData LeftEye;
 
         /// <summary>
         /// <para>
@@ -1433,7 +1437,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLEyeData"/>
-        public QLEyeData RightEye;
+        [FieldOffset(200)] public QLEyeData RightEye;
 
         /// <summary>
         /// <para>
@@ -1442,7 +1446,7 @@ namespace QuickLink2DotNet
         /// </para>
         /// </summary>
         /// <seealso cref="QLWeightedGazePoint"/>
-        public QLWeightedGazePoint WeightedGazePoint;
+        [FieldOffset(304)] public QLWeightedGazePoint WeightedGazePoint;
 
         /// <summary>
         /// <para>
@@ -1450,28 +1454,28 @@ namespace QuickLink2DotNet
         /// values range between 15 and 19.
         /// </para>
         /// </summary>
-        public System.Single Focus;
+        [FieldOffset(388)] public System.Single Focus;
 
         /// <summary>
         /// <para>
         /// The distance from the device to the user in centimeters.
         /// </para>
         /// </summary>
-        public System.Single Distance;
+        [FieldOffset(392)] public System.Single Distance;
 
         /// <summary>
         /// <para>
         /// The current bandwidth of the device.
         /// </para>
         /// </summary>
-        public System.Int32 Bandwidth;
+        [FieldOffset(396)] public System.Int32 Bandwidth;
 
         /// <summary>
         /// <para>
         /// The ID of the device that is the source for the current frame.
         /// </para>
         /// </summary>
-        public System.Int32 DeviceId;
+        [FieldOffset(400)] public System.Int32 DeviceId;
 
         /// <summary>
         /// <para>
@@ -1486,7 +1490,7 @@ namespace QuickLink2DotNet
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 56)]
 #endif
-        public System.String Reserved;
+        [FieldOffset(404)] public System.String Reserved;
     }
 
     #endregion Structures
